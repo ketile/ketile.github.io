@@ -1,0 +1,84 @@
+<!doctype html>
+
+<html>
+<head>
+  <title>PolymerBluetoothCodelab</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <link rel="import" href="bower_components/paper-button/paper-button.html">
+  <link rel="import" href="bower_components/paper-card/paper-card.html">
+  <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="bower_components/platinum-bluetooth/platinum-bluetooth-device.html">
+  <link rel="import" href="bower_components/platinum-bluetooth/platinum-bluetooth-characteristic.html">
+  <link rel="import" href="my-custom-styles.html">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <platinum-bluetooth-device services-filter='["b6c31337-6c07-453e-961a-d8a8a41bf368"]'> 
+    <platinum-bluetooth-characteristic
+        service="b6c31337-6c07-453e-961a-d8a8a41bf368"
+        characteristic="b6c31338-6c07-453e-961a-d8a8a41bf368">
+    </platinum-bluetooth-characteristic>
+  </platinum-bluetooth-device>
+
+<paper-card>
+  
+  <section align="center">
+  <iron-icon src="candy-cane.svg" style="width: 128px; height: 128px;"></iron-icon> 
+  </section>
+  
+  <section id="myHeader">
+    <h1 align="center" class="header_icon">CANDY MACHINE</h1>
+  </section>
+  
+
+  
+  <section>
+    <paper-button id="Forward">
+      Forward
+    </paper-button>
+    
+    <paper-button id="Back">
+      Backward
+    </paper-button>
+  </section>
+  
+  <section>
+    <paper-button id="Left">
+      Left
+    </paper-button>
+    
+    <paper-button id="Right">
+      Right
+    </paper-button>
+  </section>
+  
+    <section>
+    <paper-button id="Up">
+      Up
+    </paper-button>
+    
+    <paper-button id="Down">
+      Down
+    </paper-button>
+  </section>
+  
+  <section align="center">
+    <paper-button id="myButton">
+      Connect
+    </paper-button>
+  </section>
+  
+</paper-card>
+
+
+  <script src="main.js"></script>
+</body>
+</html>
