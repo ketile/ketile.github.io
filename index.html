@@ -12,6 +12,7 @@
 
   <link rel="import" href="bower_components/paper-button/paper-button.html">
   <link rel="import" href="bower_components/paper-card/paper-card.html">
+  <link rel="import" href="bower_components/paper-progress/paper-progress.html">
   <link rel="import" href="bower_components/iron-icons/iron-icons.html">
   <link rel="import" href="bower_components/platinum-bluetooth/platinum-bluetooth-device.html">
   <link rel="import" href="bower_components/platinum-bluetooth/platinum-bluetooth-characteristic.html">
@@ -20,7 +21,8 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body align="center">
+  <template is="dom-bind">
   <platinum-bluetooth-device services-filter='["b6c31337-6c07-453e-961a-d8a8a41bf368"]'> 
     <platinum-bluetooth-characteristic
         service="b6c31337-6c07-453e-961a-d8a8a41bf368"
@@ -76,8 +78,16 @@
     </paper-button>
   </section>
   
+  <div align="center" id="progress" class="hidden">
+      <paper-progress indeterminate="true" align="center" width="100%"></paper-progress>
+  </div>
+  
 </paper-card>
 
+<section id="statusMessage">
+  Status
+</section>
+</template>
 
   <script src="main.js"></script>
 </body>
