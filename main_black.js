@@ -36,28 +36,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
   });
   
   
-    // Connect on page load *****************************************************
-    progressBar(1);
-    console.log('Requesting a bluetooth device advertising custom 128-bit UUID service...');
-    updateStatus('Looking for Candy Machine...');
-    BLEDevice.request().then(function(device) {
-      console.log('Candy Machine has been found!');
-      console.log('Device Name: ' + device.name);
-      updateStatus('Found ' + device.name);
-      
-      // Read characteristic data
-      var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
-      return characteristicData.read().then(function(value) {
-      var data = new DataView(value);
-      console.log('Custom characteristic value is ' + data.getUint8(0) );
-      updateStatus('Characteristic read. Ready to play!');
-      progressBar(0);
-      });
-    })
-    .catch(function(error) {
-      console.error('Argh! ', error);
-      // updateStatus('Error', error);
-    });
+
   
   // Give me candy button functionality *****************************************************
   
