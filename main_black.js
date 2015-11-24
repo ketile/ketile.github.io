@@ -1,9 +1,7 @@
 document.addEventListener('WebComponentsReady', function() {
 
-var globalState = new Uint8Array([0,0,0,0,0,0]);
-
   var BLEDevice = document.querySelector('platinum-bluetooth-device');
-  //var button = document.querySelector('paper-button');
+
   var btnConnect = document.querySelector("#Connect"); // Bruk ID i HTML og "#somename" syntax for å skille mellom knapper
   
   var btnDispense  = document.querySelector("#Dispense");
@@ -23,7 +21,6 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
       // Neccessary to avoid delay on first button press
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
       return characteristicData.read().then(function(value) {
-      var data = new DataView(value);
       console.log('Custom characteristic value is ' + data.getUint8(0) );
       updateStatus('Characteristic read. Ready to play!');
       progressBar(0);
@@ -31,12 +28,8 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     })
     .catch(function(error) {
       console.error('Argh! ', error);
-      // updateStatus('Error', error);
     });
   });
-  
-  
-
   
   // Give me candy button functionality *****************************************************
   
