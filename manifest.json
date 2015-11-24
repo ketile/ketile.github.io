@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "lang": "en",
+  "name": "Le Red Candy Machiné brought to you by Nordic and Opera",
+  "short_name": "CandyGrabber",
+  "version": "0.0.1",
+  
+  "icons": [{
+        "src": "icon/lowres",
+        "sizes": "64x64",
+        "type": "image/webp"
+      }, {
+        "src": "icon/hd_small",
+        "sizes": "64x64"
+      }, {
+        "src": "icon/hd_hi",
+        "sizes": "128x128",
+        "density": 2
+      }],
+  "splash_screens": [{
+        "src": "splash/lowres",
+        "sizes": "320x240"
+      }, {
+        "src": "splash/hd_small",
+        "sizes": "1334x750"
+      }, {
+        "src": "splash/hd_hi",
+        "sizes": "1920x1080",
+        "density": 3
+      }],
+      
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "theme_color": "aliceblue",
+  "background_color": "red"
+}
