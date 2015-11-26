@@ -5,3 +5,13 @@
   background-image: linear-gradient(to bottom,#009ada 0,#009ada 100%);
 }
 
+.table-responsive {
+    border: 0px solid #000;
+}
+
+caption {
+    padding-left: 8px;
+    color: #777;
+    text-align: left;
+    font-size: 18px;
+}
