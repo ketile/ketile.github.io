@@ -1,0 +1,7 @@
+.panel-info>.panel-heading {
+  color: #ffffff;
+  background-color: #009ada;
+  border-color: #009ada;
+  background-image: linear-gradient(to bottom,#009ada 0,#009ada 100%);
+}
+
