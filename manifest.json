@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "lang": "en",
-  "name": "Le Red Candy Machiné brought to you by Nordic and Opera",
-  "short_name": "CandyGrabber",
+  "name": "Candy Machine",
+  "short_name": "Candy Machine",
   "version": "0.0.1",
   
   "icons": [{

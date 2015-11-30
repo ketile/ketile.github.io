@@ -8,6 +8,8 @@ document.addEventListener('WebComponentsReady', function() {
 
   var characteristic = document.querySelector('platinum-bluetooth-characteristic');
   
+  var numDispense = 0;
+  
   // Connect on button press *****************************************************
   btnConnect.addEventListener('click', function() {
     progressBar(1);
