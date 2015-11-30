@@ -33,7 +33,7 @@ document.addEventListener('WebComponentsReady', function() {
   
   // Give me candy button functionality *****************************************************
   
-  btnDispense.addEventListener('mousedown', function() {
+  btnDispense.addEventListener('touchstart', function() {
     var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
     var newData = new Uint8Array([1, 0, 0, 0, 0, 0]);
     return characteristicData.write(newData).then(function() {
@@ -45,7 +45,7 @@ document.addEventListener('WebComponentsReady', function() {
     });
   });
   
-  btnDispense.addEventListener('mouseup', function() {
+  btnDispense.addEventListener('touchend', function() {
       console.log('Delay 150ms');
       setTimeout(function(){
         var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
