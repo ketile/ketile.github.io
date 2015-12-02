@@ -35,13 +35,13 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     })
     .catch(function(error) {
       console.error('Argh! ', error);
-      updateStatus('Error', error);
+      //updateStatus('Error', error);
     });
   });
   
   // Forward button functionality *****************************************************
   
-  btnForward.addEventListener('mousedown', function() {
+  btnForward.addEventListener('touchstart', function() {
     
     var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
     var newData = new Uint8Array([1, 0, 0, 0, 0, 0]);
@@ -57,7 +57,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     });
   });
   
-  btnForward.addEventListener('mouseup', function() {
+  btnForward.addEventListener('touchend', function() {
       console.log('Delay 150ms');
       setTimeout(function(){
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
@@ -75,7 +75,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     
     // Back button functionality *****************************************************
   
-    btnBack.addEventListener('mousedown', function() {
+    btnBack.addEventListener('touchstart', function() {
       
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
       var newData = new Uint8Array([0, 1, 0, 0, 0, 0]);
@@ -85,7 +85,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
       });
     });
   
-      btnBack.addEventListener('mouseup', function() {
+      btnBack.addEventListener('touchend', function() {
       console.log('Delay 150ms');
       setTimeout(function(){
         
@@ -103,7 +103,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     });  
   
   // Left button functionality *****************************************************
-  btnLeft.addEventListener('mousedown', function() {
+  btnLeft.addEventListener('touchstart', function() {
     var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
     var newData = new Uint8Array([0, 0, 1, 0, 0, 0]);
     return characteristicData.write(newData).then(function() {
@@ -112,7 +112,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     });
   });
   
-  btnLeft.addEventListener('mouseup', function() {
+  btnLeft.addEventListener('touchend', function() {
     console.log('Delay 150ms');
     setTimeout(function(){
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
@@ -126,7 +126,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
   });  
   
   // Right button functionality *****************************************************
-  btnRight.addEventListener('mousedown', function() {
+  btnRight.addEventListener('touchstart', function() {
     var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
     var newData = new Uint8Array([0, 0, 0, 1, 0, 0]);
     return characteristicData.write(newData).then(function() {
@@ -135,7 +135,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     });
   });
   
-  btnRight.addEventListener('mouseup', function() {
+  btnRight.addEventListener('touchend', function() {
     console.log('Delay 150ms');
     setTimeout(function(){
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
@@ -149,7 +149,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
   });  
   
   // Up button functionality *****************************************************
-  btnUp.addEventListener('mousedown', function() {
+  btnUp.addEventListener('touchstart', function() {
     var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
     var newData = new Uint8Array([0, 0, 0, 0, 1, 0]);
     return characteristicData.write(newData).then(function() {
@@ -158,7 +158,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     });
   });
   
-  btnUp.addEventListener('mouseup', function() {
+  btnUp.addEventListener('touchend', function() {
     console.log('Delay 150ms');
     setTimeout(function(){
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
@@ -172,7 +172,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
   }); 
   
   // Down button functionality *****************************************************
-  btnDown.addEventListener('mousedown', function() {
+  btnDown.addEventListener('touchstart', function() {
     var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
     var newData = new Uint8Array([0, 0, 0, 0, 0, 1]);
     return characteristicData.write(newData).then(function() {
@@ -181,7 +181,7 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     });
   });
   
-  btnDown.addEventListener('mouseup', function() {
+  btnDown.addEventListener('touchend', function() {
     console.log('Delay 150ms');
     setTimeout(function(){
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
