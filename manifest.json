@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "lang": "en",
-  "name": "Candy Machine",
-  "short_name": "Candy Machine",
+  "name": "nRF Physical Web Candy Grabber",
+  "short_name": "nRF Candy Grabber",
   "version": "0.0.1",
   
   "icons": [{
@@ -22,5 +22,5 @@
       
   "display": "fullscreen",
   "theme_color": "aliceblue",
-  "background_color": "red"
+  "background_color": "blue"
 }
