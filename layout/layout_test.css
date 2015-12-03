@@ -1,0 +1,55 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+
+.container-left{
+  position: relative;
+  width: 100%;
+  height: 280px;
+  background: #ddd;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+
+.container-right{
+  position: relative;
+  width: 100%;
+  height: 280px;
+  background: #eee;
+}
+
+.container-inner{
+  position: relative;
+  width: 300px;
+  height: 200px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #000;
+  margin: auto;
+}
+
+.arrow-up{
+  position: absolute;
+  top: 10px;
+  right: 122px;
+}
+
+.arrow-down{
+  position: absolute;
+  bottom: 10px;
+  right: 122px;
+}
+
+.arrow-left{
+  position: absolute;
+  top: 72px;
+  left: 60px;
+}
+
+.arrow-right{
+  position: absolute;
+  top: 72px;
+  right: 60px;
+}

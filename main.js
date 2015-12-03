@@ -46,11 +46,8 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
     var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
     var newData = new Uint8Array([1, 0, 0, 0, 0, 0]);
     return characteristicData.write(newData).then(function() {
-    
       console.log('Characteristic was written: ' + newData);
       updateStatus(newData);
-    
-
     })
     .catch(function(error) {
       console.error('Argh! ', error);
@@ -62,13 +59,9 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
       setTimeout(function(){
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
       var newData = new Uint8Array([0, 0, 0, 0, 0, 0]);
-      
       return characteristicData.write(newData).then(function() {
-      
         console.log('Characteristic was written: ' + newData);
         updateStatus(newData);
-    
-
       });
     }, 150); // delay to avoid uncaught button actions
   });
@@ -88,13 +81,9 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
       btnBack.addEventListener('touchend', function() {
       console.log('Delay 150ms');
       setTimeout(function(){
-        
-
-        
         var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
         var newData = new Uint8Array([0, 0, 0, 0, 0, 0]);
         return characteristicData.write(newData).then(function() {
-        
           console.log('Characteristic was written: ' + newData);
           updateStatus(newData);
         });
