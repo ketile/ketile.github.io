@@ -21,7 +21,6 @@
       }],
       
   "display": "fullscreen",
-  "orientation": "portrait",
   "theme_color": "aliceblue",
   "background_color": "red"
 }
