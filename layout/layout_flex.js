@@ -3,11 +3,6 @@
 
 document.addEventListener('DOMContentLoaded', function(){
   
-  var buttonUp  = document.querySelector("#up");
-  var buttonDown  = document.querySelector("#down");
-  var buttonLeft  = document.querySelector("#left");
-  var buttonRight  = document.querySelector("#right");
-  
   // Get usable device screen dimensions
 
   deviceWidth = Math.min(window.innerWidth, window.outerWidth);
@@ -17,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function(){
   
   console.log('Width: ' + deviceWidth);   
   console.log('Height: ' + deviceHeight);
-  
 
 }, false);
 
@@ -39,7 +33,6 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
   var characteristic = document.querySelector('platinum-bluetooth-characteristic');
   
   button.addEventListener('click', function() {
-    progressBar(1);
     console.log('Requesting a bluetooth device advertising custom 128-bit UUID service...');
     updateStatus('Requesting BLE Device...');
     BLEDevice.request().then(function(device) {
@@ -53,7 +46,6 @@ var globalState = new Uint8Array([0,0,0,0,0,0]);
       var data = new DataView(value);
       console.log('Custom characteristic value is ' + data.getUint8(0) );
       updateStatus('Characteristic read. Ready to play!');
-      progressBar(0);
       });
     })
     .catch(function(error) {
