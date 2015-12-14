@@ -1,26 +1,14 @@
 {
-  "manifest_version": 2,
-  "lang": "en",
   "name": "nRF Physical Web Candy Grabber",
   "short_name": "nRF Candy Grabber",
-  "version": "0.0.1",
-  
-  "icons": [{
-        "128": "icons/hd_hi/nordic_icon.png"
-      }],
-  "splash_screens": [{
-        "src": "icons/hd_hi/nordic_icon.png",
-        "sizes": "320x240"
-      }, {
-        "src": "icons/hd_hi/nordic_icon.png",
-        "sizes": "1334x750"
-      }, {
-        "src": "icons/hd_hi/nordic_icon.png",
-        "sizes": "1920x1080",
-        "density": 3
-      }],
-      
-  "display": "fullscreen",
+  "icons": [
+  {
+    "src": "icons/nordic_icon_144.png",
+    "sizes": "144x144",
+    "type": "image/png"
+  }
+],
+  "display": "standalone",
   "theme_color": "aliceblue",
   "background_color": "blue"
 }
