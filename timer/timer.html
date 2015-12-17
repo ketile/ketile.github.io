@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Timer countdown example</title>
+    <script type="text/javascript">
+      var counter = 10;
+      var t;
+      var isTimerOn = false;
+      
+      function countdown()
+      {
+        document.getElementById("number-display").innerHTML = counter;
+        counter--;
+        
+        if(counter > -1)
+        {
+          t = setTimeout("countdown();", 1000);
+        }
+        else
+        {
+          document.getElementById("number-display").innerHTML = "GAME OVER";
+          // disconnect BLE
+          // change CSS to "GAME OVER"
+          counter = 10;
+          isTimerOn = false;
+        }
+      }
+      function startMe()
+      {
+        if (!isTimerOn)
+        {
+          isTimerOn = true;
+          countdown();
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <input type = "button" value ="Start counter" onclick="startMe();"/>
+    <div id="number-display">Number</div>
+  </body>
+</html>
