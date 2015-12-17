@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <title>128-bit UUID Converter</title>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript">
+      function convert()
+      {
+        var uuid_ascii = document.getElementById('uuid').value;
+        var uuid_original = uuid_ascii;
+        
+        // String replacements
+        uuid_ascii = uuid_ascii.replace("xxxx", "0000");
+        uuid_ascii = uuid_ascii.replace("-", "");
+        uuid_ascii = uuid_ascii.replace("-", "");
+        uuid_ascii = uuid_ascii.replace("-", "");
+        uuid_ascii = uuid_ascii.replace("-", "");
+        
+        // Change the order
+        var uuid_hex = '';
+        var counter = 30;
+        while(counter > -1)
+        {
+          uuid_hex = uuid_hex + "0x" + uuid_ascii[counter] + uuid_ascii[counter+1] + ", ";
+          counter = counter -2;
+        }
+        
+        // Output the answer
+        document.getElementById('result_ascii').innerHTML = uuid_original;
+        document.getElementById('result_hex').innerHTML = uuid_hex;
+      }
+    </script>
+    <style>
+      #wrapper{
+        max-width: 450px;
+      }
+    </style>
+  </head>
+  
+  <body><br>
+  <div id="wrapper">
+    <div class="container col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h1>128-bit UUID Converter</h1>
+        </div>
+        <div class="panel-body">
+          <p>
+            First use <a href="https://www.nordicsemi.com/eng/node_176/2.4GHz-RF/nRFgo-Studio">nRFgo Studio</a> to create a custom 128-bit UUID in ASCII format. 
+            Use this tool to convert from ASCII to Hex representation for use in embedded C with nRF51 and nRF52. 
+          </p>
+          <p>
+            The ascii UUID must be in the following format: <br>
+            A0B0xxxx-C0D0-E0F0-A1B1-C1D1E1F1A2B2
+          </p>
+            
+          <p>
+            <input type="text" name="uuid" id="uuid" size="37">
+            <input type="submit" value="convert" onclick="convert();">
+          </p><br>
+                <div class="panel panel-success">
+        <div class="panel-heading">
+          ASCII input
+        </div>
+        <div class="panel-body" id="result_ascii">
+        </div>
+      </div>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          HEX output
+        </div>
+        <div class="panel-body" id="result_hex">
+        </div>
+      </div>
+        </div>
+        <div class="panel-footer" align="center">
+          Nordic Semiconductor
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+</html>
