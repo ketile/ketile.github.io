@@ -49,7 +49,7 @@
         <div class="panel-body">
           <p>
             First use <a href="https://www.nordicsemi.com/eng/node_176/2.4GHz-RF/nRFgo-Studio">nRFgo Studio</a> to create a custom 128-bit UUID in ASCII format. 
-            Use this tool to convert from ASCII to Hex representation for use in embedded C with nRF51 and nRF52. 
+            Use this tool to convert from ASCII to Hex representation for use in embedded C with nRF51 and nRF52 development kits. 
           </p>
           <p>
             The ascii UUID must be in the following format: <br>
@@ -57,10 +57,18 @@
           </p>
             
           <p>
-            <input type="text" name="uuid" id="uuid" size="37">
+            <input type="text" name="uuid" id="uuid" size="38" placeholder="A0B0xxxx-C0D0-E0F0-A1B1-C1D1E1F1A2B2">
             <input type="submit" value="convert" onclick="convert();">
           </p><br>
-                <div class="panel panel-success">
+          <p>
+            <div class="input-group">
+              <input type="text" class="form-control" size="37" placeholder="A0B0xxxx-C0D0-E0F0-A1B1-C1D1E1F1A2B2" aria-describedby="sizing-addon1">
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="convert();">Convert</button>
+              </span>
+            </div>
+          </p><br>
+      <div class="panel panel-success">
         <div class="panel-heading">
           ASCII input
         </div>
