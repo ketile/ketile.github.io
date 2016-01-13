@@ -3,6 +3,7 @@
 .gi-4x{font-size: 4em;}
 .gi-5x{font-size: 5em;}
 
+.text-1-25x{font-size: 1.25em;}
 .text-2x{font-size: 2em;}
 .text-3x{font-size: 3em;}
 .text-4x{font-size: 4em;}
@@ -12,10 +13,10 @@ body{
   background-color: #eee;
 }
 .panel-default>.panel-heading {
-    color: #fff;
-    background-color: #0080b7;
-    border-color: #fff;
-    padding: 40px 15px;
+    color: #0080b7;
+    background-color: #fff;
+    border-color: #eee;
+    padding: 40px 15px 20px 15px;
 }
 
 .panel-body {
@@ -26,7 +27,7 @@ body{
 
 .panel-footer {
     background-color: #fff;
-    border-color: #ddd;
+    border-color: #eee;
 }
 
 .navbar {
