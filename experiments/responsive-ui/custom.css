@@ -24,7 +24,21 @@ body{
     padding: 40px 15px 20px 15px;
 }
 
+.panel-default>.panel-heading-small {
+    color: #0080b7;
+    background-color: #fff;
+    border-color: #eee;
+    padding: 20px 15px 20px 15px;
+}
+
+
 .panel-body {
+    color: #0080b7;
+    background-color: #fff;
+    border-color: #0080b7;
+}
+
+.panel-body-small {
     color: #0080b7;
     background-color: #fff;
     border-color: #0080b7;
@@ -33,6 +47,12 @@ body{
 .panel-footer {
     background-color: #fff;
     border-color: #eee;
+}
+
+.panel-footer-small {
+    background-color: #fff;
+    border-color: #eee;
+    color: #fff;
 }
 
 .navbar {
