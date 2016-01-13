@@ -12,6 +12,11 @@
 body{
   background-color: #eee;
 }
+
+.page-header {
+    padding-top: 20px;
+}
+
 .panel-default>.panel-heading {
     color: #0080b7;
     background-color: #fff;
