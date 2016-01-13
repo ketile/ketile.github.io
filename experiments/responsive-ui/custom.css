@@ -59,6 +59,11 @@ body{
     border-radius: 0px; */
 }
 
+.navbar-default {
+    background-color: #fff;
+    border-color: #e7e7e7;
+}
+
 .btn-panel-nordic {
     color: #fff;
     background-color: #6dcff6;
