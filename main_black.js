@@ -1,14 +1,20 @@
 document.addEventListener('WebComponentsReady', function() {
 
   var BLEDevice = document.querySelector('platinum-bluetooth-device');
-
   var btnConnect = document.querySelector("#Connect"); // Bruk ID i HTML og "#somename" syntax for å skille mellom knapper
-  
   var btnDispense  = document.querySelector("#Dispense");
-
   var characteristic = document.querySelector('platinum-bluetooth-characteristic');
   
   var numDispense = 0;
+  
+  var gameOverBtn = document.querySelector("#showModal");
+  var gameOverDialog = document.querySelector("#gameOver");
+  
+  gameOverBtn.addEventListener('click', function() {
+    gameOverDialog.open();
+    gameOverDialog.center();
+    gameOverDialog.log('Dialog opened');
+  });
   
   // Connect on button press *****************************************************
   btnConnect.addEventListener('click', function() {

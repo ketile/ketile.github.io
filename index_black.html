@@ -26,45 +26,54 @@
 
 <body align="center">
   <template is="dom-bind">
-  <platinum-bluetooth-device services-filter='["a6c31337-6c07-453e-961a-d8a8a41bf368"]'>
-    <platinum-bluetooth-characteristic
-        service="a6c31337-6c07-453e-961a-d8a8a41bf368"
-        characteristic="a6c31338-6c07-453e-961a-d8a8a41bf368">
-    </platinum-bluetooth-characteristic>
-  </platinum-bluetooth-device>
+    
+    <platinum-bluetooth-device services-filter='["a6c31337-6c07-453e-961a-d8a8a41bf368"]'>
+      <platinum-bluetooth-characteristic
+          service="a6c31337-6c07-453e-961a-d8a8a41bf368"
+          characteristic="a6c31338-6c07-453e-961a-d8a8a41bf368">
+      </platinum-bluetooth-characteristic>
+    </platinum-bluetooth-device>
 
-<paper-card>
-
-  <section align="center">
-  <iron-icon src="candy-cane.svg" style="width: 128px; height: 128px;"></iron-icon>
-  </section>
-
-  <section id="myHeader">
-    <h1 align="center" class="header_icon">CANDY MACHINE</h1>
-  </section>
-
-  <section>
-    <paper-button id="Dispense">
-      Give me candy
-    </paper-button>
-  </section>
-
-  <section align="center">
-    <paper-button id="Connect">
-      Connect
-    </paper-button>
-  </section>
-
-  <div align="center" id="progress" class="hidden">
-      <paper-progress indeterminate="true" align="center" width="100%"></paper-progress>
-  </div>
-
-</paper-card>
-
-<section id="statusMessage">
-  Status
-</section>
-</template>
+    <paper-card>
+      <section align="center">
+        <iron-icon src="candy-cane.svg" style="width: 128px; height: 128px;"></iron-icon>
+      </section>
+    
+      <section id="myHeader">
+        <h1 align="center" class="header_icon">CANDY MACHINE</h1>
+      </section>
+    
+      <section>
+        <paper-button id="Dispense">Give me candy</paper-button>
+      </section>
+    
+      <section align="center">
+        <paper-button id="Connect">Connect</paper-button>
+      </section>
+      
+      <section>
+          <paper-button raised id="showModal">Show Modal</paper-button>
+      </section>
+    
+      <div align="center" id="progress" class="hidden">
+          <paper-progress indeterminate="true" align="center" width="100%"></paper-progress>
+      </div>
+    </paper-card>
+  
+    <section id="statusMessage">
+      Status
+    </section>
+  </template>
+  
+  <paper-dialog id="gameOver">
+    <h2>Game Over</h2>
+    <paper-dialog-scrollable>
+      You were connected for more than one minute or pressed the "Give me candy" button ten times. Restart the browser to play again.
+    </paper-dialog-scrollable>
+    <div class="buttons">
+      <paper-button dialog-confirm autofocus>Close Dialog</paper-button>
+    </div>
+  </paper-dialog>
 
   <script src="main_black.js"></script>
 </body>
