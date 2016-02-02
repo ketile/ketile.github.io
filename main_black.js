@@ -12,7 +12,7 @@ document.addEventListener('WebComponentsReady', function() {
   
   gameOverBtn.addEventListener('click', function() {
     gameOverDialog.open();
-    gameOverDialog.center();
+    gameOverDialog.fit();
     console.log('Dialog opened');
   });
   
