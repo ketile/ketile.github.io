@@ -13,7 +13,7 @@ document.addEventListener('WebComponentsReady', function() {
   gameOverBtn.addEventListener('click', function() {
     gameOverDialog.open();
     gameOverDialog.center();
-    gameOverDialog.log('Dialog opened');
+    console.log('Dialog opened');
   });
   
   // Connect on button press *****************************************************
