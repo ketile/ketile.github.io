@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+  <title>Something</title>
+</head>
+ 
+<body>
+  <div><h2>Demo of pushing to Sparkfun Cloud</h2></div>
+  <div>Location data is fetched from user device. Temperature, humidity and pressure from something else.</div>
+  <div id="demo1">responseText</div>
+  <div id="demo2">responseText as JSON</div>
+  <div id="latitude">Latitude</div>
+  <div id="longitude">Longitude</div>
+  <button type="button" onclick="sendSpark()">Send to cloud</button>
+  <button type="button" onclick="getLocation()">Get location</button>
+  
+  <script>
+  
+    var lat = document.getElementById("latitude");
+    var long = document.getElementById("longitude");
+    
+    function sendSpark() {
+      
+      // create object
+      var xhttp = new XMLHttpRequest();
+      
+      // callback will only fire if message was received successfully
+      xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+          document.getElementById("demo1").innerHTML = xhttp.responseText;
+          
+          // Parse JSON reponse
+          var response = JSON.parse(xhttp.responseText);
+          alert(response.message);
+          
+          document.getElementById("demo2").innerHTML = response.message;
+        }
+      };
+      
+      // populate the data for the request. the ".json" part specifies that we want the response as json. duh!
+      xhttp.open("GET", "https://data.sparkfun.com/input/KJygWODyDzTMnRNy17oE.json?private_key=vzEkqYNENbSdeZ2jo5kK&humidity=50&location=1&pressure=1.2&temperature=37.5", true);
+      
+      // send the request
+      xhttp.send();
+    }
+      
+    function getLocation(){
+      
+      console.log("getLocation");
+
+      
+      if (navigator.geolocation) {
+        console.log("Geolocation supported");
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else { 
+        lat.innerHTML = "Geolocation is not supported by this browser.";
+        long.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+    
+    function showPosition(position) {
+      console.log("showPosition");
+      lat.innerHTML = "Latitude: " + position.coords.latitude; 
+      long.innerHTML = "Latitude: " + position.coords.longitude;	
+    }
+  </script>
+
+
+    
+
+</body>
+ 
+</html>
