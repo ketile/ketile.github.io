@@ -7,7 +7,7 @@ document.addEventListener('WebComponentsReady', function() {
   var btnDisconnect = document.querySelector("#disconnect");
   
   var BLEDevice = document.getElementById('custom-device');
-  var characteristic = BLEDevice.querySelector('[characteristic="a6c31338-6c07-453e-961a-d8a8a41bf368"]');
+  var characteristic = BLEDevice.querySelector('[characteristic=a6c31338-6c07-453e-961a-d8a8a41bf368]');
   
   var numDispense = 0;
   
@@ -16,7 +16,6 @@ document.addEventListener('WebComponentsReady', function() {
   
   gameOverBtn.addEventListener('click', function() {
     gameOverDialog.open();
-    //gameOverDialog.fit();
     console.log('Dialog opened');
   });
   
