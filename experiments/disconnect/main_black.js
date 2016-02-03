@@ -20,9 +20,11 @@ document.addEventListener('WebComponentsReady', function() {
   });
   
   btnDisconnect.addEventListener('click', function() {
-    updateStatus('Disconnect clicked for ' + BLEDevice.name);
-    BLEDevice.disconnect();
-    console.log('Disconnected ' + BLEDevice);
+    
+    BLEDevice.disconnect().then(function(device) {
+      updateStatus('Disconnect clicked for ' + device.name);
+      console.log('Disconnected ' + device.name);
+    });
   });
   
   // Connect on button press *****************************************************
@@ -33,7 +35,7 @@ document.addEventListener('WebComponentsReady', function() {
     BLEDevice.request().then(function(device) {
       console.log('A bluetooth device has been found!');
       console.log('Device Name: ' + device.name);
-      updateStatus('Found ' + device.name);
+      updateStatus('Connected ' + device.name);
       
       // Neccessary to avoid delay on first button press
       var characteristicData = BLEDevice.querySelector('platinum-bluetooth-characteristic');
@@ -44,7 +46,7 @@ document.addEventListener('WebComponentsReady', function() {
       });
     })
     .catch(function(error) {
-      updateStatus('ERROR ', error);
+      updateStatus('ERROR ' + error);
       console.error('Argh! ', error);
     });
   });
@@ -60,7 +62,7 @@ document.addEventListener('WebComponentsReady', function() {
     })
     .catch(function(error) {
       console.error('Argh! ', error);
-      updateStatus('ERROR ', error);
+      updateStatus('ERROR ' + error);
     });
   });
   
@@ -72,6 +74,10 @@ document.addEventListener('WebComponentsReady', function() {
         return characteristicData.write(newData).then(function() {
           console.log('Characteristic was written: ' + newData);
           updateStatus(newData);
+      })
+      .catch(function(error) {
+        console.error('Argh! ', error);
+        updateStatus('ERROR ' + error);
       });
     }, 150); // delay to avoid uncaught button actions
   });
