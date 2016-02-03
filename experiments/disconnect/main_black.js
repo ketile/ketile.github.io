@@ -1,10 +1,13 @@
 document.addEventListener('WebComponentsReady', function() {
 
-  var BLEDevice = document.querySelector('platinum-bluetooth-device');
+  //var BLEDevice = document.querySelector('platinum-bluetooth-device');
+  //var characteristic = document.querySelector('platinum-bluetooth-characteristic');
   var btnConnect = document.querySelector("#Connect"); // Bruk ID i HTML og "#somename" syntax for å skille mellom knapper
   var btnDispense  = document.querySelector("#Dispense");
   var btnDisconnect = document.querySelector("#disconnect");
-  var characteristic = document.querySelector('platinum-bluetooth-characteristic');
+  
+  var BLEDevice = document.getElementById('custom-device');
+  var characteristic = BLEDevice.querySelector('[characteristic="a6c31338-6c07-453e-961a-d8a8a41bf368"]');
   
   var numDispense = 0;
   
@@ -18,7 +21,7 @@ document.addEventListener('WebComponentsReady', function() {
   });
   
   btnDisconnect.addEventListener('click', function() {
-    updateStatus('Disconnect clicked for' + BLEDevice.name);
+    updateStatus('Disconnect clicked for ' + BLEDevice.name);
     BLEDevice.disconnect();
     console.log('Disconnected ' + BLEDevice);
   });
@@ -42,8 +45,8 @@ document.addEventListener('WebComponentsReady', function() {
       });
     })
     .catch(function(error) {
-      console.error('Argh! ', error);
       updateStatus('ERROR ', error);
+      console.error('Argh! ', error);
     });
   });
   
