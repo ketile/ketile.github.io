@@ -18,9 +18,9 @@ document.addEventListener('WebComponentsReady', function() {
   });
   
   btnDisconnect.addEventListener('click', function() {
+    updateStatus('Disconnect clicked for' + BLEDevice.name);
     BLEDevice.disconnect();
     console.log('Disconnected ' + BLEDevice);
-    updateStatus('Disconnect clicked for' + device.name);
   });
   
   // Connect on button press *****************************************************
@@ -43,6 +43,7 @@ document.addEventListener('WebComponentsReady', function() {
     })
     .catch(function(error) {
       console.error('Argh! ', error);
+      updateStatus('ERROR ', error);
     });
   });
   
@@ -57,6 +58,7 @@ document.addEventListener('WebComponentsReady', function() {
     })
     .catch(function(error) {
       console.error('Argh! ', error);
+      updateStatus('ERROR ', error);
     });
   });
   
