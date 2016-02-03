@@ -19,8 +19,8 @@ document.addEventListener('WebComponentsReady', function() {
   
   btnDisconnect.addEventListener('click', function() {
     BLEDevice.disconnect();
-    batteryDevice.disconnect();
-    console.log("Disconnected " + BLEDevice);
+    console.log('Disconnected ' + BLEDevice);
+    updateStatus('Disconnect clicked for' + device.name);
   });
   
   // Connect on button press *****************************************************
