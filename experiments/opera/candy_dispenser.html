@@ -22,6 +22,11 @@
           <p align="center">Time remaining: <span id="timeout"></span></p>
         </div>
     </div>
+    
+    <div id="disconnect" style="display:flex; justify-content:center; align-items:center; margin-top:50">
+      <input style="width:50%" type="image" id="connect" src="connect.png"/>
+    </div>
+    
     <pre id="log"></pre>
 
     <script>
@@ -34,6 +39,7 @@
         var sCharacteristic;
 
         document.querySelector('#connect').addEventListener('click', connect);
+        document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
         document.querySelector('#forward').addEventListener('touchstart', function(e) { move(e, "forward"); });
         document.querySelector('#forward').addEventListener('touchend', function(e) { stop(e); });
 
@@ -174,6 +180,13 @@
             } catch (error) {
                 log(error);
             }
+        }
+        
+        function disconnectDevice(){
+          document.querySelector('#button').style.display = "flex";
+          document.querySelector('#arrows').style.display = "none";
+          sServer.disconnect();
+          log("Disconnected.");
         }
     </script>
   </body>
