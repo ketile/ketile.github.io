@@ -34,20 +34,9 @@
         var sCharacteristic;
 
         document.querySelector('#connect').addEventListener('click', connect);
-
         document.querySelector('#forward').addEventListener('touchstart', function(e) { move(e, "forward"); });
-        document.querySelector('#backward').addEventListener('touchstart', function(e) { move(e, "backward"); });
-        document.querySelector('#left').addEventListener('touchstart', function(e) { move(e, "left"); });
-        document.querySelector('#right').addEventListener('touchstart', function(e) { move(e, "right"); });
-        document.querySelector('#up').addEventListener('touchstart', function(e) { move(e, "up"); });
-        document.querySelector('#down').addEventListener('touchstart', function(e) { move(e, "down"); });
-
         document.querySelector('#forward').addEventListener('touchend', function(e) { stop(e); });
-        document.querySelector('#backward').addEventListener('touchend', function(e) { stop(e); });
-        document.querySelector('#left').addEventListener('touchend', function(e) { stop(e); });
-        document.querySelector('#right').addEventListener('touchend', function(e) { stop(e); });
-        document.querySelector('#up').addEventListener('touchend', function(e) { stop(e); });
-        document.querySelector('#down').addEventListener('touchend', function(e) { stop(e); });
+
 
         function log(text) {
             document.querySelector('#log').textContent += text + '\n';
