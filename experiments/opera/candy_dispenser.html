@@ -21,11 +21,12 @@
         <div style="padding-top:40; padding-bottom:50">
           <p align="center">Time remaining: <span id="timeout"></span></p>
         </div>
+        <div id="disconnect" style="display:flex; justify-content:center; align-items:center; margin-top:50">
+          <input style="width:50%" type="image" id="connect" src="disconnect.png"/>
+        </div>
     </div>
     
-    <div id="disconnect" style="display:flex; justify-content:center; align-items:center; margin-top:50">
-      <input style="width:50%" type="image" id="connect" src="connect.png"/>
-    </div>
+
     
     <pre id="log"></pre>
 
@@ -133,7 +134,7 @@
             })
             .catch(error => {
                 log(error);
-                if (retryCount < 1) {
+                if (retryCount < 5) {
                     log('Retrying...');
                     connect2(device, retryCount + 1);
                 } else {
