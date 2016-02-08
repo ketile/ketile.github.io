@@ -1,0 +1,216 @@
+<html>
+  <head>
+    <title>Candy Grabber</title>
+    <meta property="og:description" content="Control the Candy Grabber with Web Bluetooth" />
+    <meta property="og:image" content="clawicon.png"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body style="padding: 0 !important; margin: 0 !important">
+    <div style="background-color:#ff7de4; padding-left:5">
+    <h1 style="color:#800066">Candy Grabber</h1>
+    </div>
+    <p style="padding-left:5">
+        This candy is brought to you by
+        <a href="http://www.nordicsemi.com">Nordic Semiconductor</a> and
+        <a href="http://www.opera.com">Opera</a>.
+        Please consume responsibly.
+    </p>
+    <div id="button" style="display:flex; justify-content:center; align-items:center; margin-top:50">
+        <input style="width:70%" type="image" id="connect" src="clawbutton.png"/>
+    </div>
+    <div id="arrows" style="display:none; margin-top:50">
+        <p>Time remaining: <span id="timeout"></span></p>
+
+        <div style="display:flex; justify-content:center; align-items:center">
+            <table>
+                <tr>
+                    <td></td>
+                    <td><input type="image" id="forward" src="arrow_forward.png"/></td>
+                    <td></td>
+                    <td style="width:25%"></td>
+                    <td><input type="image" id="up" src="arrow_up.png"/></td>
+                </tr>
+                <tr>
+                    <td><input type="image" id="left" src="arrow_left.png"/></td>
+                    <td></td>
+                    <td><input type="image" id="right" src="arrow_right.png"/></td>
+                    <td style="width:25%"></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="image" id="backward" src="arrow_backward.png"/></td>
+                    <td></td>
+                    <td style="width:25%"></td>
+                    <td><input type="image" id="down" src="arrow_down.png"/></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <pre id="log"></pre>
+
+    <script>
+        var isConnecting = false;
+        var isConnected = false;
+
+        var sInterval;
+        var sTimeout;
+        var sServer;
+        var sCharacteristic;
+
+        document.querySelector('#connect').addEventListener('click', connect);
+
+        document.querySelector('#forward').addEventListener('touchstart', function(e) { move(e, "forward"); });
+        document.querySelector('#backward').addEventListener('touchstart', function(e) { move(e, "backward"); });
+        document.querySelector('#left').addEventListener('touchstart', function(e) { move(e, "left"); });
+        document.querySelector('#right').addEventListener('touchstart', function(e) { move(e, "right"); });
+        document.querySelector('#up').addEventListener('touchstart', function(e) { move(e, "up"); });
+        document.querySelector('#down').addEventListener('touchstart', function(e) { move(e, "down"); });
+
+        document.querySelector('#forward').addEventListener('touchend', function(e) { stop(e); });
+        document.querySelector('#backward').addEventListener('touchend', function(e) { stop(e); });
+        document.querySelector('#left').addEventListener('touchend', function(e) { stop(e); });
+        document.querySelector('#right').addEventListener('touchend', function(e) { stop(e); });
+        document.querySelector('#up').addEventListener('touchend', function(e) { stop(e); });
+        document.querySelector('#down').addEventListener('touchend', function(e) { stop(e); });
+
+        function log(text) {
+            document.querySelector('#log').textContent += text + '\n';
+        }
+
+        function setConnecting(connecting) {
+            isConnecting = connecting;
+            if (connecting) {
+                document.querySelector('#connect').src = "connecting.png";
+            } else {
+                document.querySelector('#connect').src = "clawbutton.png";
+            }
+        }
+
+        function setConnected(connected) {
+            isConnected = connected;
+            if (connected) {
+                document.querySelector('#button').style.display = "none";
+                document.querySelector('#arrows').style.display = "block";
+
+                sTimeout = 50;
+                document.querySelector('#timeout').textContent = sTimeout;
+                sInterval = setInterval(function() {
+                    sTimeout -= 1;
+                    if (sTimeout <= 0) {
+                        setConnected(false);
+                        clearInterval(sInterval);
+                    } else {
+                        document.querySelector('#timeout').textContent = sTimeout;
+                    }
+                }, 1000);
+            } else {
+                document.querySelector('#button').style.display = "flex";
+                document.querySelector('#arrows').style.display = "none";
+                sServer.disconnect();
+            }
+        }
+
+        function connect() {
+            'use strict';
+
+            if (!navigator.bluetooth) {
+                log('Web Bluetooth API is not available.\n' +
+                    'Please make sure the Web Bluetooth flag is enabled.');
+                return;
+            }
+
+            if (isConnecting) {
+                log('Connecting. Please wait.');
+                return;
+            }
+
+            log('Requesting Bluetooth Device...');
+
+            setConnecting(true);
+            navigator.bluetooth.requestDevice({
+                filters: [{
+                    services:['b6c31337-6c07-453e-961a-d8a8a41bf368']
+                }]
+            })
+            .then(device => {
+                connect2(device, 0);
+            })
+            .catch(error => {
+                setConnecting(false);
+                log(error);
+            });
+        }
+
+        function connect2(device, retryCount) {
+            'use strict';
+
+            device.connectGATT()
+            .then(server => {
+                log('Got server');
+                sServer = server;
+                return server.getPrimaryService('b6c31337-6c07-453e-961a-d8a8a41bf368');
+            })
+            .then(service => {
+                log('Got service');
+                return service.getCharacteristic('b6c31338-6c07-453e-961a-d8a8a41bf368');
+             })
+            .then(characteristic => {
+                log('Got characteristic');
+                sCharacteristic = characteristic;
+                setConnecting(false);
+                setConnected(true);
+            })
+            .catch(error => {
+                log(error);
+                if (retryCount < 1) {
+                    log('Retrying...');
+                    connect2(device, retryCount + 1);
+                } else {
+                    setConnecting(false);
+                }
+            });
+        }
+
+        function move(event, direction) {
+            log("move(" + event + ", " + direction + ")");
+            try {
+                switch (direction) {
+                case "forward":
+                    sCharacteristic.writeValue(new Uint8Array([1, 0, 0, 0, 0, 0]));
+                    break;
+                case "backward":
+                    sCharacteristic.writeValue(new Uint8Array([0, 1, 0, 0, 0, 0]));
+                    break;
+                case "left":
+                    sCharacteristic.writeValue(new Uint8Array([0, 0, 1, 0, 0, 0]));
+                    break;
+                case "right":
+                    sCharacteristic.writeValue(new Uint8Array([0, 0, 0, 1, 0, 0]));
+                    break;
+                case "up":
+                    sCharacteristic.writeValue(new Uint8Array([0, 0, 0, 0, 1, 0]));
+                    break;
+                case "down":
+                    sCharacteristic.writeValue(new Uint8Array([0, 0, 0, 0, 0, 1]));
+                    break;
+                }
+                event.preventDefault();
+            } catch (error) {
+                setConnected(false);
+                log(error);
+            }
+        }
+
+        function stop(event) {
+            log("stop(" + event + ")");
+            try {
+                sCharacteristic.writeValue(new Uint8Array([0, 0, 0, 0, 0, 0]));
+                event.preventDefault();
+            } catch (error) {
+                log(error);
+            }
+        }
+    </script>
+  </body>
+</html>
