@@ -11,11 +11,11 @@
     </div>
 
     <div id="button" style="display:flex; justify-content:center; align-items:center; margin-top:50">
-        <input style="width:70%" type="image" id="connect" src="clawbutton.png"/>
+        <input style="width:70%" type="image" id="connect" src="connect.png"/>
     </div>
     
     <div id="arrows" style="display:none; margin-top:50">
-        <p align="center">Time remaining: <span id="timeout"></span></p>
+        <p align="center">Time remaining: <h2><span id="timeout"></span></h2></p>
 
         <div style="display:flex; justify-content:center; align-items:center">
             <table>
@@ -79,7 +79,7 @@
             if (connecting) {
                 document.querySelector('#connect').src = "connecting.png";
             } else {
-                document.querySelector('#connect').src = "clawbutton.png";
+                document.querySelector('#connect').src = "connect.png";
             }
         }
 
