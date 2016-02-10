@@ -35,12 +35,13 @@ var isConnected = false;
 var sInterval;
 var sTimeout;
 var sServer;
-var sCharacteristic;
+var humidityCharacteristic;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
   document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
   document.querySelector('#disconnect').style.display = "hide";
+  document.querySelector('#humidity').addEventListener('click', getHumidity);
 };
 
 function log(text) {
@@ -93,6 +94,8 @@ function connect() {
         }]
     })
     .then(device => {
+        log('Device name: ' + device.name);
+        log('Gatt server UUIDs: ' + device.uuids);
         connect2(device, 0);
     })
     .catch(error => {
@@ -116,9 +119,10 @@ function connect2(device, retryCount) {
      })
     .then(characteristic => {
         log('Got characteristic');
-        sCharacteristic = characteristic;
+        humidityCharacteristic = characteristic;
         setConnecting(false);
         setConnected(true);
+        getData();
     })
     .catch(error => {
         log(error);
@@ -160,6 +164,14 @@ function move(event, direction) {
         log(error);
     }
 }
+
+function getHumidity(){
+  log('Getting humidity...');
+  humidity = humidityCharacteristic.readValue();
+  humidity = humidity.buffer ? value : new DataView(value);
+  log('Humidity is ' + humidity.getUint8(0) + '%');
+}
+
 
 function stop(event) {
     log("stop(" + event + ")");
