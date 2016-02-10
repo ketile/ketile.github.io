@@ -40,6 +40,7 @@ var sCharacteristic;
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
   document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
+  document.querySelector('#disconnect').style.display = "hide";
 };
 
 function log(text) {
@@ -49,32 +50,22 @@ function log(text) {
 function setConnecting(connecting) {
     isConnecting = connecting;
     if (connecting) {
-        document.querySelector('#connect').src = "images/connecting.png";
-    } else {
-        document.querySelector('#connect').src = "images/connect.png";
+        document.querySelector('#connect').style.display = "none";
+    } 
+    else {
+        document.querySelector('#connect').style.display = "block";
     }
 }
 
 function setConnected(connected) {
     isConnected = connected;
     if (connected) {
-        document.querySelector('#button').style.display = "none";
-        document.querySelector('#arrows').style.display = "block";
-
-        sTimeout = 30;
-        document.querySelector('#timeout').textContent = sTimeout;
-        sInterval = setInterval(function() {
-            sTimeout -= 1;
-            if (sTimeout <= 0) {
-                setConnected(false);
-                clearInterval(sInterval);
-            } else {
-                document.querySelector('#timeout').textContent = sTimeout;
-            }
-        }, 1000);
-    } else {
-        document.querySelector('#button').style.display = "flex";
-        document.querySelector('#arrows').style.display = "none";
+        document.querySelector('#connect').style.display = "none";
+        document.querySelector('#disconnect').style.display = "block";
+    } 
+    else {
+        document.querySelector('#connect').style.display = "block";
+        document.querySelector('#disconnect').style.display = "none";
         sServer.disconnect();
     }
 }
@@ -181,8 +172,8 @@ function stop(event) {
 }
 
 function disconnectDevice(){
-  document.querySelector('#button').style.display = "flex";
-  document.querySelector('#arrows').style.display = "none";
+  document.querySelector('#connect').style.display = "block";
+  document.querySelector('#disconnect').style.display = "none";
   sServer.disconnect();
   log("Disconnected.");
 }
