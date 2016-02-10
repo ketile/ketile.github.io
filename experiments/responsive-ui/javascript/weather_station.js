@@ -4,7 +4,7 @@
     appearanceCharacteristic - write/write without response - 2 bytes - uint16_t appearance
     connectionParamCharacteristic - write/write without response - 8 bytes - uint16_t min conn interval - uint16_t max conn interval - uint16_t slave latency - uint16_t supervision timeout
 */
-var configurationService = 'EF680001-9B35-4933-9B10-52FFA9740042';
+var configurationService = toLowerCase('EF680001-9B35-4933-9B10-52FFA9740042');
 var deviceNameCharacteristic = 'EF680002-9B35-4933-9B10-52FFA9740042';
 var advertisingParamCharacteristic = 'EF680003-9B35-4933-9B10-52FFA9740042';
 var appearanceCharacteristic = 'EF680004-9B35-4933-9B10-52FFA9740042';
@@ -16,8 +16,8 @@ var connectionParamCharacteristic = 'EF680005-9B35-4933-9B10-52FFA9740042';
     humidityCharacteristic - notify/read - 1 byte - uint8_t 
     configurationCharacteristic - write/write without response - 7 bytes - uint16_t temp interval in ms - uint16_t pressure interval in ms - uint16_t humidity interval in ms - uint8_t pressure mode (0=barometer, 1=altimeter)
 */
-var weatherStationService = '20080001-E36F-4648-91C6-9E86EAD38764';
-var temperatureCharacteristic = '20080002-E36F-4648-91C6-9E86EAD38764';
+var weatherStationService = toLowerCase('20080001-E36F-4648-91C6-9E86EAD38764');
+var temperatureCharacteristic = toLowerCase('20080002-E36F-4648-91C6-9E86EAD38764');
 var pressureCharacteristic = '20080003-E36F-4648-91C6-9E86EAD38764';
 var humidityCharacteristic = '20080004-E36F-4648-91C6-9E86EAD38764';
 var configurationCharacteristic = '20080005-E36F-4648-91C6-9E86EAD38764';
