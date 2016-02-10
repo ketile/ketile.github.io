@@ -164,14 +164,27 @@ function move(event, direction) {
     }
 }
 
+//function getHumidity() {
+//  'use strict';
+//  log('Getting humidity...');
+//  humidityCharacteristic.readValue()
+//  .then(buffer => {
+//    let data = new DataView(buffer);
+//    let foo = data.getUint8(0);
+//    log('Humidity is ' + foo + '%');
+//  })
+//  .catch(error => {
+//    log(error);
+//  });
+//}
+
 function getHumidity() {
   'use strict';
   log('Getting humidity...');
   humidityCharacteristic.readValue()
   .then(buffer => {
-    let data = new DataView(buffer);
-    let foo = data.getUint8(0);
-    log('Humidity is ' + foo + '%');
+    let data = buffer.getUint8(0);
+    log('Humidity is ' + data + '%');
   })
   .catch(error => {
     log(error);
