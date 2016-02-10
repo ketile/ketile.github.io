@@ -122,7 +122,6 @@ function connect2(device, retryCount) {
         humidityCharacteristic = characteristic;
         setConnecting(false);
         setConnected(true);
-        getData();
     })
     .catch(error => {
         log(error);
