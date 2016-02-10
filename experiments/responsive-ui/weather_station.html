@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="custom.css">
     <link rel="stylesheet" href="sticky-footer-navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="javascript/weather_station.js"></script>
   </head>
   <body>
     
@@ -72,8 +74,10 @@
 </nav>
     
     <div class="container">
-      <div class="page-header secondary-dark-blue">
+      <div class="page-header text-muted">
         <h1>Weather Station</h1>
+        <button type="button" class="btn btn-success" id="connect">CONNECT</button>
+        <button type="button" class="btn btn-warning" id="disconnect">DISCONNECT</button>
       </div>
       <div class="row">
         <div class="col-sm-4">
@@ -118,6 +122,11 @@
       </div>
     </div>
     
+    <!-- Debug output -->
+    <div class="container">
+      <pre id="log"></pre>
+    </div>
+    
     <!-- Report a bug Modal -->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -129,6 +138,9 @@
           </div>
           <div class="modal-body">
             <p>Provide a link to a Google Form (simple) or create custom form (time consuming).</p>
+            <div style="font-size: 25px">
+              <p ><i class="zmdi zmdi-rotate-right zmdi-hc-spin secondary-light-blue"></i> Connecting...</p>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -138,7 +150,7 @@
     </div>
     <footer class="footer">
       <div class="container">
-        <p class="text-muted">Footer text goes here.</p>
+        <p class="text-muted">Nordic Semiconductor © 2016<i class="zmdi zmdi-flower-alt zmdi-hc-2x pull-right"></i></p>
       </div>
     </footer>
   </body>
