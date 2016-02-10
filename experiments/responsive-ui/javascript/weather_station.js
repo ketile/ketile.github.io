@@ -98,7 +98,7 @@ function connect() {
     setConnecting(true);
     navigator.bluetooth.requestDevice({
         filters: [{
-            services:[configurationService]
+            services:[weatherStationService]
         }]
     })
     .then(device => {
