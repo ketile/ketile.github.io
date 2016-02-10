@@ -172,8 +172,6 @@ function getHumidity() {
     let data = new DataView(buffer);
     let foo = data.getUint8(0);
     log('Humidity is ' + foo + '%');
-    let foo = data.getUint8(1);
-    log('Humidity is ' + foo + '%');
   })
   .catch(error => {
     log(error);
