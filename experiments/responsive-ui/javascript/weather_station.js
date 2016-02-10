@@ -166,9 +166,13 @@ function move(event, direction) {
 
 function getHumidity(){
   log('Getting humidity...');
-  humidity = humidityCharacteristic.readValue();
-  humidity = humidity.buffer ? value : new DataView(value);
-  log('Humidity is ' + humidity.getUint8(0) + '%');
+  try {
+    humidity = humidityCharacteristic.readValue();
+    humidity = humidity.buffer ? value : new DataView(value);
+    log('Humidity is ' + humidity.getUint8(0) + '%');
+  } catch (error) {
+        log(error);
+    }
 }
 
 
