@@ -116,11 +116,12 @@ function connect2(device, retryCount) {
     })
     .then(service => {
         log('Got service');
-        return service.getCharacteristic(temperatureCharacteristic);
+        return service.getCharacteristic(humidityCharacteristic);
      })
     .then(characteristic => {
         log('Got characteristic');
-        humidityCharacteristic = characteristic;
+        result = characteristic;
+        log('Characteristic result: ' + result);
         setConnecting(false);
         setConnected(true);
     })
@@ -168,7 +169,7 @@ function move(event, direction) {
 function getHumidity() {
   'use strict';
   log('Getting humidity...');
-  humidityCharacteristic.readValue()
+  return humidityCharacteristic.readValue()
   .then(buffer => {
     let data = new DataView(buffer);
     let humidity = data.getUint8(0);
@@ -181,19 +182,36 @@ function getHumidity() {
 
 function getTemperature() {
   'use strict';
-  log('Getting temperature...');
-  temperatureCharacteristic.readValue()
+  log('Requesting Bluetooth Device...');
+  navigator.bluetooth.requestDevice(
+    {filters: [{services: [weatherStationService]}]})
+  .then(device => {
+    log('> Found ' + device.name);
+    log('Connecting to GATT Server...');
+    return device.connectGATT();
+  })
+  .then(server => {
+    log('Getting Weather Station service...');
+    return server.getPrimaryService(weatherStationService);
+  })
+  .then(service => {
+    log('Getting Temperature Characteristic...');
+    return service.getCharacteristic(temperatureCharacteristic);
+  })
+  .then(characteristic => {
+    log('Reading Temperature...');
+    return characteristic.readValue();
+  })
   .then(value => {
+    // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
     value = value.buffer ? value : new DataView(value);
-    let temperature = value.getUint8(0);
-    log('Temperature is ' + temperature + 'C');
+    let batteryLevel = value.getUint8(0);
+    log('> Temperature is ' + batteryLevel + 'C');
   })
   .catch(error => {
-    log(error);
+    log('Argh! ' + error);
   });
 }
-
-
 
 function stop(event) {
     log("stop(" + event + ")");
