@@ -35,7 +35,8 @@ var isConnected = false;
 var sInterval;
 var sTimeout;
 var sServer;
-var humidityCharacteristic;
+var Device;
+var GATT;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
@@ -97,6 +98,7 @@ function connect() {
     .then(device => {
         log('Device name: ' + device.name);
         log('Gatt server UUIDs: ' + device.uuids);
+        Device = device;
         connect2(device, 0);
     })
     .catch(error => {
@@ -112,6 +114,7 @@ function connect2(device, retryCount) {
     .then(server => {
         log('Got GATT server');
         sServer = server;
+        GATT = server;
         return server.getPrimaryService(weatherStationService);
     })
     .then(service => {
@@ -184,9 +187,10 @@ function getHumidity() {
   'use strict';
   log('Getting humidity...');
   return humidityCharacteristic.readValue()
-  .then(buffer => {
-    let humidity = new Uint8Array(buffer);
-    log('Humidity is ' + humidity + '%');
+  .then(value => {
+    value = value.buffer ? value : new DataView(value);
+    let humidityLevel = value.getUint8(0);
+    log('> Humidity is ' + humidityLevel + 'C');
   })
   .catch(error => {
     log(error);
