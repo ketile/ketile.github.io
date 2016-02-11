@@ -207,6 +207,10 @@ function getTemperature() {
     value = value.buffer ? value : new DataView(value);
     let batteryLevel = value.getUint8(0);
     log('> Temperature is ' + batteryLevel + 'C');
+    let batteryLevel = value.getUint16(1, true);
+    log('> Temperature is ' + batteryLevel + 'C');
+    let batteryLevel = value.getUint8(0, true);
+    log('> Temperature is ' + batteryLevel + 'C');
   })
   .catch(error => {
     log('Argh! ' + error);
