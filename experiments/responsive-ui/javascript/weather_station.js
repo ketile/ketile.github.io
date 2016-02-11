@@ -123,8 +123,6 @@ function connect2(device, retryCount) {
      })
     .then(characteristic => {
         log('Got characteristic');
-        result = characteristic;
-        log('Characteristic result: ' + result);
         setConnecting(false);
         setConnected(true);
     })
