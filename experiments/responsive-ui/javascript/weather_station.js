@@ -142,13 +142,39 @@ function connect2(device, retryCount) {
     });
 }
 
+function getHumidity() {
+  log('Requesting Bluetooth Device...');
+  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
+  .then(device => device.connectGATT())
+  .then(server => server.getPrimaryService(weatherStationService))
+  .then(service => service.getCharacteristic(humidityCharacteristic))
+  .then(characteristic => {
+    myCharacteristic = characteristic;
+    return myCharacteristic.startNotifications().then(() => {
+      log('> Notifications started');
+      myCharacteristic.addEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  })
+  .catch(error => {
+    log('Argh! ' + error);
+  });
+}
+
+function onStopButtonClick() {
+  if (myCharacteristic) {
+    myCharacteristic.stopNotifications().then(() => {
+      log('> Notifications stopped');
+      myCharacteristic.removeEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  }
+}
+
 function handleNotifications(event) {
-  log('> handleNotifications');
   let value = event.target.value;
   // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
   value = value.buffer ? value : new DataView(value);
-  let humidity = value.getUint8(0);
-  log('Humidity: ' + humidity);
   let a = [];
   // Convert raw data bytes to hex values just for the sake of showing something.
   // In the "real" world, you'd use data.getUint8, data.getUint16 or even
@@ -189,19 +215,19 @@ function move(event, direction) {
     }
 }
 
-function getHumidity() {
-  'use strict';
-  log('Getting humidity...');
-  humidityCharacteristic.readValue()
-  .then(buffer => {
-    let data = new DataView(buffer);
-    let humidity = data.getUint8(0);
-    log('Humidity is ' + humidity + '%');
-  })
-  .catch(error => {
-    log(error);
-  });
-}
+//function getHumidity() {
+//  'use strict';
+//  log('Getting humidity...');
+//  humidityCharacteristic.readValue()
+//  .then(buffer => {
+//    let data = new DataView(buffer);
+//    let humidity = data.getUint8(0);
+//    log('Humidity is ' + humidity + '%');
+//  })
+//  .catch(error => {
+//    log(error);
+//  });
+//}
 
 function getTemperature() {
   'use strict';
