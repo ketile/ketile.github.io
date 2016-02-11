@@ -171,8 +171,8 @@ function getHumidity() {
   humidityCharacteristic.readValue()
   .then(buffer => {
     let data = new DataView(buffer);
-    let result = data.getUint8(0);
-    log('Humidity is ' + result + '%');
+    let humidity = data.getUint8(0);
+    log('Humidity is ' + humidity + '%');
   })
   .catch(error => {
     log(error);
@@ -183,10 +183,10 @@ function getTemperature() {
   'use strict';
   log('Getting temperature...');
   temperatureCharacteristic.readValue()
-  .then(buffer => {
-    let data = new DataView(buffer);
-    let result = data.getUint8(0);
-    log('Temperature is ' + result + 'C');
+  .then(value => {
+    value = value.buffer ? value : new DataView(value);
+    let temperature = value.getUint8(0);
+    log('Temperature is ' + temperature + 'C');
   })
   .catch(error => {
     log(error);
