@@ -222,7 +222,7 @@ function getTemperature() {
     log('> Temperature is ' + batteryLevel + 'C');
     batteryLevel = value.getUint16(0, true);
     log('> Temperature is ' + batteryLevel + 'C');
-    batteryLevel = value.getUint16(1, true);
+        batteryLevel = value.getUint16(0, false);
     log('> Temperature is ' + batteryLevel + 'C');
   })
   .then(service => {
@@ -239,7 +239,7 @@ function getTemperature() {
     log('> Humidity is ' + humidityLevel + 'C');
     humidityLevel = value.getUint16(0, true);
     log('> Humidity is ' + humidityLevel + 'C');
-    humidityLevel = value.getUint16(1, true);
+    humidityLevel = value.getUint16(0, false);
     log('> Humidity is ' + humidityLevel + 'C');
   })
   .catch(error => {
