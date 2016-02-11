@@ -37,6 +37,7 @@ var sTimeout;
 var sServer;
 var Device;
 var GATT;
+var myCharacteristic;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
