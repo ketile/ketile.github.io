@@ -217,7 +217,6 @@ function getTemperature() {
   })
   .then(value => {
     // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
-    buffertest = 
     value = value.buffer ? value : new DataView(value);
     let batteryLevel = value.getUint8(0);
     log('> Temperature is ' + batteryLevel + 'C');
