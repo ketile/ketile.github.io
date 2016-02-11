@@ -222,8 +222,25 @@ function getTemperature() {
     log('> Temperature is ' + batteryLevel + 'C');
     batteryLevel = value.getUint16(0, true);
     log('> Temperature is ' + batteryLevel + 'C');
-    batteryLevel = value.getUint8(1, true);
+    batteryLevel = value.getUint16(1, true);
     log('> Temperature is ' + batteryLevel + 'C');
+  })
+  .then(service => {
+    log('Getting Humidity Characteristic...');
+    return service.getCharacteristic(humidityCharacteristic);
+  })
+  .then(characteristic => {
+    log('Reading Humidity...');
+    return characteristic.readValue();
+  })
+  .then(value => {
+    value = value.buffer ? value : new DataView(value);
+    let humidityLevel = value.getUint8(0);
+    log('> Humidity is ' + humidityLevel + 'C');
+    humidityLevel = value.getUint16(0, true);
+    log('> Humidity is ' + humidityLevel + 'C');
+    humidityLevel = value.getUint16(1, true);
+    log('> Humidity is ' + humidityLevel + 'C');
   })
   .catch(error => {
     log('Argh! ' + error);
