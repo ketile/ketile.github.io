@@ -170,7 +170,7 @@ function move(event, direction) {
 function getHumidity() {
   'use strict';
   log('Getting humidity...');
-  return humidityCharacteristic.readValue()
+  humidityCharacteristic.readValue()
   .then(buffer => {
     let data = new DataView(buffer);
     let humidity = data.getUint8(0);
