@@ -125,7 +125,13 @@ function connect2(device, retryCount) {
         log('Got characteristic');
         setConnecting(false);
         setConnected(true);
-    }).then()
+        myCharacteristic = characteristic;
+        return myCharacteristic.startNotifications()
+        .then(() => {
+          log('Notifications started');
+          myCharacteristic.addEventListener('characteristicvaluechanged', 'handleNotifications');
+    });
+    })
     .catch(error => {
         log(error);
         if (retryCount < 5) {
@@ -135,6 +141,20 @@ function connect2(device, retryCount) {
             setConnecting(false);
         }
     });
+}
+
+function handleNotifications(event) {
+  let value = event.target.value;
+  // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
+  value = value.buffer ? value : new DataView(value);
+  let a = [];
+  // Convert raw data bytes to hex values just for the sake of showing something.
+  // In the "real" world, you'd use data.getUint8, data.getUint16 or even
+  // TextDecoder to process raw data bytes.
+  for (var i = 0; i < value.byteLength; i++) {
+    a.push(('00' + value.getUint8(i).toString(16)).slice(-2));
+  }
+  log('> ' + a.join(''));
 }
 
 function move(event, direction) {
