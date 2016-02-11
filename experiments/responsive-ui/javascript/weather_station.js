@@ -98,7 +98,6 @@ function connect() {
     .then(device => {
         log('Device name: ' + device.name);
         log('Gatt server UUIDs: ' + device.uuids);
-        Device = device;
         connect2(device, 0);
     })
     .catch(error => {
@@ -114,7 +113,6 @@ function connect2(device, retryCount) {
     .then(server => {
         log('Got GATT server');
         sServer = server;
-        GATT = server;
         return server.getPrimaryService(weatherStationService);
     })
     .then(service => {
@@ -126,11 +124,11 @@ function connect2(device, retryCount) {
         setConnecting(false);
         setConnected(true);
         myCharacteristic = characteristic;
-        return myCharacteristic.startNotifications()
-        .then(() => {
+        return myCharacteristic.startNotifications();
+    })
+    .then(() => {
           log('Notifications started');
           myCharacteristic.addEventListener('characteristicvaluechanged', 'handleNotifications');
-    });
     })
     .catch(error => {
         log(error);
