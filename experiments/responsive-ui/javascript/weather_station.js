@@ -42,6 +42,7 @@ window.onload = function(){
   document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
   document.querySelector('#disconnect').style.display = "hide";
   document.querySelector('#humidity').addEventListener('click', getHumidity);
+  document.querySelector('#temperature').addEventListener('click', getTemperature);
 };
 
 function log(text) {
@@ -170,8 +171,22 @@ function getHumidity() {
   humidityCharacteristic.readValue()
   .then(buffer => {
     let data = new DataView(buffer);
-    let foo = data.getUint8(0);
-    log('Humidity is ' + foo + '%');
+    let result = data.getUint8(0);
+    log('Humidity is ' + result + '%');
+  })
+  .catch(error => {
+    log(error);
+  });
+}
+
+function getTemperature() {
+  'use strict';
+  log('Getting temperature...');
+  temperatureCharacteristic.readValue()
+  .then(buffer => {
+    let data = new DataView(buffer);
+    let result = data.getUint8(0);
+    log('Temperature is ' + result + 'C');
   })
   .catch(error => {
     log(error);
