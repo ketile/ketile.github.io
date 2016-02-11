@@ -125,7 +125,7 @@ function connect2(device, retryCount) {
         log('Got characteristic');
         setConnecting(false);
         setConnected(true);
-    })
+    }).then()
     .catch(error => {
         log(error);
         if (retryCount < 5) {
@@ -167,28 +167,14 @@ function move(event, direction) {
     }
 }
 
-//function getHumidity() {
-//  'use strict';
-//  log('Getting humidity...');
-//  return humidityCharacteristic.readValue()
-//  .then(buffer => {
-//    let data = new DataView(buffer);
-//    let humidity = data.getUint8(0);
-//    log('Humidity is ' + humidity + '%');
-//  })
-//  .catch(error => {
-//    log(error);
-//  });
-//}
-
 function getHumidity() {
   'use strict';
   log('Getting humidity...');
   return humidityCharacteristic.readValue()
-  .then(value => {
-    value = value.buffer ? value : new DataView(value);
-    let humidityLevel = value.getUint8(0);
-    log('> Humidity is ' + humidityLevel + 'C');
+  .then(buffer => {
+    let data = new DataView(buffer);
+    let humidity = data.getUint8(0);
+    log('Humidity is ' + humidity + '%');
   })
   .catch(error => {
     log(error);
