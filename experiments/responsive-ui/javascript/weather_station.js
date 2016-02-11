@@ -166,13 +166,26 @@ function move(event, direction) {
     }
 }
 
+//function getHumidity() {
+//  'use strict';
+//  log('Getting humidity...');
+//  return humidityCharacteristic.readValue()
+//  .then(buffer => {
+//    let data = new DataView(buffer);
+//    let humidity = data.getUint8(0);
+//    log('Humidity is ' + humidity + '%');
+//  })
+//  .catch(error => {
+//    log(error);
+//  });
+//}
+
 function getHumidity() {
   'use strict';
   log('Getting humidity...');
   return humidityCharacteristic.readValue()
   .then(buffer => {
-    let data = new DataView(buffer);
-    let humidity = data.getUint8(0);
+    let humidity = new Uint8Array(buffer);
     log('Humidity is ' + humidity + '%');
   })
   .catch(error => {
@@ -204,6 +217,7 @@ function getTemperature() {
   })
   .then(value => {
     // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
+    buffertest = 
     value = value.buffer ? value : new DataView(value);
     let batteryLevel = value.getUint8(0);
     log('> Temperature is ' + batteryLevel + 'C');
