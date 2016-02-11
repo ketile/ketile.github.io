@@ -143,9 +143,12 @@ function connect2(device, retryCount) {
 }
 
 function handleNotifications(event) {
+  log('> handleNotifications');
   let value = event.target.value;
   // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
   value = value.buffer ? value : new DataView(value);
+  let humidity = value.getUint8(0);
+  log('Humidity: ' + humidity);
   let a = [];
   // Convert raw data bytes to hex values just for the sake of showing something.
   // In the "real" world, you'd use data.getUint8, data.getUint16 or even
