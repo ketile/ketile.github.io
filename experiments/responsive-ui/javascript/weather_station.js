@@ -181,26 +181,26 @@ function getHumidity2() {
         handleNotifications);
     });
   })
-  .then(() => {
-    myService.getCharacteristic(temperatureCharacteristic);})
-  .then(characteristic => {
-    temperature = characteristic;
-    return temperature.startNotifications().then(() => {
-      log('> Notifications started');
-      temperature.addEventListener('characteristicvaluechanged',
-        handleNotifications);
-    });
-  })
-  .then(() => {
-    myService.getCharacteristic(pressureCharacteristic);})
-  .then(characteristic => {
-    pressure = characteristic;
-    return pressure.startNotifications().then(() => {
-      log('> Notifications started');
-      pressure.addEventListener('characteristicvaluechanged',
-        handleNotifications);
-    });
-  })
+//  .then(() => {
+//    myService.getCharacteristic(temperatureCharacteristic);})
+//  .then(characteristic => {
+//    temperature = characteristic;
+//    return temperature.startNotifications().then(() => {
+//      log('> Notifications started');
+//      temperature.addEventListener('characteristicvaluechanged',
+//        handleNotifications);
+//    });
+//  })
+//  .then(() => {
+//    myService.getCharacteristic(pressureCharacteristic);})
+//  .then(characteristic => {
+//    pressure = characteristic;
+//    return pressure.startNotifications().then(() => {
+//      log('> Notifications started');
+//      pressure.addEventListener('characteristicvaluechanged',
+//        handleNotifications);
+//    });
+//  })
   .catch(error => {
     log('Argh! ' + error);
   });
