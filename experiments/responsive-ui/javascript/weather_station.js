@@ -177,7 +177,7 @@ function getTemperature() {
     return temperature.startNotifications().then(() => {
       log('> Notifications started');
       temperature.addEventListener('characteristicvaluechanged',
-        handleNotifications);
+        handleNotifyTemperature);
     });
   })
   .catch(error => {
@@ -293,6 +293,16 @@ function handleNotifyHumidity(event) {
   humidity_int = value.getUint8(0);
   log('Humidity is' + humidity_int + '%');
   document.getElementById("humidity_reading").innerHTML = humidity_int +"%";
+}
+
+function handleNotifyTemperature(event) {
+  let value = event.target.value;
+  log(event);
+  value = value.buffer ? value : new DataView(value);
+  temperature_int = value.getUint8(0);
+  temperature_dec = value.getUint8(1);
+  log('Temperature is' + temperature_int + '.' + temperature_dec + 'C');
+  document.getElementById("temperature_reading").innerHTML = temperature_int + '.' + temperature_dec + 'C';
 }
 
 function move(event, direction) {
