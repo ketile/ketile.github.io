@@ -216,7 +216,6 @@ function onStopButtonClick() {
 
 function handleNotifyHumidity(event) {
   let value = event.target.value;
-  log(event);
   value = value.buffer ? value : new DataView(value);
   humidity_int = value.getUint8(0);
   log('Humidity is ' + humidity_int + '%');
@@ -225,7 +224,6 @@ function handleNotifyHumidity(event) {
 
 function handleNotifyTemperature(event) {
   let value = event.target.value;
-  log(event);
   value = value.buffer ? value : new DataView(value);
   temperature_int = value.getUint8(0);
   temperature_dec = value.getUint8(1);
@@ -235,8 +233,7 @@ function handleNotifyTemperature(event) {
 
 function handleNotifyPressure(event) {
   let value = event.target.value;
-  log(event);
-  value = value.buffer ? value : new DataView(value);
+  value = value.buffer ? value : new DataView(value, true);
   pressure_meters = value.getUint16(0);
   pressure_kpascal = value.getUint8(2);
   log('Pressure is ' + pressure_meters + 'm or ' + pressure_kpascal + 'kPa');
