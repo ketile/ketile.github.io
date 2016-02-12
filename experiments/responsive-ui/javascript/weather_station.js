@@ -207,6 +207,11 @@ function getPressure() {
   });
 }
 
+function getstuffed(server){
+    bleServer = server;
+    return server.getPrimaryService(weatherStationService);
+}
+
 function getAll() {
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
@@ -216,10 +221,7 @@ function getAll() {
     logObject(bleDevice);
     return device.connectGATT();
   })
-  .then(server => {
-    bleServer = server;
-    return server.getPrimaryService(weatherStationService);
-  })
+  .then(server => getstuffed(server))
   .then(service => {
     bleService = service;
     return service.getCharacteristic(pressureCharacteristic);
@@ -230,7 +232,7 @@ function getAll() {
     .then(() => {
       log('> Notifications started');
       pressure.addEventListener('characteristicvaluechanged',
-        handleNotifyPressure);
+      handleNotifyPressure);
     });
   })
   .then(() => {
@@ -239,7 +241,7 @@ function getAll() {
     .then(() => {
       log('> Notifications started');
       humidity.addEventListener('characteristicvaluechanged',
-        handleNotifyHumidity);
+      handleNotifyHumidity);
     });
   })
   .catch(error => {
