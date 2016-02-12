@@ -207,47 +207,43 @@ function getPressure() {
   });
 }
 
-function getstuffed(server){
-    bleServer = server;
-    return server.getPrimaryService(weatherStationService);
-}
+
 
 function getAll() {
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
-  .then(device => { 
-    logObject(device);
-    bleDevice = device;
-    logObject(bleDevice);
-    return device.connectGATT();
-  })
-  .then(server => getstuffed(server))
+  .then(device => device.connectGATT())
+  .then(server => server.getPrimaryService(weatherStationService))
   .then(service => {
-    bleService = service;
-    return service.getCharacteristic(pressureCharacteristic);
-  })
-  .then(characteristic => {
-    pressure = characteristic;
-    return pressure.startNotifications()
-    .then(() => {
-      log('> Notifications started');
-      pressure.addEventListener('characteristicvaluechanged',
-      handleNotifyPressure);
+    return Promise.all([
+      service.getCharacteristic(pressureCharacteristic).then(handlePressure),
+      service.getCharacteristic(humidityCharacteristic).then(handleHumidity),
+      service.getCharacteristic(temperatureCharacteristic).then(handleTemperature),
+    ])
+    .catch(error => {
+    log('> getAll() ' + error);
     });
-  })
-  .then(() => {
-    humidity = weatherStationService.getCharacteristic(humidityCharacteristic);
-    return humidity.startNotifications()
-    .then(() => {
-      log('> Notifications started');
-      humidity.addEventListener('characteristicvaluechanged',
-      handleNotifyHumidity);
-    });
-  })
-  .catch(error => {
-    log('Argh! ' + error);
   });
 }
+  
+function handlePressure(characteristic){
+  log('> handlePressure()');
+  characteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
+  return characteristic.startNotification();
+}
+
+function handleTemperature(characteristic){
+  log('> handleTemperature()');
+  characteristic.addEventListener('characteristicvaluechanged',handleNotifyTemperature);
+  return characteristic.startNotification();
+}
+
+function handleHumidity(characteristic){
+  log('> handleHumidity()');
+  characteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
+  return characteristic.startNotification();
+}
+
 
 function onStopButtonClick() {
   if (myCharacteristic) {
