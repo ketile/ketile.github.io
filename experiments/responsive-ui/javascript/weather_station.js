@@ -212,13 +212,16 @@ function getPressure() {
 function getAll() {
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
-  .then(device => device.connectGATT())
+  .then(device => device.gatt.connect())
   .then(server => server.getPrimaryService(weatherStationService))
   .then(service => {
     return Promise.all([
-      service.getCharacteristic(pressureCharacteristic).then(handlePressure),
-      service.getCharacteristic(humidityCharacteristic).then(handleHumidity),
-      service.getCharacteristic(temperatureCharacteristic).then(handleTemperature),
+      service.getCharacteristic(pressureCharacteristic)
+      .then(handlePressure),
+      service.getCharacteristic(humidityCharacteristic)
+      .then(handleHumidity),
+      service.getCharacteristic(temperatureCharacteristic)
+      .then(handleTemperature),
     ])
     .catch(error => {
     log('> getAll() ' + error);
