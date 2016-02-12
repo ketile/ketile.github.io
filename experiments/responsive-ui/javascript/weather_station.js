@@ -233,6 +233,15 @@ function getAll() {
         handleNotifyPressure);
     });
   })
+  .then(() => {
+    humidity = bleService.getCharacteristic(humidityCharacteristic);
+    return humidity.startNotifications()
+    .then(() => {
+      log('> Notifications started');
+      humidity.addEventListener('characteristicvaluechanged',
+        handleNotifyHumidity);
+    });
+  })
   .catch(error => {
     log('Argh! ' + error);
   });
