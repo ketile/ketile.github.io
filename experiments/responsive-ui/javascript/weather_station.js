@@ -224,7 +224,7 @@ function getAll() {
   .then(server => getstuffed(server))
   .then(service => {
     bleService = service;
-    return service.getCharacteristic([pressureCharacteristic, humidityCharacteristic, temperatureCharacteristic]);
+    return service.getCharacteristic(pressureCharacteristic);
   })
   .then(characteristic => {
     pressure = characteristic;
@@ -236,7 +236,7 @@ function getAll() {
     });
   })
   .then(() => {
-    humidity = bleService.getCharacteristic(humidityCharacteristic);
+    humidity = weatherStationService.getCharacteristic(humidityCharacteristic);
     return humidity.startNotifications()
     .then(() => {
       log('> Notifications started');
@@ -307,6 +307,7 @@ function swap32(val) {
 }
 
 function logObject(obj){
+  log('> logObject');
   // Logging property names and values using Array.forEach
   Object.getOwnPropertyNames(obj).forEach(function(val, idx, array) {
     log(val + ' -> ' + obj[val]);
