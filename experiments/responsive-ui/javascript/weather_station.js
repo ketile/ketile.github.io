@@ -38,6 +38,10 @@ var sServer;
 var Device;
 var GATT;
 var myCharacteristic;
+var myService;
+var humidity;
+var temperature;
+var pressure;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
@@ -161,6 +165,62 @@ function getHumidity() {
   });
 }
 
+function getHumidity2() {
+  log('Requesting Bluetooth Device...');
+  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
+  .then(device => device.connectGATT())
+  .then(server => server.getPrimaryService(weatherStationService))
+  .then(service => {
+    myService = service;
+    service.getCharacteristic(humidityCharacteristic);})
+  .then(characteristic => {
+    humidity = characteristic;
+    return humidity.startNotifications().then(() => {
+      log('> Notifications started');
+      humidity.addEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  })
+  .then(() => {
+    myService.getCharacteristic(temperatureCharacteristic);})
+  .then(characteristic => {
+    temperature = characteristic;
+    return temperature.startNotifications().then(() => {
+      log('> Notifications started');
+      temperature.addEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  })
+  .then(() => {
+    myService.getCharacteristic(pressureCharacteristic);})
+  .then(characteristic => {
+    pressure = characteristic;
+    return pressure.startNotifications().then(() => {
+      log('> Notifications started');
+      pressure.addEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  })
+  .catch(error => {
+    log('Argh! ' + error);
+  });
+}
+
+function notify_enable(characteristicUUID, type){
+  myService.getCharacteristic(characteristicUUID)
+    .then(characteristic => {
+      type = characteristic;
+      return type.startNotifications().then(() => {
+        log('> Notifications started');
+        type.addEventListener('characteristicvaluechanged',
+          handleNotifications);
+    });
+  })
+  .catch(error => {
+  log('Argh! ' + error);
+  });
+}
+
 function onStopButtonClick() {
   if (myCharacteristic) {
     myCharacteristic.stopNotifications().then(() => {
@@ -172,6 +232,8 @@ function onStopButtonClick() {
 }
 
 function handleNotifications(event) {
+  let name = event.target.tagName;
+  log(name);
   let value = event.target.value;
   // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
   value = value.buffer ? value : new DataView(value);
