@@ -222,12 +222,12 @@ function getAll() {
   })
   .then(service => {
     bleService = service;
-    service.getCharacteristic(pressureCharacteristic);
-    return characteristic;
+    return service.getCharacteristic(pressureCharacteristic);
   })
   .then(characteristic => {
     pressure = characteristic;
-    return pressure.startNotifications().then(() => {
+    return pressure.startNotifications()
+    .then(() => {
       log('> Notifications started');
       pressure.addEventListener('characteristicvaluechanged',
         handleNotifyPressure);
