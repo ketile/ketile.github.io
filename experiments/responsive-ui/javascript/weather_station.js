@@ -233,7 +233,7 @@ function handleNotifyTemperature(event) {
 
 function handleNotifyPressure(event) {
   let value = event.target.value;
-  value = value.buffer ? value : new DataView(value, false);
+  value = value.buffer ? value : new DataView(value);
   pressure_meters = value.getInt32(0);
   pressure_kpascal = value.getUint8(4);
   log('Pressure is ' + pressure_meters + 'm or ' + pressure_kpascal + 'kPa');
