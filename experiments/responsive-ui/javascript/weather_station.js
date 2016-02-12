@@ -211,9 +211,9 @@ function getAll() {
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
   .then(device => { 
-    logObj(device);
+    logObject(device);
     bleDevice = device;
-    logObj(bleDevice);
+    logObject(bleDevice);
     device.connectGATT();
     return server;
   })
