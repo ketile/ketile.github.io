@@ -214,13 +214,11 @@ function getAll() {
     logObject(device);
     bleDevice = device;
     logObject(bleDevice);
-    device.connectGATT();
-    return server;
+    return device.connectGATT();
   })
   .then(server => {
     bleServer = server;
-    server.getPrimaryService(weatherStationService);
-    return service;
+    return server.getPrimaryService(weatherStationService);
   })
   .then(service => {
     bleService = service;
