@@ -233,11 +233,20 @@ function handleNotifyTemperature(event) {
 
 function handleNotifyPressure(event) {
   let value = event.target.value;
-  value = value.buffer ? value : new DataView(value, true);
+  value = value.buffer ? value : new DataView(value, false);
   pressure_meters = value.getUint16(0);
   pressure_kpascal = value.getUint8(2);
   log('Pressure is ' + pressure_meters + 'm or ' + pressure_kpascal + 'kPa');
   document.getElementById("pressure_reading").innerHTML = pressure_meters + 'm';
+  
+  let a = [];
+  // Convert raw data bytes to hex values just for the sake of showing something.
+  // In the "real" world, you'd use data.getUint8, data.getUint16 or even
+  // TextDecoder to process raw data bytes.
+  for (var i = 0; i < value.byteLength; i++) {
+    a.push(('00' + value.getUint8(i).toString(16)).slice(-2));
+  }
+  log('> ' + a.join(''));
 }
 
 function move(event, direction) {
