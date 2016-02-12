@@ -220,7 +220,7 @@ function getAll() {
   .then(server => {
     bleServer = server;
     server.getPrimaryService(weatherStationService);
-    return server;
+    return service;
   })
   .then(service => {
     bleService = service;
