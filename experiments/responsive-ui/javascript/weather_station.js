@@ -220,6 +220,7 @@ function handleNotifyHumidity(event) {
   humidity_int = value.getUint8(0);
   log('Humidity is ' + humidity_int + '%');
   document.getElementById("humidity_reading").innerHTML = humidity_int +"%";
+  logObject(event);
 }
 
 function handleNotifyTemperature(event) {
@@ -237,7 +238,7 @@ function handleNotifyPressure(event) {
   pressure_pascal = swap32(pressure_pascal);
   pressure_decimal = value.getUint8(4);
   log('Pressure is ' + pressure_pascal + '.' + pressure_decimal + 'Pa');
-  document.getElementById("pressure_reading").innerHTML = pressure_pascal + '.' + pressure_decimal + 'Pa';
+  document.getElementById("pressure_reading").innerHTML = pressure_pascal + 'Pa';
   
   let a = [];
   // Convert raw data bytes to hex values just for the sake of showing something.
@@ -249,11 +250,19 @@ function handleNotifyPressure(event) {
   log('> ' + a.join(''));
 }
 
+// Swap byte order of 32bit value
 function swap32(val) {
     return ((val & 0xFF) << 24)
            | ((val & 0xFF00) << 8)
            | ((val >> 8) & 0xFF00)
            | ((val >> 24) & 0xFF);
+}
+
+function logObject(obj){
+  // Logging property names and values using Array.forEach
+  Object.getOwnPropertyNames(obj).forEach(function(val, idx, array) {
+    log(val + ' -> ' + obj[val]);
+  });
 }
 
 function move(event, direction) {
@@ -286,19 +295,6 @@ function move(event, direction) {
     }
 }
 
-//function getHumidity() {
-//  'use strict';
-//  log('Getting humidity...');
-//  humidityCharacteristic.readValue()
-//  .then(buffer => {
-//    let data = new DataView(buffer);
-//    let humidity = data.getUint8(0);
-//    log('Humidity is ' + humidity + '%');
-//  })
-//  .catch(error => {
-//    log(error);
-//  });
-//}
 
 
 function stop(event) {
