@@ -47,7 +47,7 @@ window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
   document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
   document.querySelector('#disconnect').style.display = "hide";
-  document.querySelector('#humidity').addEventListener('click', getHumidity);
+  document.querySelector('#humidity').addEventListener('click', getHumidity2);
   document.querySelector('#temperature').addEventListener('click', getTemperature);
 };
 
@@ -181,26 +181,26 @@ function getHumidity2() {
         handleNotifications);
     });
   })
-//  .then(() => {
-//    myService.getCharacteristic(temperatureCharacteristic);})
-//  .then(characteristic => {
-//    temperature = characteristic;
-//    return temperature.startNotifications().then(() => {
-//      log('> Notifications started');
-//      temperature.addEventListener('characteristicvaluechanged',
-//        handleNotifications);
-//    });
-//  })
-//  .then(() => {
-//    myService.getCharacteristic(pressureCharacteristic);})
-//  .then(characteristic => {
-//    pressure = characteristic;
-//    return pressure.startNotifications().then(() => {
-//      log('> Notifications started');
-//      pressure.addEventListener('characteristicvaluechanged',
-//        handleNotifications);
-//    });
-//  })
+  .then(() => {
+    myService.getCharacteristic(temperatureCharacteristic);})
+  .then(characteristic => {
+    temperature = characteristic;
+    return temperature.startNotifications().then(() => {
+      log('> Notifications started');
+      temperature.addEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  })
+  .then(() => {
+    myService.getCharacteristic(pressureCharacteristic);})
+  .then(characteristic => {
+    pressure = characteristic;
+    return pressure.startNotifications().then(() => {
+      log('> Notifications started');
+      pressure.addEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  })
   .catch(error => {
     log('Argh! ' + error);
   });
