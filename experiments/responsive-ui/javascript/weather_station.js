@@ -47,7 +47,7 @@ window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
   document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
   document.querySelector('#disconnect').style.display = "hide";
-  document.querySelector('#humidity').addEventListener('click', getHumidity2);
+  document.querySelector('#humidity').addEventListener('click', getHumidity);
   document.querySelector('#temperature').addEventListener('click', getTemperature);
 };
 
@@ -157,6 +157,25 @@ function getHumidity() {
     return myCharacteristic.startNotifications().then(() => {
       log('> Notifications started');
       myCharacteristic.addEventListener('characteristicvaluechanged',
+        handleNotifications);
+    });
+  })
+  .catch(error => {
+    log('Argh! ' + error);
+  });
+}
+
+function getTemperature() {
+  log('Requesting Bluetooth Device...');
+  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
+  .then(device => device.connectGATT())
+  .then(server => server.getPrimaryService(weatherStationService))
+  .then(service => service.getCharacteristic(temperatureCharacteristic))
+  .then(characteristic => {
+    temperature = characteristic;
+    return temperature.startNotifications().then(() => {
+      log('> Notifications started');
+      temperature.addEventListener('characteristicvaluechanged',
         handleNotifications);
     });
   })
@@ -291,59 +310,6 @@ function move(event, direction) {
 //  });
 //}
 
-function getTemperature() {
-  'use strict';
-  log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice(
-    {filters: [{services: [weatherStationService]}]})
-  .then(device => {
-    log('> Found ' + device.name);
-    log('Connecting to GATT Server...');
-    return device.connectGATT();
-  })
-  .then(server => {
-    log('Getting Weather Station service...');
-    return server.getPrimaryService(weatherStationService);
-  })
-  .then(service => {
-    log('Getting Temperature Characteristic...');
-    return service.getCharacteristic(temperatureCharacteristic);
-  })
-  .then(characteristic => {
-    log('Reading Temperature...');
-    return characteristic.readValue();
-  })
-  .then(value => {
-    // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
-    value = value.buffer ? value : new DataView(value);
-    let batteryLevel = value.getUint8(0);
-    log('> Temperature is ' + batteryLevel + 'C');
-    batteryLevel = value.getUint16(0, true);
-    log('> Temperature is ' + batteryLevel + 'C');
-        batteryLevel = value.getUint16(0, false);
-    log('> Temperature is ' + batteryLevel + 'C');
-  })
-  .then(service => {
-    log('Getting Humidity Characteristic...');
-    return service.getCharacteristic(humidityCharacteristic);
-  })
-  .then(characteristic => {
-    log('Reading Humidity...');
-    return characteristic.readValue();
-  })
-  .then(value => {
-    value = value.buffer ? value : new DataView(value);
-    let humidityLevel = value.getUint8(0);
-    log('> Humidity is ' + humidityLevel + 'C');
-    humidityLevel = value.getUint16(0, true);
-    log('> Humidity is ' + humidityLevel + 'C');
-    humidityLevel = value.getUint16(0, false);
-    log('> Humidity is ' + humidityLevel + 'C');
-  })
-  .catch(error => {
-    log('Argh! ' + error);
-  });
-}
 
 function stop(event) {
     log("stop(" + event + ")");
