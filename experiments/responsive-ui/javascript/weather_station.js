@@ -224,7 +224,7 @@ function getAll() {
   .then(server => getstuffed(server))
   .then(service => {
     bleService = service;
-    return service.getCharacteristic(pressureCharacteristic);
+    return service.getCharacteristic([pressureCharacteristic, humidityCharacteristic, temperatureCharacteristic]);
   })
   .then(characteristic => {
     pressure = characteristic;
@@ -279,6 +279,8 @@ function handleNotifyTemperature(event) {
 
 function handleNotifyPressure(event) {
   let value = event.target.value;
+  let name = event.target;
+  log('Target is: ' + name);
   pressure_pascal = value.getInt32(0);
   pressure_pascal = swap32(pressure_pascal);
   pressure_decimal = value.getUint8(4);
