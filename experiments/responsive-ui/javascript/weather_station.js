@@ -42,9 +42,12 @@ var myService;
 var humidity;
 var temperature;
 var pressure;
+var bleDevice;
+var bleServer;
+var bleService;
 
 window.onload = function(){
-  document.querySelector('#connect').addEventListener('click', connect);
+  document.querySelector('#connect').addEventListener('click', getAll);
   document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
   document.querySelector('#disconnect').style.display = "hide";
   document.querySelector('#humidity').addEventListener('click', getHumidity);
@@ -191,6 +194,39 @@ function getPressure() {
   .then(device => device.connectGATT())
   .then(server => server.getPrimaryService(weatherStationService))
   .then(service => service.getCharacteristic(pressureCharacteristic))
+  .then(characteristic => {
+    pressure = characteristic;
+    return pressure.startNotifications().then(() => {
+      log('> Notifications started');
+      pressure.addEventListener('characteristicvaluechanged',
+        handleNotifyPressure);
+    });
+  })
+  .catch(error => {
+    log('Argh! ' + error);
+  });
+}
+
+function getAll() {
+  log('Requesting Bluetooth Device...');
+  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
+  .then(device => { 
+    logObj(device);
+    bleDevice = device;
+    logObj(bleDevice);
+    device.connectGATT();
+    return server;
+  })
+  .then(server => {
+    bleServer = server;
+    server.getPrimaryService(weatherStationService);
+    return server;
+  })
+  .then(service => {
+    bleService = service;
+    service.getCharacteristic(pressureCharacteristic);
+    return characteristic;
+  })
   .then(characteristic => {
     pressure = characteristic;
     return pressure.startNotifications().then(() => {
