@@ -287,21 +287,12 @@ function handleNotifications(event) {
 }
 
 function handleNotifyHumidity(event) {
-  let name = event.target.name;
-  log(name);
   let value = event.target.value;
-  // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
+  log(event);
   value = value.buffer ? value : new DataView(value);
   humidity_int = value.getUint8(0);
   log('Humidity is' + humidity_int + '%');
-  let a = [];
-  // Convert raw data bytes to hex values just for the sake of showing something.
-  // In the "real" world, you'd use data.getUint8, data.getUint16 or even
-  // TextDecoder to process raw data bytes.
-  for (var i = 0; i < value.byteLength; i++) {
-    a.push(('00' + value.getUint8(i).toString(16)).slice(-2));
-  }
-  log('> ' + a.join(''));
+  document.getElementById("humidity_reading").innerHTML = humidity_int +"%";
 }
 
 function move(event, direction) {
