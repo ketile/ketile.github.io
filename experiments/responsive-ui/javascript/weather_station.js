@@ -233,7 +233,8 @@ function handleNotifyTemperature(event) {
 
 function handleNotifyPressure(event) {
   let value = event.target.value;
-  pressure_pascal = value.getInt32(0).swap32; 
+  pressure_pascal = value.getInt32(0);
+  pressure_pascal = swap32(pressure_pascal);
   pressure_decimal = value.getUint8(4);
   log('Pressure is ' + pressure_pascal + '.' + pressure_decimal + 'Pa');
   document.getElementById("pressure_reading").innerHTML = pressure_pascal + '.' + pressure_decimal + 'Pa';
