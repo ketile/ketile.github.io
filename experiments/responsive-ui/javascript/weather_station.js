@@ -47,7 +47,7 @@ window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
   document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
   document.querySelector('#disconnect').style.display = "hide";
-  document.querySelector('#humidity').addEventListener('click', getHumidity2);
+  document.querySelector('#humidity').addEventListener('click', getHumidity);
   document.querySelector('#temperature').addEventListener('click', getTemperature);
 };
 
