@@ -196,67 +196,11 @@ function getPressure() {
     return pressure.startNotifications().then(() => {
       log('> Notifications started');
       pressure.addEventListener('characteristicvaluechanged',
-        handleNotifications);
+        handleNotifyPressure);
     });
   })
   .catch(error => {
     log('Argh! ' + error);
-  });
-}
-
-function getHumidity2() {
-  log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
-  .then(device => device.connectGATT())
-  .then(server => server.getPrimaryService(weatherStationService))
-  .then(service => {
-    myService = service;
-    service.getCharacteristic(humidityCharacteristic);})
-  .then(characteristic => {
-    humidity = characteristic;
-    return humidity.startNotifications().then(() => {
-      log('> Notifications started');
-      humidity.addEventListener('characteristicvaluechanged',
-        handleNotifications);
-    });
-  })
-  .then(() => {
-    myService.getCharacteristic(temperatureCharacteristic);})
-  .then(characteristic => {
-    temperature = characteristic;
-    return temperature.startNotifications().then(() => {
-      log('> Notifications started');
-      temperature.addEventListener('characteristicvaluechanged',
-        handleNotifications);
-    });
-  })
-  .then(() => {
-    myService.getCharacteristic(pressureCharacteristic);})
-  .then(characteristic => {
-    pressure = characteristic;
-    return pressure.startNotifications().then(() => {
-      log('> Notifications started');
-      pressure.addEventListener('characteristicvaluechanged',
-        handleNotifications);
-    });
-  })
-  .catch(error => {
-    log('Argh! ' + error);
-  });
-}
-
-function notify_enable(characteristicUUID, type){
-  myService.getCharacteristic(characteristicUUID)
-    .then(characteristic => {
-      type = characteristic;
-      return type.startNotifications().then(() => {
-        log('> Notifications started');
-        type.addEventListener('characteristicvaluechanged',
-          handleNotifications);
-    });
-  })
-  .catch(error => {
-  log('Argh! ' + error);
   });
 }
 
@@ -270,28 +214,12 @@ function onStopButtonClick() {
   }
 }
 
-function handleNotifications(event) {
-  let name = event.target.tagName;
-  log(name);
-  let value = event.target.value;
-  // In Chrome 50+, a DataView is returned instead of an ArrayBuffer.
-  value = value.buffer ? value : new DataView(value);
-  let a = [];
-  // Convert raw data bytes to hex values just for the sake of showing something.
-  // In the "real" world, you'd use data.getUint8, data.getUint16 or even
-  // TextDecoder to process raw data bytes.
-  for (var i = 0; i < value.byteLength; i++) {
-    a.push(('00' + value.getUint8(i).toString(16)).slice(-2));
-  }
-  log('> ' + a.join(''));
-}
-
 function handleNotifyHumidity(event) {
   let value = event.target.value;
   log(event);
   value = value.buffer ? value : new DataView(value);
   humidity_int = value.getUint8(0);
-  log('Humidity is' + humidity_int + '%');
+  log('Humidity is ' + humidity_int + '%');
   document.getElementById("humidity_reading").innerHTML = humidity_int +"%";
 }
 
@@ -301,8 +229,18 @@ function handleNotifyTemperature(event) {
   value = value.buffer ? value : new DataView(value);
   temperature_int = value.getUint8(0);
   temperature_dec = value.getUint8(1);
-  log('Temperature is' + temperature_int + '.' + temperature_dec + 'C');
+  log('Temperature is ' + temperature_int + '.' + temperature_dec + 'C');
   document.getElementById("temperature_reading").innerHTML = temperature_int + '.' + temperature_dec + 'C';
+}
+
+function handleNotifyPressure(event) {
+  let value = event.target.value;
+  log(event);
+  value = value.buffer ? value : new DataView(value);
+  pressure_meters = value.getUint16(0);
+  pressure_kpascal = value.getUint8(2);
+  log('Pressure is ' + pressure_meters + 'm or ' + pressure_kpascal + 'kPa');
+  document.getElementById("pressure_reading").innerHTML = pressure_meters + 'm';
 }
 
 function move(event, direction) {
