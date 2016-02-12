@@ -233,11 +233,10 @@ function handleNotifyTemperature(event) {
 
 function handleNotifyPressure(event) {
   let value = event.target.value;
-  value = value.buffer ? value : new DataView(value);
-  pressure_meters = value.getInt32(0);
-  pressure_kpascal = value.getUint8(4);
-  log('Pressure is ' + pressure_meters + 'm or ' + pressure_kpascal + 'kPa');
-  document.getElementById("pressure_reading").innerHTML = pressure_meters + 'Pa';
+  pressure_pascal = value.getInt32(0).swap32; 
+  pressure_decimal = value.getUint8(4);
+  log('Pressure is ' + pressure_pascal + '.' + pressure_decimal + 'Pa');
+  document.getElementById("pressure_reading").innerHTML = pressure_pascal + '.' + pressure_decimal + 'Pa';
   
   let a = [];
   // Convert raw data bytes to hex values just for the sake of showing something.
@@ -247,6 +246,13 @@ function handleNotifyPressure(event) {
     a.push(('00' + value.getUint8(i).toString(16)).slice(-2));
   }
   log('> ' + a.join(''));
+}
+
+function swap32(val) {
+    return ((val & 0xFF) << 24)
+           | ((val & 0xFF00) << 8)
+           | ((val >> 8) & 0xFF00)
+           | ((val >> 24) & 0xFF);
 }
 
 function move(event, direction) {
