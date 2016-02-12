@@ -234,10 +234,10 @@ function handleNotifyTemperature(event) {
 function handleNotifyPressure(event) {
   let value = event.target.value;
   value = value.buffer ? value : new DataView(value, false);
-  pressure_meters = value.getUint16(0);
-  pressure_kpascal = value.getUint8(2);
+  pressure_meters = value.getInt32(0);
+  pressure_kpascal = value.getUint8(4);
   log('Pressure is ' + pressure_meters + 'm or ' + pressure_kpascal + 'kPa');
-  document.getElementById("pressure_reading").innerHTML = pressure_meters + 'm';
+  document.getElementById("pressure_reading").innerHTML = pressure_meters + 'Pa';
   
   let a = [];
   // Convert raw data bytes to hex values just for the sake of showing something.
