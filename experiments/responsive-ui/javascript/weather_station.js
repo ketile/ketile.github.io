@@ -88,7 +88,7 @@ function getAll() {
       return;
   }
   log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationServiceUUID]}]})
+  navigator.bluetooth.requestDevice({filters: [{services: [configurationServiceUUID]}]})
   .then(device => device.connectGATT())
   .then(server => { 
     bleServer = server;
@@ -133,7 +133,7 @@ function handleHumidity(characteristic){
 
 
 function stopAll() {
-  log('> stopAll()')
+  log('> stopAll()');
   if (pressureChar) {
     pressureChar.stopNotifications().then(() => {
       pressureChar.removeEventListener('characteristicvaluechanged',handleNotifyPressure);
