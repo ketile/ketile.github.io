@@ -1,62 +1,60 @@
 /*  BLE Configuration Service
-    deviceNameCharacteristic - write/write without response - max 10 byte - ascii string
-    advertisingParamCharacteristic - write/write without response - 3 bytes - uint16_t adv interval in ms - uint8_t adv timeout in s
-    appearanceCharacteristic - write/write without response - 2 bytes - uint16_t appearance
-    connectionParamCharacteristic - write/write without response - 8 bytes - uint16_t min conn interval - uint16_t max conn interval - uint16_t slave latency - uint16_t supervision timeout
+    deviceNameCharacteristicUUID - write/write without response - max 10 byte - ascii string
+    advertisingParamCharacteristicUUID - write/write without response - 3 bytes - uint16_t adv interval in ms - uint8_t adv timeout in s
+    appearanceCharacteristicUUID - write/write without response - 2 bytes - uint16_t appearance
+    connectionParamCharacteristicUUID - write/write without response - 8 bytes - uint16_t min conn interval - uint16_t max conn interval - uint16_t slave latency - uint16_t supervision timeout
 */
-var configurationService = 'ef680001-9b35-4933-9b10-52ffa9740042';
-var deviceNameCharacteristic = 'EF680002-9B35-4933-9B10-52FFA9740042';
-var advertisingParamCharacteristic = 'EF680003-9B35-4933-9B10-52FFA9740042';
-var appearanceCharacteristic = 'EF680004-9B35-4933-9B10-52FFA9740042';
-var connectionParamCharacteristic = 'EF680005-9B35-4933-9B10-52FFA9740042';
+var configurationServiceUUID = 'ef680001-9b35-4933-9b10-52ffa9740042';
+var deviceNameCharacteristicUUID = 'EF680002-9B35-4933-9B10-52FFA9740042';
+var advertisingParamCharacteristicUUID = 'EF680003-9B35-4933-9B10-52FFA9740042';
+var appearanceCharacteristicUUID = 'EF680004-9B35-4933-9B10-52FFA9740042';
+var connectionParamCharacteristicUUID = 'EF680005-9B35-4933-9B10-52FFA9740042';
 
 /*  Weather Station Service
-    temperatureCharacteristic - notify/read - 2 bytes - uint8_t integer - uint8_t decimal
-    pressureCharacteristic - notify/read - 3 bytes - uint16_t integer - uint8_t decimal
-    humidityCharacteristic - notify/read - 1 byte - uint8_t 
-    configurationCharacteristic - write/write without response - 7 bytes - uint16_t temp interval in ms - uint16_t pressure interval in ms - uint16_t humidity interval in ms - uint8_t pressure mode (0=barometer, 1=altimeter)
+    temperatureCharacteristicUUID - notify/read - 2 bytes - uint8_t integer - uint8_t decimal
+    pressureCharacteristicUUID - notify/read - 5 bytes - int32_t integer - uint8_t decimal
+    humidityCharacteristicUUID - notify/read - 1 byte - uint8_t 
+    configurationCharacteristicUUID - write/write without response - 7 bytes - uint16_t temp interval in ms - uint16_t pressure interval in ms - uint16_t humidity interval in ms - uint8_t pressure mode (0=barometer, 1=altimeter)
 */
-var weatherStationService = '20080001-e36f-4648-91c6-9e86ead38764';
-var temperatureCharacteristic = '20080002-e36f-4648-91c6-9e86ead38764';
-var pressureCharacteristic = '20080003-e36f-4648-91c6-9e86ead38764';
-var humidityCharacteristic = '20080004-e36f-4648-91c6-9e86ead38764';
-var configurationCharacteristic = '20080005-e36f-4648-91c6-9e86ead38764';
+var weatherStationServiceUUID = '20080001-e36f-4648-91c6-9e86ead38764';
+var temperatureCharacteristicUUID = '20080002-e36f-4648-91c6-9e86ead38764';
+var pressureCharacteristicUUID = '20080003-e36f-4648-91c6-9e86ead38764';
+var humidityCharacteristicUUID = '20080004-e36f-4648-91c6-9e86ead38764';
+var configurationCharacteristicUUID = '20080005-e36f-4648-91c6-9e86ead38764';
 
 /*  User Interface Service
-    ledCharacteristic - write/read - 4 bytes - uint32_t - LED ID - Red - Green - Blue (LSB)
-    buttonCharacteristic - write/read - 2 bytes - uint16_t - Button 2 state - Button 1 state (LSB)
+    ledCharacteristicUUID - write/read - 4 bytes - uint32_t - LED ID - Red - Green - Blue (LSB)
+    buttonCharacteristicUUID - write/read - 2 bytes - uint16_t - Button 2 state - Button 1 state (LSB)
 */
-var userInterfaceService = 'C7AE0001-3266-4A5C-859F-0F4799146BB5';
-var ledCharacteristic = 'C7AE0002-3266-4A5C-859F-0F4799146BB5';
-var buttonCharacteristic = 'C7AE0003-3266-4A5C-859F-0F4799146BB5';
+var userInterfaceServiceUUID = 'C7AE0001-3266-4A5C-859F-0F4799146BB5';
+var ledCharacteristicUUID = 'C7AE0002-3266-4A5C-859F-0F4799146BB5';
+var buttonCharacteristicUUID = 'C7AE0003-3266-4A5C-859F-0F4799146BB5';
 
 var isConnecting = false;
 var isConnected = false;
 var sInterval;
 var sTimeout;
-var sServer;
-var Device;
-var GATT;
-var myCharacteristic;
-var myService;
 var humidity;
 var temperature;
 var pressure;
 var bleDevice;
 var bleServer;
 var bleService;
+var pressureChar;
+var humidityChar;
+var temperatureChar;
+var pressureString;
+var humidityString;
+var temperatureString;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', getAll);
-  document.querySelector('#disconnect').addEventListener('click', disconnectDevice);
-  document.querySelector('#disconnect').style.display = "hide";
-  document.querySelector('#humidity').addEventListener('click', getHumidity);
-  document.querySelector('#temperature').addEventListener('click', getTemperature);
-  document.querySelector('#pressure').addEventListener('click', getPressure);
+  document.querySelector('#disconnect').addEventListener('click', stopAll);
 };
 
 function log(text) {
-    document.querySelector('#log').textContent += text + '\n';
+    //document.querySelector('#log').textContent += text + '\n';
+    console.log(text);
 }
 
 function setConnecting(connecting) {
@@ -65,7 +63,7 @@ function setConnecting(connecting) {
         document.querySelector('#connect').style.display = "none";
     } 
     else {
-        document.querySelector('#connect').style.display = "block";
+        document.querySelector('#connect').style.display = "float";
     }
 }
 
@@ -73,156 +71,39 @@ function setConnected(connected) {
     isConnected = connected;
     if (connected) {
         document.querySelector('#connect').style.display = "none";
-        document.querySelector('#disconnect').style.display = "block";
+        document.querySelector('#disconnect').style.display = "float";
     } 
     else {
-        document.querySelector('#connect').style.display = "block";
+        document.querySelector('#connect').style.display = "float";
         document.querySelector('#disconnect').style.display = "none";
         sServer.disconnect();
     }
 }
 
-function connect() {
-    'use strict';
-
-    if (!navigator.bluetooth) {
-        log('Web Bluetooth API is not available.\n' +
-            'Please make sure the Web Bluetooth flag is enabled.');
-        return;
-    }
-
-    if (isConnecting) {
-        log('Connecting. Please wait.');
-        return;
-    }
-
-    log('Requesting Bluetooth Device...');
-
-    setConnecting(true);
-    navigator.bluetooth.requestDevice({
-        filters: [{
-            services:[weatherStationService]
-        }]
-    })
-    .then(device => {
-        log('Device name: ' + device.name);
-        log('Gatt server UUIDs: ' + device.uuids);
-        connect2(device, 0);
-    })
-    .catch(error => {
-        setConnecting(false);
-        log(error);
-    });
-}
-
-function connect2(device, retryCount) {
-    'use strict';
-
-    device.connectGATT()
-    .then(server => {
-        log('Got GATT server');
-        sServer = server;
-        return server.getPrimaryService(weatherStationService);
-    })
-    .then(service => {
-        log('Got service');
-        return service.getCharacteristic(humidityCharacteristic);
-     })
-    .then(characteristic => {
-        log('Got characteristic');
-        setConnecting(false);
-        setConnected(true);
-        myCharacteristic = characteristic;
-        return myCharacteristic.startNotifications();
-    })
-    .then(() => {
-          log('Notifications started');
-          myCharacteristic.addEventListener('characteristicvaluechanged', 'handleNotifications');
-    })
-    .catch(error => {
-        log(error);
-        if (retryCount < 5) {
-            log('Retrying...');
-            connect2(device, retryCount + 1);
-        } else {
-            setConnecting(false);
-        }
-    });
-}
-
-function getHumidity() {
-  log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
-  .then(device => device.connectGATT())
-  .then(server => server.getPrimaryService(weatherStationService))
-  .then(service => service.getCharacteristic(humidityCharacteristic))
-  .then(characteristic => {
-    humidity = characteristic;
-    return humidity.startNotifications().then(() => {
-      log('> Notifications started');
-      humidity.addEventListener('characteristicvaluechanged',
-        handleNotifyHumidity);
-    });
-  })
-  .catch(error => {
-    log('Argh! ' + error);
-  });
-}
-
-function getTemperature() {
-  log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
-  .then(device => device.connectGATT())
-  .then(server => server.getPrimaryService(weatherStationService))
-  .then(service => service.getCharacteristic(temperatureCharacteristic))
-  .then(characteristic => {
-    temperature = characteristic;
-    return temperature.startNotifications().then(() => {
-      log('> Notifications started');
-      temperature.addEventListener('characteristicvaluechanged',
-        handleNotifyTemperature);
-    });
-  })
-  .catch(error => {
-    log('Argh! ' + error);
-  });
-}
-
-function getPressure() {
-  log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
-  .then(device => device.connectGATT())
-  .then(server => server.getPrimaryService(weatherStationService))
-  .then(service => service.getCharacteristic(pressureCharacteristic))
-  .then(characteristic => {
-    pressure = characteristic;
-    return pressure.startNotifications().then(() => {
-      log('> Notifications started');
-      pressure.addEventListener('characteristicvaluechanged',
-        handleNotifyPressure);
-    });
-  })
-  .catch(error => {
-    log('Argh! ' + error);
-  });
-}
-
-
-
 function getAll() {
+  'use strict'
+  if (!navigator.bluetooth) {
+      log('Web Bluetooth API is not available.\n' +
+          'Please make sure the Web Bluetooth flag is enabled.');
+      return;
+  }
   log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationService]}]})
-  .then(device => device.gatt.connect())
-  .then(server => server.getPrimaryService(weatherStationService))
+  navigator.bluetooth.requestDevice({filters: [{services: [weatherStationServiceUUID]}]})
+  .then(device => device.connectGATT())
+  .then(server => { 
+    bleServer = server;
+    return server.getPrimaryService(weatherStationServiceUUID);
+  })
   .then(service => {
     return Promise.all([
-      service.getCharacteristic(pressureCharacteristic)
+      service.getCharacteristic(pressureCharacteristicUUID)
       .then(handlePressure),
-      service.getCharacteristic(humidityCharacteristic)
+      service.getCharacteristic(humidityCharacteristicUUID)
       .then(handleHumidity),
-      service.getCharacteristic(temperatureCharacteristic)
-      .then(handleTemperature),
+      service.getCharacteristic(temperatureCharacteristicUUID)
+      .then(handleTemperature)
     ])
+    .then(startCloudLogging())
     .catch(error => {
     log('> getAll() ' + error);
     });
@@ -231,40 +112,65 @@ function getAll() {
   
 function handlePressure(characteristic){
   log('> handlePressure()');
+  pressureChar = characteristic;
   characteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
   return characteristic.startNotifications();
 }
 
 function handleTemperature(characteristic){
   log('> handleTemperature()');
+  temperatureChar = characteristic;
   characteristic.addEventListener('characteristicvaluechanged',handleNotifyTemperature);
   return characteristic.startNotifications();
 }
 
 function handleHumidity(characteristic){
   log('> handleHumidity()');
+  humidityChar = characteristic;
   characteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
   return characteristic.startNotifications();
 }
 
 
-function onStopButtonClick() {
-  if (myCharacteristic) {
-    myCharacteristic.stopNotifications().then(() => {
-      log('> Notifications stopped');
-      myCharacteristic.removeEventListener('characteristicvaluechanged',
-        handleNotifications);
+function stopAll() {
+  log('> stopAll()')
+  if (pressureChar) {
+    pressureChar.stopNotifications().then(() => {
+      pressureChar.removeEventListener('characteristicvaluechanged',handleNotifyPressure);
+      log('> Pressure notifications stopped');
     });
   }
+  if (humidityChar) {
+    humidityChar.stopNotifications().then(() => {
+      humidityChar.removeEventListener('characteristicvaluechanged', handleNotifyHumidity);
+      log('> Humidity notifications stopped');
+    });
+  }
+  if (temperatureChar) {
+    temperatureChar.stopNotifications().then(() => {
+      temperatureChar.removeEventListener('characteristicvaluechanged',handleNotifyTemperature);
+      log('> Temperature notifications stopped');
+    });
+  }
+  stopCloudLogging();
+  // Disconnect only for Chrome OS 50+
+  //log('Disconnecting from Bluetooth Device...');
+  //if (bleServer) {
+  //  if (bleServer.connected) {
+  //    bleServer.disconnect();
+  //    log('Bluetooth Device connected: ' + bleServer.connected);
+  //  } else {
+  //    log('Bluetooth Device is already disconnected');
+  //  }
 }
 
 function handleNotifyHumidity(event) {
   let value = event.target.value;
   value = value.buffer ? value : new DataView(value);
   humidity_int = value.getUint8(0);
+  humidityString = humidity_int.toString();
   log('Humidity is ' + humidity_int + '%');
   document.getElementById("humidity_reading").innerHTML = humidity_int +"%";
-  logObject(event);
 }
 
 function handleNotifyTemperature(event) {
@@ -272,29 +178,20 @@ function handleNotifyTemperature(event) {
   value = value.buffer ? value : new DataView(value);
   temperature_int = value.getUint8(0);
   temperature_dec = value.getUint8(1);
+  temperatureString = temperature_int.toString() + '.' + temperature_dec.toString();
   log('Temperature is ' + temperature_int + '.' + temperature_dec + 'C');
-  document.getElementById("temperature_reading").innerHTML = temperature_int + '.' + temperature_dec + 'C';
+  document.getElementById("temperature_reading").innerHTML = temperature_int + '.' + temperature_dec + '&deg;C';
 }
 
 function handleNotifyPressure(event) {
   let value = event.target.value;
-  let name = event.target;
-  log('Target is: ' + name);
-  logObject(name);
-  pressure_pascal = value.getInt32(0);
-  pressure_pascal = swap32(pressure_pascal);
+  value = value.buffer ? value : new DataView(value);
+  pressure_pascal = value.getInt32(0, true);
+  pressure_kpascal = pressure_pascal / 1000;
   pressure_decimal = value.getUint8(4);
-  log('Pressure is ' + pressure_pascal + '.' + pressure_decimal + 'Pa');
-  document.getElementById("pressure_reading").innerHTML = pressure_pascal + 'Pa';
-  
-  let a = [];
-  // Convert raw data bytes to hex values just for the sake of showing something.
-  // In the "real" world, you'd use data.getUint8, data.getUint16 or even
-  // TextDecoder to process raw data bytes.
-  for (var i = 0; i < value.byteLength; i++) {
-    a.push(('00' + value.getUint8(i).toString(16)).slice(-2));
-  }
-  log('> ' + a.join(''));
+  pressureString = pressure_kpascal.toString();
+  log('Pressure is ' + pressure_kpascal + 'kPa');
+  document.getElementById("pressure_reading").innerHTML = pressure_kpascal + 'kPa';
 }
 
 // Swap byte order of 32bit value
@@ -304,46 +201,6 @@ function swap32(val) {
            | ((val >> 8) & 0xFF00)
            | ((val >> 24) & 0xFF);
 }
-
-function logObject(obj){
-  log('> logObject');
-  // Logging property names and values using Array.forEach
-  Object.getOwnPropertyNames(obj).forEach(function(val, idx, array) {
-    log(val + ' -> ' + obj[val]);
-  });
-}
-
-function move(event, direction) {
-    log("move(" + event + ", " + direction + ")");
-    try {
-        switch (direction) {
-        case "forward":
-            sCharacteristic.writeValue(new Uint8Array([1, 0, 0, 0, 0, 0]));
-            break;
-        case "backward":
-            sCharacteristic.writeValue(new Uint8Array([0, 1, 0, 0, 0, 0]));
-            break;
-        case "left":
-            sCharacteristic.writeValue(new Uint8Array([0, 0, 1, 0, 0, 0]));
-            break;
-        case "right":
-            sCharacteristic.writeValue(new Uint8Array([0, 0, 0, 1, 0, 0]));
-            break;
-        case "up":
-            sCharacteristic.writeValue(new Uint8Array([0, 0, 0, 0, 1, 0]));
-            break;
-        case "down":
-            sCharacteristic.writeValue(new Uint8Array([0, 0, 0, 0, 0, 1]));
-            break;
-        }
-        event.preventDefault();
-    } catch (error) {
-        setConnected(false);
-        log(error);
-    }
-}
-
-
 
 function stop(event) {
     log("stop(" + event + ")");

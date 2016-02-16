@@ -11,6 +11,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="javascript/weather_station.js"></script>
+    <script src="javascript/geolocation.js"></script>
+    <script src="javascript/cloud.js"></script>
   </head>
   <body>
     
@@ -77,10 +79,8 @@
       <div class="page-header text-muted">
         <h1>Weather Station</h1>
         <button type="button" class="btn btn-success" id="connect">CONNECT</button>
-        <button type="button" class="btn btn-warning" id="disconnect">DISCONNECT</button>
-        <button type="button" class="btn btn-info" id="humidity">HUMIDITY</button>
-        <button type="button" class="btn btn-info" id="temperature">TEMPERATURE</button>
-        <button type="button" class="btn btn-info" id="pressure">PRESSURE</button>
+        <button type="button" class="btn btn-danger" id="disconnect">DISCONNECT</button>
+        <a href="https://data.sparkfun.com/nordic_weather" target="_blank" class="btn btn-info" role="button">VIEW LOG</a>
       </div>
       <div class="row">
         <div class="col-sm-4">
@@ -90,7 +90,7 @@
                 <h2 class="panel-title text-1-25x">Temperature</h2>
             </div>
             <div class="panel-body-small text-center text-3x" id="temperature_reading">
-              9&deg;C  &nbsp; 45&deg;F
+              0&deg;C
             </div>
             <div class="panel-footer-small">.
             </div>
@@ -103,7 +103,7 @@
               <h3 class="panel-title text-1-25x">Pressure</h3>
             </div>
             <div class="panel-body-small text-center text-3x" id="pressure_reading">
-              42m
+              0kPa
             </div>
             <div class="panel-footer-small">.
             </div>
@@ -116,7 +116,7 @@
               <h3 class="panel-title text-1-25x">Humidity</h3>
             </div>
             <div class="panel-body-small text-center text-3x" id="humidity_reading">
-              77%
+              0%
             </div>
             <div class="panel-footer-small">.
             </div>
