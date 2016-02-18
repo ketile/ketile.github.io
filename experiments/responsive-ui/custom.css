@@ -53,6 +53,7 @@ body{
     background-color: #fff;
     border-color: #eee;
     color: #fff;
+    height: 40px;
 }
 
 .navbar {
@@ -97,5 +98,12 @@ body{
 
 .secondary-dark-blue {
   color: #0080b7;
+}
+
+.input-group {
+    position: relative;
+    display: table;
+    border-collapse: separate;
+    margin-bottom: 10px;
 }
 

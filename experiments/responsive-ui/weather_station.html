@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Weather Station</title>
+    <title>Responsive UI</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name ="description" content ="Weather Station measuring temperature, humidity and pressure">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="custom.css">
     <link rel="stylesheet" href="sticky-footer-navbar.css">
@@ -79,9 +78,12 @@
     <div class="container">
       <div class="page-header text-muted">
         <h1>Weather Station</h1>
-        <button type="button" class="btn btn-success" id="connect">CONNECT</button>
-        <button type="button" class="btn btn-danger" id="disconnect">DISCONNECT</button>
-        <a href="https://data.sparkfun.com/nordic_weather" target="_blank" class="btn btn-info" role="button">VIEW LOG</a>
+        <div class="btn-group">
+          <button type="button" class="btn btn-info" id="connect"><span class="glyphicon glyphicon-flash"></span> CONNECT</button>
+          <button type="button" class="btn btn-info" id="disconnect"><span class="glyphicon glyphicon-remove-circle"></span> DISCONNECT</button>
+          <a href="https://data.sparkfun.com/nordic_weather" target="_blank" class="btn btn-info" role="button"><span class="glyphicon glyphicon-cloud"></span> LOG</a>
+          <a href="#" data-toggle="modal" class="btn btn-info" data-target="#configureModal"><span class="glyphicon glyphicon-wrench"></span> CONF</a>
+        </div>
       </div>
       <div class="row">
         <div class="col-sm-4">
@@ -104,7 +106,7 @@
               <h3 class="panel-title text-1-25x">Pressure</h3>
             </div>
             <div class="panel-body-small text-center text-3x" id="pressure_reading">
-              0kPa
+              0Pa
             </div>
             <div class="panel-footer-small">.
             </div>
@@ -147,6 +149,53 @@
             </div>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Configure Modal -->
+    <div id="configureModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Configure Weather Station</h4>
+          </div>
+          <div class="modal-body">
+            <label for="interval-group">Notification intervals</label>
+            <div class="input-group" id="interval-group">
+              <span class="input-group-addon">Temperature</span>
+              <input type="text" class="form-control" id="temperature-interval" placeholder="1000" aria-label="1000">
+              <span class="input-group-addon">ms</span>
+            </div>
+            <form>
+              <div class="input-group">
+                <span class="input-group-addon">Humidity</span>
+                <input type="text" class="form-control" id="humidity-interval" placeholder="1000" aria-label="1000">
+                <span class="input-group-addon">ms</span>
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon">Pressure</span>
+                <input type="text" class="form-control" id="pressure-interval" placeholder="1000" aria-label="1000">
+                <span class="input-group-addon">ms</span>
+              </div>
+              <label for="pressure-toggle">Pressure sensor mode</label>
+              <div class="btn-group" id="pressure-toggle" data-toggle="buttons">
+                <label class="btn btn-default" id="pressure-barometer">
+                  <input type="radio" name="options" value="barometer" autocomplete="off"> Barometer [Pa]
+                </label>
+                <label class="btn btn-default" id="pressure-altimeter">
+                  <input type="radio" name="options" value="altimeter" autocomplete="off"> Altimeter [m]
+                </label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" id="load-configuration">Load</button>
+            <button type="button" class="btn btn-default" id="apply-configuration">Apply</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
