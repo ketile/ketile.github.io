@@ -231,7 +231,11 @@ function getAll() {
       return;
   }
   log('Requesting Bluetooth Device...');
-  navigator.bluetooth.requestDevice({filters: [{services: [configurationServiceUUID]}]})
+  navigator.bluetooth.requestDevice({filters: [
+    {services: [configurationServiceUUID]},
+    {services: [weatherStationServiceUUID]}
+    ]
+  })
   .then(device => device.connectGATT())
   .then(server => { 
     bleServer = server;
