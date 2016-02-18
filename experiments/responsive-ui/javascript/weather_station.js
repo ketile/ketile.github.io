@@ -197,7 +197,7 @@ function handleConfiguration(value){
 }
 
 function log(text) {
-    //document.querySelector('#log').textContent += text + '\n';
+    document.querySelector('#log').textContent += text + '\n';
     console.log(text);
 }
 
