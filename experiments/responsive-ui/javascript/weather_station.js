@@ -50,8 +50,6 @@ var pressure;
 var bleDevice;
 var bleServer;
 var bleService;
-var bleService1;
-var bleService2;
 var pressureChar;
 var humidityChar;
 var temperatureChar;
@@ -248,37 +246,49 @@ function getAll() {
   .then(service => {
     log('Got bleService');
     bleService = service;
-    bleService1 = service;
-    bleService2 = service;
   })
   .then(() => bleService.getCharacteristic(pressureCharacteristicUUID))
   .then( characteristic => {
+    setTimeout(handlePressure(characteristic), 10);
+  })
+  .then(() => bleService.getCharacteristic(humidityCharacteristicUUID))
+  .then( characteristic => {
+    setTimeout(handleHumidity(characteristic), 2000);
+  })
+  .then(() => bleService.getCharacteristic(temperatureCharacteristicUUID))
+  .then( characteristic => {
+    setTimeout(handleTemperature(characteristic), 5000);
+  })
+  
+  /** Works in Chrome OS not on Android
+  .then(() => bleService.getCharacteristic(pressureCharacteristicUUID))
+  .then( characteristic => {
     log('Got pressureCharacteristic');
-    myCharacteristic = characteristic;
-    return myCharacteristic.startNotifications();
+    pressureChar = characteristic;
+    return pressureChar.startNotifications();
   })
   .then(() => {
-    myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
+    pressureChar.addEventListener('characteristicvaluechanged',handleNotifyPressure);
   })
-  .then(() => bleService1.getCharacteristic(humidityCharacteristicUUID))
+  .then(() => bleService.getCharacteristic(humidityCharacteristicUUID))
   .then( characteristic => {
     log('Got humidityCharacteristic');
-    myCharacteristic = characteristic;
-    return myCharacteristic.startNotifications();
+    humidityChar = characteristic;
+    return humidityChar.startNotifications();
   })
   .then(() => {
-    myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
+    humidityChar.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
   })
-  .then(() => bleService2.getCharacteristic(temperatureCharacteristicUUID))
+  .then(() => bleService.getCharacteristic(temperatureCharacteristicUUID))
   .then( characteristic => {
-    log('Got TemperatureCharacteristic');
-    myCharacteristic = characteristic;
-    return myCharacteristic.startNotifications();
+    log('Got temperatureCharacteristic');
+    temperatureChar = characteristic;
+    return temperatureChar.startNotifications();
   })
   .then(() => {
     myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyTemperature);
   })
-  
+  **/
 
     /** Works in Chrome OS not on Android
     return Promise.all([
