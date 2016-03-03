@@ -247,7 +247,7 @@ function getAll() {
     log('Got bleService');
     bleService = service;
   })
-  .then( bleService.getCharacteristic(pressureCharacteristicUUID))
+  .then(() => bleService.getCharacteristic(pressureCharacteristicUUID))
   .then( characteristic => {
     log('Got pressureCharacteristic');
     myCharacteristic = characteristic;
@@ -256,7 +256,7 @@ function getAll() {
   .then(() => {
     myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
   })
-  .then( bleService.getCharacteristic(humidityCharacteristicUUID))
+  .then(() => bleService.getCharacteristic(humidityCharacteristicUUID))
   .then( characteristic => {
     log('Got humidityCharacteristic');
     myCharacteristic = characteristic;
@@ -265,7 +265,7 @@ function getAll() {
   .then(() => {
     myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
   })
-    .then( bleService.getCharacteristic(temperatureCharacteristicUUID))
+  .then(() => bleService.getCharacteristic(temperatureCharacteristicUUID))
   .then( characteristic => {
     log('Got TemperatureCharacteristic');
     myCharacteristic = characteristic;
