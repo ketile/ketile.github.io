@@ -56,6 +56,7 @@ var temperatureChar;
 var pressureString;
 var humidityString;
 var temperatureString;
+var myCharacteristic;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', getAll);
@@ -239,28 +240,43 @@ function getAll() {
   .then(device => device.connectGATT())
   .then(server => { 
     bleServer = server;
+    log('Got bleServer');
     return server.getPrimaryService(weatherStationServiceUUID);
   })
   .then(service => {
+    log('Got bleService');
     bleService = service;
   })
   .then( bleService.getCharacteristic(pressureCharacteristicUUID))
   .then( characteristic => {
-    characteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
-    characteristic.startNotifications();
+    log('Got pressureCharacteristic');
+    myCharacteristic = characteristic;
+    return myCharacteristic.startNotifications();
+  })
+  .then(() => {
+    myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
   })
   .then( bleService.getCharacteristic(humidityCharacteristicUUID))
   .then( characteristic => {
-    characteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
-    characteristic.startNotifications();
+    log('Got humidityCharacteristic');
+    myCharacteristic = characteristic;
+    return myCharacteristic.startNotifications();
   })
-  .then( bleService.getCharacteristic(temperatureCharacteristicUUID))
+  .then(() => {
+    myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
+  })
+    .then( bleService.getCharacteristic(temperatureCharacteristicUUID))
   .then( characteristic => {
-    characteristic.addEventListener('characteristicvaluechanged',handleNotifyTemperature);
-    characteristic.startNotifications();
+    log('Got TemperatureCharacteristic');
+    myCharacteristic = characteristic;
+    return myCharacteristic.startNotifications();
   })
+  .then(() => {
+    myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyTemperature);
+  })
+  
 
-    /**
+    /** Works in Chrome OS not on Android
     return Promise.all([
       service.getCharacteristic(pressureCharacteristicUUID)
       .then(handlePressure),
