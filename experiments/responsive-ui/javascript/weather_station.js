@@ -50,6 +50,8 @@ var pressure;
 var bleDevice;
 var bleServer;
 var bleService;
+var bleService1;
+var bleService2;
 var pressureChar;
 var humidityChar;
 var temperatureChar;
@@ -246,6 +248,8 @@ function getAll() {
   .then(service => {
     log('Got bleService');
     bleService = service;
+    bleService1 = service;
+    bleService2 = service;
   })
   .then(() => bleService.getCharacteristic(pressureCharacteristicUUID))
   .then( characteristic => {
@@ -256,7 +260,7 @@ function getAll() {
   .then(() => {
     myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
   })
-  .then(() => bleService.getCharacteristic(humidityCharacteristicUUID))
+  .then(() => bleService1.getCharacteristic(humidityCharacteristicUUID))
   .then( characteristic => {
     log('Got humidityCharacteristic');
     myCharacteristic = characteristic;
@@ -265,7 +269,7 @@ function getAll() {
   .then(() => {
     myCharacteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
   })
-  .then(() => bleService.getCharacteristic(temperatureCharacteristicUUID))
+  .then(() => bleService2.getCharacteristic(temperatureCharacteristicUUID))
   .then( characteristic => {
     log('Got TemperatureCharacteristic');
     myCharacteristic = characteristic;
