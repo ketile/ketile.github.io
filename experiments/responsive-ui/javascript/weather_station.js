@@ -242,6 +242,25 @@ function getAll() {
     return server.getPrimaryService(weatherStationServiceUUID);
   })
   .then(service => {
+    bleService = service;
+  })
+  .then( bleService.getCharacteristic(pressureCharacteristicUUID))
+  .then( characteristic => {
+    characteristic.addEventListener('characteristicvaluechanged',handleNotifyPressure);
+    characteristic.startNotifications();
+  })
+  .then( bleService.getCharacteristic(humidityCharacteristicUUID))
+  .then( characteristic => {
+    characteristic.addEventListener('characteristicvaluechanged',handleNotifyHumidity);
+    characteristic.startNotifications();
+  })
+  .then( bleService.getCharacteristic(temperatureCharacteristicUUID))
+  .then( characteristic => {
+    characteristic.addEventListener('characteristicvaluechanged',handleNotifyTemperature);
+    characteristic.startNotifications();
+  })
+
+    /**
     return Promise.all([
       service.getCharacteristic(pressureCharacteristicUUID)
       .then(handlePressure),
@@ -250,10 +269,11 @@ function getAll() {
       service.getCharacteristic(temperatureCharacteristicUUID)
       .then(handleTemperature)
     ])
-    .then(startCloudLogging())
-    .catch(error => {
+    **/
+    
+  .then(startCloudLogging())
+  .catch(error => {
     log('> getAll() ' + error);
-    });
   });
 }
   
