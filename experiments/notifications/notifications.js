@@ -4,6 +4,7 @@ const primaryServiceUUID = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
 const button3characteristicUUID = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
 const button4characteristicUUID = '6e400004-b5a3-f393-e0a9-e50e24dcca9e';
 
+var bleDevice;
 var bleServer;
 var bleService;
 var button3char;
@@ -13,6 +14,7 @@ var button4count = 0;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
+  document.querySelector('#disconnect').addEventListener('click', disconnect);
 };
 
 function connect() {
@@ -23,7 +25,10 @@ function connect() {
   }
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice({filters: [{services: [primaryServiceUUID]}]})
-  .then(device => device.connectGATT())
+  .then(device => {
+    bleDevice = device;
+    return device.connectGATT();
+  })
   .then(server => { 
     bleServer = server;
     log('Got bleServer');
@@ -56,6 +61,20 @@ function connect() {
   .catch(error => {
     log('> connect ' + error);
   });
+}
+
+function disconnect() {
+  if (!bleDevice) {
+    log('No Bluetooth Device connected...');
+    return;
+  }
+  log('Disconnecting from Bluetooth Device...');
+  if (bleDevice.gatt.connected) {
+    bleDevice.gatt.disconnect();
+    log('> Bluetooth Device connected: ' + bleDevice.gatt.connected);
+  } else {
+    log('> Bluetooth Device is already disconnected');
+  }
 }
   
 function handleNotifyButton3(event) {
