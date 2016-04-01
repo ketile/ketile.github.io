@@ -8,6 +8,8 @@ var bleServer;
 var bleService;
 var button3char;
 var button4char;
+var button3count = 0;
+var button4count = 0;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
@@ -57,24 +59,18 @@ function connect() {
 }
   
 function handleNotifyButton3(event) {
-  let value = event.target.value;
-  value = value.buffer ? value : new DataView(value);
-  let temporary = value.getUint8(0);
-  let temporaryString = temporary.toString();
-  log('Notification triggered on Button 3');
-  document.getElementById("btn3").innerHTML = temporaryString;
+  button3count += 1;
+  log('Notification triggered by Button 3');
+  document.getElementById("btn3").innerHTML = button3count;
 }
 
 function handleNotifyButton4(event) {
-  let value = event.target.value;
-  value = value.buffer ? value : new DataView(value);
-  let temporary = value.getUint8(0);
-  let temporaryString = temporary.toString();
-  log('Notification triggered on Button 4');
-  document.getElementById("btn4").innerHTML = temporaryString;
+  button4count += 1;
+  log('Notification triggered by Button 4');
+  document.getElementById("btn4").innerHTML = button4count;
 }
 
 function log(text) {
     console.log(text);
-    // more logging options here
+    document.querySelector('#log').textContent += text + '\n';
 }
