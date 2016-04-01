@@ -46,7 +46,7 @@ function connect() {
   })
   .then(() => bleService.getCharacteristic(button4characteristicUUID))
   .then( characteristic => {
-    log('Got button3characteristic');
+    log('Got button4characteristic');
     button4char = characteristic;
     return button4char.startNotifications();
   })
