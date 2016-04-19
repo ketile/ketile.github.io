@@ -50,7 +50,10 @@ function connect() {
     button1char.addEventListener('characteristicvaluechanged',handleNotifyButton1);
   })
   .then(() => {
-    ledChar = bleService.getCharacteristic(ledCharacteristicUUID);
+    return bleService.getCharacteristic(ledCharacteristicUUID);
+  })
+  .then( characteristic => {
+    ledChar = characteristic;
     log('Got ledChar');
   })
   .catch(error => {
