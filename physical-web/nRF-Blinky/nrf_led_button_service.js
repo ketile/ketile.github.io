@@ -9,10 +9,12 @@ var bleServer;
 var bleService;
 var button1char;
 var button1count = 0;
+var toggleFlag = true;
 
 window.onload = function(){
   document.querySelector('#connect').addEventListener('click', connect);
   document.querySelector('#disconnect').addEventListener('click', disconnect);
+  document.querySelector('#led2').addEventListener('click', toggleLED);
 };
 
 function connect() {
@@ -67,7 +69,26 @@ function disconnect() {
 function handleNotifyButton1(event) {
   button1count += 1;
   log('Notification triggered by Button 1');
-  document.getElementById("btn1").innerHTML = button3count;
+  document.getElementById("btn1").innerHTML = button1count;
+}
+
+function toggleLED(){
+  bleService.getCharacteristic(ledCharacteristicUUID)
+  .then(characteristic => {
+    let toggle;
+    if(toggleFlag === true){
+      toggle = new Uint8Array([0]);
+      toggleFlag = false;
+    }
+    else{
+      toggle = new Uint8Array([1]);
+      toggleFlag = false;
+    }
+    return characteristic.writeValue(toggle);
+  })
+  .then(() =>{
+    log("Toggled LED");
+  })
 }
 
 function log(text) {
