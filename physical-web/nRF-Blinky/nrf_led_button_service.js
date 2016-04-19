@@ -45,6 +45,7 @@ function connect() {
     return button1char.startNotifications();
   })
   .then(() => {
+    log('Notifications enabled')
     button1char.addEventListener('characteristicvaluechanged',handleNotifyButton1);
   })
   .catch(error => {
@@ -77,11 +78,11 @@ function toggleLED(){
   .then(characteristic => {
     let toggle;
     if(toggleFlag === true){
-      toggle = new Uint8Array([0,0]);
+      toggle = new Uint8Array([0]);
       toggleFlag = false;
     }
     else{
-      toggle = new Uint8Array([0,1]);
+      toggle = new Uint8Array([1]);
       toggleFlag = true;
     }
     return characteristic.writeValue(toggle);
