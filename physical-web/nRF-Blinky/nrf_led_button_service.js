@@ -8,6 +8,7 @@ var bleDevice;
 var bleServer;
 var bleService;
 var button1char;
+var ledChar;
 var button1count = 0;
 var toggleFlag = false;
 
@@ -45,8 +46,12 @@ function connect() {
     return button1char.startNotifications();
   })
   .then(() => {
-    log('Notifications enabled')
+    log('Notifications enabled');
     button1char.addEventListener('characteristicvaluechanged',handleNotifyButton1);
+  })
+  .then(() => {
+    ledChar = bleService.getCharacteristic(ledCharacteristicUUID);
+    log('Got ledChar');
   })
   .catch(error => {
     log('> connect ' + error);
@@ -74,8 +79,6 @@ function handleNotifyButton1(event) {
 }
 
 function toggleLED(){
-  bleService.getCharacteristic(ledCharacteristicUUID)
-  .then(characteristic => {
     let toggle;
     if(toggleFlag === true){
       toggle = new Uint8Array([0]);
@@ -85,15 +88,9 @@ function toggleLED(){
       toggle = new Uint8Array([1]);
       toggleFlag = true;
     }
-    return characteristic.writeValue(toggle);
-  })
-  .then(() =>{
-    log("Toggled LED");
-  })
-  .catch(error => {
-    log('> connect ' + error);
-  });
+    return ledChar.writeValue(toggle);
 }
+
 
 function log(text) {
     console.log(text);

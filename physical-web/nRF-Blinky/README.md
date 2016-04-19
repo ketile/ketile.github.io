@@ -10,8 +10,8 @@ This is a Web App demonstrating the same functionality as the [nRF Blinky Androi
 * Press Button 1 on the nRF52 DK to send notifications to the Web App.
 
 ## Source code
-The nRF52 firmware source code is available in the [nRF52-ble-app-lbs](https://github.com/NordicSemiconductor/nRF52-ble-app-lbs) repository.
-The Anbdroid App source code is available in the [Android-nRF-Blinky](https://github.com/NordicSemiconductor/Android-nRF-Blinky) repository.
+* The nRF52 firmware source code is available in the [nRF52-ble-app-lbs](https://github.com/NordicSemiconductor/nRF52-ble-app-lbs) repository.
+* gThe Android App source code is available in the [Android-nRF-Blinky](https://github.com/NordicSemiconductor/Android-nRF-Blinky) repository.
 
 ## LED Button Service UUIDs
 * LBS Service `00001523-1212-efde-1523-785feabcd123`
