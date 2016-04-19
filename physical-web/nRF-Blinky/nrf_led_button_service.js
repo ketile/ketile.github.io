@@ -82,7 +82,7 @@ function toggleLED(){
     }
     else{
       toggle = new Uint8Array([1]);
-      toggleFlag = false;
+      toggleFlag = true;
     }
     return characteristic.writeValue(toggle);
   })
