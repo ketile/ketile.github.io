@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+  <title>nRF IoT SDK Commissioning</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="nRF IoT SDK">
+  <link rel="icon" type="image/x-icon" href="../beacons/images/favicon.ico" />
+  
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+
+  <link rel="import" href="bower_components/paper-button/paper-button.html">
+  <link rel="import" href="bower_components/paper-card/paper-card.html">
+  <link rel="import" href="bower_components/paper-input/paper-input.html">
+  <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+  <link rel="import" href="bower_components/iron-icons/iron-icons.html">
+  <link rel="import" href="bower_components/platinum-bluetooth/platinum-bluetooth-device.html">
+  <link rel="import" href="bower_components/platinum-bluetooth/platinum-bluetooth-characteristic.html">
+
+  <style is="custom-style">
+      paper-button {
+        display: block;
+        margin-bottom: 20px;
+        margin-top: 20px;
+      }
+      paper-button.colorful {
+        color: #4285f4;
+      }
+      paper-button[raised].colorful {
+        background: #4285f4;
+        color: #fff;
+      }
+      body {
+        background-color: var(--paper-grey-50);
+      }
+      #cards {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 400px;
+      }
+      paper-card {
+        margin-bottom: 16px;
+        width: 100%;
+      }
+    </style>
+</head>
+
+<body unresolved>
+
+  <div id="cards">
+    <paper-card heading="Node Configuration">
+      <div class="card-content">
+        <paper-input id="ssid" label="SSID" char-counter maxlength="16"></paper-input>
+        <paper-input id="keys-store" label="Password" char-counter maxlength="8" auto-validate allowed-pattern="[0-9]">></paper-input>
+      </div>
+      <div class="card-actions">
+        <paper-button raised id="commission" class="colorful"><iron-icon icon="icons:cloud-upload"></iron-icon></paper-button>
+        <paper-button raised id="identify">IDENTIFY node</paper-button>
+      </div>
+    </paper-card>
+  </div>
+  
+  <paper-dialog id="no-bluetooth">
+    <h2>No Web Bluetooth</h2>
+    <p>The Web Bluetooth API is missing. Please enable it at
+    chrome://flags/#enable-web-bluetooth and try again.</p>
+  </paper-dialog>
+
+
+  <platinum-bluetooth-device id="ble-device"
+    services-filter='["54207799-8f40-4fe5-bebe-6bb7022d3e73"]'> 
+    <platinum-bluetooth-service service="54207799-8f40-4fe5-bebe-6bb7022d3e73">
+      <platinum-bluetooth-characteristic id="ssid-characteristic"
+          characteristic="542077a9-8f40-4fe5-bebe-6bb7022d3e73">
+      </platinum-bluetooth-characteristic>
+      <platinum-bluetooth-characteristic id ="keys-store-characteristic"
+          characteristic="542077b9-8f40-4fe5-bebe-6bb7022d3e73">
+      </platinum-bluetooth-characteristic>
+      <platinum-bluetooth-characteristic id="control-point-characteristic"
+          characteristic="542077c9-8f40-4fe5-bebe-6bb7022d3e73">
+      </platinum-bluetooth-characteristic>
+    </platinum-bluetooth-service>
+  </platinum-bluetooth-device>
+  
+  <script>
+    document.addEventListener('WebComponentsReady', function() {
+      
+      var commissionButton = document.querySelector('#commission');
+      var ssid = document.querySelector('#ssid');
+      var password = document.querySelector('#keys-store');
+      var controlPoint = document.querySelector('#control-point');
+      var bleDevice = document.querySelector('#ble-device');
+      var ssidCharacteristic = document.querySelector('#ssid-characteristic');
+      var passwordCharacteristic = document.querySelector('#keys-store-characteristic');
+      var controlCharacteristic = document.querySelector('#control-point-characteristic');
+      
+      // check if bluetooth is supported
+      if (navigator.bluetooth == undefined) {
+        document.getElementById("no-bluetooth").style.display = "block";
+        document.getElementById("no-bluetooth").open();
+      }
+      
+      commissionButton.addEventListener('click', function() {
+        // connect to bluetooth device
+        bleDevice.request().then(function() {
+          
+        // get data from ssid, format and write
+        let encoder = new TextEncoder("utf-8");
+        let ssidData = encoder.encode(ssid.value);
+        return ssidCharacteristic.writeValue(ssidData).then(() => {
+          console.log('SSID write done: ' + ssidData);
+        });
+        
+        // get data from password, format and write
+        let pwdData = encoder.encode(password.value);
+        return passwordCharacteristic.writeValue(pwdData).then(() => {
+          console.log('Password write done: ' + pwdData);
+        });
+        
+        // Write hard coded data to Control Point after writing SSID and Password: 01-A0-00-00-00-14-00-00-00-02
+        var controlPointData = new Uint8Array([0x01,0xA0,0x00,0x00,0x00,0x14,0x00,0x00,0x00,0x02]);
+        return controlCharacteristic.write(controlPointData).then(function() {
+        console.log('Control Point write done: ' + controlPointData);
+        });
+      })
+      .catch(function(error) { });
+      });
+    });
+
+  </script>
+</body>
+</html>
