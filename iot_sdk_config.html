@@ -85,8 +85,9 @@
   </platinum-bluetooth-device>
   
   <script>
+  
+  "use strict";
     document.addEventListener('WebComponentsReady', function() {
-      
       var commissionButton = document.querySelector('#commission');
       var ssid = document.querySelector('#ssid');
       var password = document.querySelector('#keys-store');
@@ -95,40 +96,40 @@
       var ssidCharacteristic = document.querySelector('#ssid-characteristic');
       var passwordCharacteristic = document.querySelector('#keys-store-characteristic');
       var controlCharacteristic = document.querySelector('#control-point-characteristic');
-      
       // check if bluetooth is supported
       if (navigator.bluetooth == undefined) {
         document.getElementById("no-bluetooth").style.display = "block";
         document.getElementById("no-bluetooth").open();
       }
-      
       commissionButton.addEventListener('click', function() {
         // connect to bluetooth device
         bleDevice.request().then(function() {
-          
-        // get data from ssid, format and write
-        let encoder = new TextEncoder("utf-8");
-        let ssidData = encoder.encode(ssid.value);
-        return ssidCharacteristic.writeValue(ssidData).then(() => {
-          console.log('SSID write done: ' + ssidData);
+          // get data from ssid, format and write
+          var encoder = new TextEncoder("utf-8");
+          var ssidData = encoder.encode(ssid.value);
+          return ssidCharacteristic.writeValue(ssidData);)}
+        .then((ssiData) => {
+          console.log('SSID write: ' + ssidData);
+        })
+        .then(() => {
+          // get data from password, format and write
+          var pwdData = encoder.encode(password.value);
+          return passwordCharacteristic.writeValue(pwdData)
         });
-        
-        // get data from password, format and write
-        let pwdData = encoder.encode(password.value);
-        return passwordCharacteristic.writeValue(pwdData).then(() => {
-          console.log('Password write done: ' + pwdData);
+        .then((pwData) => {
+          console.log('Password write: ' + pwdData);
+        })
+        .then(() => {
+          // Write hard coded data to Control Point after writing SSID and Password: 01-A0-00-00-00-14-00-00-00-02
+          var controlPointData = new Uint8Array([0x01,0xA0,0x00,0x00,0x00,0x14,0x00,0x00,0x00,0x02]);
+          return controlCharacteristic.write(controlPointData);
         });
-        
-        // Write hard coded data to Control Point after writing SSID and Password: 01-A0-00-00-00-14-00-00-00-02
-        var controlPointData = new Uint8Array([0x01,0xA0,0x00,0x00,0x00,0x14,0x00,0x00,0x00,0x02]);
-        return controlCharacteristic.write(controlPointData).then(function() {
-        console.log('Control Point write done: ' + controlPointData);
+        .then(() => {
+          console.log('Control Point write: ' + controlPointData);
         });
-      })
-      .catch(function(error) { });
       });
+      .catch(error);
     });
-
   </script>
 </body>
 </html>
