@@ -120,7 +120,7 @@
           // encoded data returns error when attempting a write
           // convert to Uint8Array before writing
           var ssidDataArray = strToUint8Array(ssid.value);
-          return ssidCharacteristic.write(ssidDataArray).then(function() {
+          ssidCharacteristic.write(ssidDataArray);
           console.log('Characteristic write done!');
           });
         })
