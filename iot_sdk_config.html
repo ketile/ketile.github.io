@@ -95,7 +95,7 @@
       var ssid = document.querySelector('#ssid');
       var password = document.querySelector('#keys-store');
       var controlPoint = document.querySelector('#control-point');
-      var bleDevice = document.querySelector('#ble-device');
+      var bleDevice = document.querySelector('platinum-bluetooth-device');
       var ssidCharacteristic = document.querySelector('#ssid-characteristic');
       var passwordCharacteristic = document.querySelector('#keys-store-characteristic');
       var controlCharacteristic = document.querySelector('#control-point-characteristic');
@@ -112,16 +112,19 @@
       
       function connect(){
         console.log("connect()");
+        var encoder = new TextEncoder("utf-8");
+        console.log("SSID: " + ssid.value + " (string)");
+        var ssidData = encoder.encode(ssid.value);  
+        console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
+        
         bleDevice.request().then(function() {
-          var encoder = new TextEncoder("utf-8");
-          console.log("SSID: " + ssid.value + " (string)");
-          var ssidData = encoder.encode(ssid.value);  
-          console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
           return ssidCharacteristic.write(ssidData).then(function() {
           console.log('Characteristic write done!');
           });
         })
-        .catch(function(error) {console.log(error); });
+        .catch(function(error) {
+          console.log(error);
+        });
       };
   
   function logTest(){
@@ -131,22 +134,22 @@
           // TextEncoder FTW?
           var encoder = new TextEncoder("utf-8");
 
-          console.log("SSID: " + ssid.value + " (string)");
+          console.log("SSID: " + ssid.value + " -" + typeof(ssid.value));
           var ssidData = encoder.encode(ssid.value);  
-          console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
+          console.log('SSID: ' + ssidData + " -" + typeof(ssidData) + " containing " + typeof(ssidData[0]) +"s"); // ascii compatible
           
-          console.log("PWD: " + password.value + " (string)");
+          console.log("PWD: " + password.value + " -" + typeof(password.value));
           var pwdData = encoder.encode(password.value); 
-          console.log('PWD: ' + pwdData + "(utf-8)"); // ascii compatible
+          console.log('PWD: ' + pwdData + " -" + typeof(pwdData) + " containing " + typeof(pwdData[0]) +"s"); // ascii compatible
           
           var passwordArray = strToUint8Array(password.value);
-          console.log("PWD: " + passwordArray + " Uint8 Array"); // ascii compatible
+          console.log("PWD: " + passwordArray + " -" + typeof(passwordArray) + " containing " + typeof(passwordArray[0]) +"s"); 
           
           var passwordArray2 = strToUint8ArrayInt(password.value);
-          console.log("PWD: " + passwordArray2 + " Uint8 Array (-48 to get numbers)");
+          console.log("PWD: " + passwordArray2 + " -" + typeof(passwordArray2) + " containing " + typeof(passwordArray2[0]) +"s");
           
           var controlPointData = new Uint8Array([0x01,0xA0,0x00,0x00,0x00,0x14,0x00,0x00,0x00,0x02]);
-          console.log('Control Point write: ' + controlPointData + " (decimal values)");
+          console.log('Control Point write: ' + controlPointData + " -" + typeof(controlPointData) + " containing " + typeof(controlPointData[0]) +"s");
   };
   
   function strToUint8Array(str){
