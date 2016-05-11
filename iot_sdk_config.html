@@ -112,7 +112,7 @@
       
       function connect(){
         console.log("connect()");
-        bluetoothDevice.request().then(function() {
+        bleDevice.request().then(function() {
           // Writing 1 is the signal to reset energy expended.
           var resetEnergyExpended = new Uint8Array([1]);
           return heartRateCtrlPoint.write(resetEnergyExpended).then(function() {
