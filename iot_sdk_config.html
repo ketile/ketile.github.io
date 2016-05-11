@@ -122,8 +122,8 @@
           var ssidDataArray = strToUint8Array(ssid.value);
           ssidCharacteristic.write(ssidDataArray);
           console.log('Characteristic write done!');
-          });
-        })
+          )};
+        }
         .catch(function(error) {
           console.log(error);
         });
