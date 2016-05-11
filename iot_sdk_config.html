@@ -87,8 +87,11 @@
   <script>
   
   "use strict";
+  
     document.addEventListener('WebComponentsReady', function() {
+      console.log("WebCompReady!");
       var commissionButton = document.querySelector('#commission');
+      var identifyButton = document.querySelector('#identify');
       var ssid = document.querySelector('#ssid');
       var password = document.querySelector('#keys-store');
       var controlPoint = document.querySelector('#control-point');
@@ -96,40 +99,76 @@
       var ssidCharacteristic = document.querySelector('#ssid-characteristic');
       var passwordCharacteristic = document.querySelector('#keys-store-characteristic');
       var controlCharacteristic = document.querySelector('#control-point-characteristic');
+    
+      
+      commissionButton.addEventListener('click', connect);
+      identifyButton.addEventListener('click', logTest);
+      
       // check if bluetooth is supported
       if (navigator.bluetooth == undefined) {
         document.getElementById("no-bluetooth").style.display = "block";
         document.getElementById("no-bluetooth").open();
       }
-      commissionButton.addEventListener('click', function() {
-        // connect to bluetooth device
-        bleDevice.request().then(function() {
-          // get data from ssid, format and write
+      
+      function connect(){
+        console.log("connect()");
+        bluetoothDevice.request().then(function() {
+          // Writing 1 is the signal to reset energy expended.
+          var resetEnergyExpended = new Uint8Array([1]);
+          return heartRateCtrlPoint.write(resetEnergyExpended).then(function() {
+          console.log('Energy expended has been reset');
+          });
+        })
+        .catch(function(error) {console.log(error); });
+      };
+  
+  function logTest(){
+    
+          // It is really easy to send the data as a utf-8 encoded array (ascii compatible)
+          // How does this compute on the receiving device end?
+          // TextEncoder FTW?
           var encoder = new TextEncoder("utf-8");
-          var ssidData = encoder.encode(ssid.value);
-          return ssidCharacteristic.writeValue(ssidData);)}
-        .then((ssiData) => {
-          console.log('SSID write: ' + ssidData);
-        })
-        .then(() => {
-          // get data from password, format and write
-          var pwdData = encoder.encode(password.value);
-          return passwordCharacteristic.writeValue(pwdData)
-        });
-        .then((pwData) => {
-          console.log('Password write: ' + pwdData);
-        })
-        .then(() => {
-          // Write hard coded data to Control Point after writing SSID and Password: 01-A0-00-00-00-14-00-00-00-02
+
+          console.log("SSID: " + ssid.value + " (string)");
+          var ssidData = encoder.encode(ssid.value);  
+          console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
+          
+          console.log("PWD: " + password.value + " (string)");
+          var pwdData = encoder.encode(password.value); 
+          console.log('PWD: ' + pwdData + "(utf-8)"); // ascii compatible
+          
+          var passwordArray = strToUint8Array(password.value);
+          console.log("PWD: " + passwordArray + " Uint8 Array"); // ascii compatible
+          
+          var passwordArray2 = strToUint8ArrayInt(password.value);
+          console.log("PWD: " + passwordArray2 + " Uint8 Array (-48 to get numbers)");
+          
           var controlPointData = new Uint8Array([0x01,0xA0,0x00,0x00,0x00,0x14,0x00,0x00,0x00,0x02]);
-          return controlCharacteristic.write(controlPointData);
-        });
-        .then(() => {
-          console.log('Control Point write: ' + controlPointData);
-        });
-      });
-      .catch(error);
-    });
+          console.log('Control Point write: ' + controlPointData + " (decimal values)");
+  };
+  
+  function strToUint8Array(str){
+    var bytes = [];
+    for (var i = 0; i < str.length; ++i) {
+      bytes.push(str.charCodeAt(i));
+    }
+    return bytes;
+  };
+  
+    function strToUint8ArrayInt(str){
+    var bytes = [];
+    for (var i = 0; i < str.length; ++i) {
+      bytes.push(str.charCodeAt(i)-48);
+    }
+    return bytes;
+  };
+  
+});
+        
+
+  
+
+
   </script>
 </body>
 </html>
