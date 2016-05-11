@@ -112,12 +112,11 @@
       
       function connect(){
         console.log("connect()");
-        var encoder = new TextEncoder("utf-8");
-        console.log("SSID: " + ssid.value + " (string)");
-        var ssidData = encoder.encode(ssid.value);  
-        console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
-        
         bleDevice.request().then(function() {
+          var encoder = new TextEncoder("utf-8");
+          console.log("SSID: " + ssid.value + " (string)");
+          var ssidData = encoder.encode(ssid.value);  
+          console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
           return ssidCharacteristic.write(ssidData).then(function() {
           console.log('Characteristic write done!');
           });
