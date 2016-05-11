@@ -113,10 +113,12 @@
       function connect(){
         console.log("connect()");
         bleDevice.request().then(function() {
-          // Writing 1 is the signal to reset energy expended.
-          var resetEnergyExpended = new Uint8Array([1]);
-          return heartRateCtrlPoint.write(resetEnergyExpended).then(function() {
-          console.log('Energy expended has been reset');
+          var encoder = new TextEncoder("utf-8");
+          console.log("SSID: " + ssid.value + " (string)");
+          var ssidData = encoder.encode(ssid.value);  
+          console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
+          return ssidCharacteristic.write(ssidData).then(function() {
+          console.log('Characteristic write done!');
           });
         })
         .catch(function(error) {console.log(error); });
