@@ -119,7 +119,7 @@
           console.log('SSID: ' + ssidData + "(utf-8)"); // ascii compatible
           // encoded data returns error when attempting a write
           // convert to Uint8Array before writing
-          var ssidDataArray = strToUint8Array(ssidData);
+          var ssidDataArray = strToUint8Array(ssid.value);
           return ssidCharacteristic.write(ssidDataArray).then(function() {
           console.log('Characteristic write done!');
           });
