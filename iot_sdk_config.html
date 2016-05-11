@@ -120,15 +120,14 @@
           // encoded data returns error when attempting a write
           // convert to Uint8Array before writing
           var ssidDataArray = strToUint8Array(ssid.value);
-          ssidCharacteristic.write(ssidDataArray);
-          console.log('Characteristic write done!');
+          return ssidCharacteristic.write(ssidDataArray).then(function() {
+            console.log('Characteristic write done!');
           });
-        }
+        })
         .catch(function(error) {
           console.log(error);
         });
 
-  
   function logTest(){
     
           // It is really easy to send the data as a utf-8 encoded array (ascii compatible)
