@@ -43,8 +43,8 @@
             const rawDataUUID                   = '35310007-4b14-43f1-932e-06a86910429a';
             const eulerUUID                     = '35310008-4b14-43f1-932e-06a86910429a';
             const rotationMatrixUUID            = '35310009-4b14-43f1-932e-06a86910429a';
-            const headingUUID                   = '3531000A-4b14-43f1-932e-06a86910429a';
-            const gravityVectorUUID             = '3531000B-4b14-43f1-932e-06a86910429a';
+            const headingUUID                   = '3531000a-4b14-43f1-932e-06a86910429a';
+            const gravityVectorUUID             = '3531000b-4b14-43f1-932e-06a86910429a';
 
             // Common
             var bleDevice;
@@ -185,6 +185,7 @@
              bleConfigurationService.getCharacteristic(deviceNameUUID)
               .then(characteristic => {
                   deviceNameCharacteristic = characteristic;
+                 log(' ');
                   log('  Device Name Characteristic OK');
                   logProperties(characteristic);
               })
