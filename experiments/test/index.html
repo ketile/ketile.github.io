@@ -8,7 +8,7 @@
         <h1>BLE TEST</h1>
         <button id="connect" type="button">Connect</button>
         <button id="start-test" type="button">Start Test</button>
-        <div id="log">LOG</div>
+        <div id="logs">LOG</div>
         
         <script>
             // Configuration
@@ -83,7 +83,7 @@
 
             var connect = document.getElementById("connect");
             var startTest = document.getElementById("start-test");
-            var log = document.getElementById("log");
+            var logs = document.getElementById("log");
 
             connect.addEventListener("click", connectBLE);
             startTest.addEventListener("click", testBLE);
@@ -96,7 +96,7 @@
             
             function log(message){
                 console.log(message);
-                log.textContent += '\n' + message;
+                logs.textContent += '\n' + message;
             }
             
 
