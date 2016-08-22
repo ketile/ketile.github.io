@@ -117,7 +117,14 @@
                 }
 
               log('> Requesting Bluetooth Device...');
-              navigator.bluetooth.requestDevice({filters: [{services: [configurationServiceUUID, weatherStationServiceUUID, userInterfaceServiceUUID, motionServiceUUID]}]})
+                
+              navigator.bluetooth.requestDevice({
+                  filters: [{
+                      services: [configurationServiceUUID],
+                      optionalServices: [ weatherStationServiceUUID, userInterfaceServiceUUID, motionServiceUUID]                                             
+                  }]})
+              
+              
               .then(device => {
                   bleDevice = device;
                   log('  BLE Device OK');
