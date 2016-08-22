@@ -99,7 +99,7 @@
             }
             
             function logProperties(characteristic){
-                log('> Characteristic UUID:  ' + characteristic.uuid);
+                log('> UUID:                 ' + characteristic.uuid);
                 log('> Broadcast:            ' + characteristic.properties.broadcast);
                 log('> Read:                 ' + characteristic.properties.read);
                 log('> Write w/o response:   ' +
@@ -112,6 +112,7 @@
                 log('> Queued Write:         ' + characteristic.properties.reliableWrite);
                 log('> Writable Auxiliaries: ' +
                   characteristic.properties.writableAuxiliaries);
+                log('> Value (cached):       ' + characteristic.value);
                 log(' ');
             }
             
