@@ -88,11 +88,17 @@
             connect.addEventListener("click", connectBLE);
             startTest.addEventListener("click", testBLE);
 
+//           function log(message){
+//               console.log(message);
+//               var content = document.createTextNode(message);
+//               log.appendChild(content);
+//           }
+            
             function log(message){
                 console.log(message);
-                var content = document.createTextNode(message);
-                log.appendChild(content);
+                log.textContent += '\n' + message;
             }
+            
 
             // Connect to BLE device, server and services
             function connectBLE(){
