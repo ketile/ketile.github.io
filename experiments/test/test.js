@@ -74,8 +74,8 @@ var connect = document.getElementById("connect");
 var startTest = document.getElementById("start-test");
 var log = document.getElementById("log");
 
-connect.addEventListener(connectBLE);
-startTest.addEventListener(testBLE);
+connect.addEventListener("click", connectBLE);
+startTest.addEventListener("click", testBLE);
 
 // Connect to BLE device, server and services
 function connectBLE(){
