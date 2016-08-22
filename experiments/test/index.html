@@ -168,7 +168,7 @@
               .then(characteristic => {
                   advertisingParametersCharacteristic = characteristic;
                   log('  Advertising Parameters Characteristic OK');
-                  logProperties(characteristic);
+                  logProperties(advertisingParametersCharacteristic);
               })
              .then(() => {
                   bleService.getCharacteristic(appearanceUUID);
