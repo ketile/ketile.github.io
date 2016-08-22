@@ -96,7 +96,9 @@
             
             function log(message){
                 console.log(message);
-                logs.textContent += '\n' + message;
+                var content = document.createTextNode('<br />' + message);
+//                logs.textContent += '\n' + message;
+                logs.appendChild(content);
             }
             
 
