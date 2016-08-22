@@ -1,3 +1,5 @@
+window.onload = function(){
+
 // Configuration
 const configurationServiceUUID    = 'ef680001-9b35-4933-9b10-52ffa9740042';
 const deviceNameUUID              = 'ef680002-9b35-4933-9b10-52ffa9740042';
@@ -63,7 +65,7 @@ var orientationCharacteristic;
 var quaternionCharacteristic;
 var pedometerCharacteristic;
 var rawDataCharacteristic;
-var eulerUUID;
+var eulerCharacteristic;
 var rotationMatrixCharacteristic;
 var headingCharacteristic;
 var gravityVectorCharacteristic;
@@ -136,3 +138,4 @@ function log(message){
     log.appendChild(content);
 }
 
+}
