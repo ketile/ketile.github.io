@@ -147,28 +147,28 @@
               .then(server => {
                   bleServer = server;
                   log('  BLE Server OK');
-                  return server.getPrimaryService(configurationServiceUUID);
+                  return bleServer.getPrimaryService(configurationServiceUUID);
               })
               .then(service => {
                   log('  BLE Configuration Service OK');
                   bleConfigurationService = service;
               })
               .then(() => {
-                  return server.getPrimaryService(weatherStationServiceUUID);
+                  return bleServer.getPrimaryService(weatherStationServiceUUID);
               })
               .then(service => {
                   log('  BLE Weather Station Service OK');
                   bleWeatherStationService = service;
               })  
               .then(() => {
-                  return server.getPrimaryService(userInterfaceServiceUUID);
+                  return bleServer.getPrimaryService(userInterfaceServiceUUID);
               })
               .then(service => {
                   log('  BLE User Interface Service OK');
                   bleUserInterfaceService = service;
               }) 
               .then(() => {
-                  return server.getPrimaryService(motionServiceUUID);
+                  return bleServer.getPrimaryService(motionServiceUUID);
               })
               .then(service => {
                   log('  BLE Weather Station Service OK');
