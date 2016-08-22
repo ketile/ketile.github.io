@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
     <head>
         <title>BLE TEST</title>
@@ -87,12 +86,6 @@
 
             connect.addEventListener("click", connectBLE);
             startTest.addEventListener("click", testBLE);
-
-//           function log(message){
-//               console.log(message);
-//               var content = document.createTextNode(message);
-//               log.appendChild(content);
-//           }
             
             function log(message){
                 console.log(message);
@@ -100,6 +93,22 @@
                 logs.appendChild(linebreak);
                 var content = document.createTextNode(message);
                 logs.appendChild(content);
+            }
+            
+            function logProperties(characteristic){
+                log('> Characteristic UUID:  ' + characteristic.uuid);
+                log('> Broadcast:            ' + characteristic.properties.broadcast);
+                log('> Read:                 ' + characteristic.properties.read);
+                log('> Write w/o response:   ' +
+                  characteristic.properties.writeWithoutResponse);
+                log('> Write:                ' + characteristic.properties.write);
+                log('> Notify:               ' + characteristic.properties.notify);
+                log('> Indicate:             ' + characteristic.properties.indicate);
+                log('> Signed Write:         ' +
+                  characteristic.properties.authenticatedSignedWrites);
+                log('> Queued Write:         ' + characteristic.properties.reliableWrite);
+                log('> Writable Auxiliaries: ' +
+                  characteristic.properties.writableAuxiliaries);
             }
             
 
@@ -122,12 +131,14 @@
                   filters: [{
                       services: [configurationServiceUUID],
                       optionalServices: [ weatherStationServiceUUID, userInterfaceServiceUUID, motionServiceUUID]                                             
-                  }]})
-              
-              
+                  }]})              
               .then(device => {
                   bleDevice = device;
                   log('  BLE Device OK');
+                  log('> Name:             ' + bleDevice.name);
+                  log('> ID:               ' + bleDevice.id);
+                  log('> Allowed Services: ' + bleDevice.uuids.join('\n' + ' '.repeat(20)));
+                  log('> Connected:        ' + bleDevice.gatt.connected);                  
                   return device.gatt.connect();
               })
               .then(server => {
@@ -151,6 +162,7 @@
               .then(characteristic => {
                   deviceNameCharacteristic = characteristic;
                   log('  Device Name Characteristic OK');
+                  logProperties(characteristic);
               })
              .then(() => {
                   bleService.getCharacteristic(advertisingParametersUUID)
