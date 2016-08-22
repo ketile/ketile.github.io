@@ -162,14 +162,14 @@
                   log('  Device Name Characteristic OK');
                   logProperties(characteristic);
               })
- //           .then(() => {
- //                bleService.getCharacteristic(advertisingParametersUUID)
- //            })
- //            .then(characteristic => {
- //                advertisingParametersCharacteristic = characteristic;
- //                log('  Advertising Parameters Characteristic OK');
- //                logProperties(characteristic);
- //            })
+            .then(() => {
+                return bleService.getCharacteristic(advertisingParametersUUID);
+             })
+             .then(characteristic => {
+                 advertisingParametersCharacteristic = characteristic;
+                 log('  Advertising Parameters Characteristic OK');
+                 logProperties(characteristic);
+             })
              .then(() => {
                   bleService.getCharacteristic(appearanceUUID);
               })
