@@ -86,6 +86,9 @@ function connectBLE(){
           '  flag is enabled.');
       return;
   }
+    else{
+        alert('connectBLE');
+    }
 
   log('> Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice({filters: [{services: [configurationServiceUUID, weatherStationServiceUUID, userInterfaceServiceUUID, motionServiceUUID]}]})
@@ -134,7 +137,7 @@ function testBLE(){
 
 function log(message){
     console.log(message);
-    var content = document.createTextNode("<b>" + message);
+    var content = document.createTextNode(message);
     log.appendChild(content);
 }
 
