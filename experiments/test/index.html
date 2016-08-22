@@ -49,7 +49,10 @@
             // Common
             var bleDevice;
             var bleServer;
-            var bleService;
+            var bleConfigurationService;
+            var bleWeatherStationService;
+            var bleUserInterfaceService;
+            var bleMotionService;
 
             // Characteristics
             var deviceNameCharacteristic;
@@ -147,9 +150,30 @@
                   return server.getPrimaryService(configurationServiceUUID);
               })
               .then(service => {
-                  log('  BLE Service OK');
-                  bleService = service;
+                  log('  BLE Configuration Service OK');
+                  bleConfigurationService = service;
               })
+              .then(() => {
+                  return server.getPrimaryService(weatherStationServiceUUID);
+              })
+              .then(service => {
+                  log('  BLE Weather Station Service OK');
+                  bleWeatherStationService = service;
+              })  
+              .then(() => {
+                  return server.getPrimaryService(userInterfaceServiceUUID);
+              })
+              .then(service => {
+                  log('  BLE User Interface Service OK');
+                  bleUserInterfaceService = service;
+              }) 
+              .then(() => {
+                  return server.getPrimaryService(motionServiceUUID);
+              })
+              .then(service => {
+                  log('  BLE Weather Station Service OK');
+                  bleMotionService = service;
+              })               
                 .catch(error => {
                   log('> Error: ' + error);
               });
@@ -158,14 +182,14 @@
             // Test characteristics
             function testBLE(){
 
-             bleService.getCharacteristic(deviceNameUUID)
+             bleConfigurationService.getCharacteristic(deviceNameUUID)
               .then(characteristic => {
                   deviceNameCharacteristic = characteristic;
                   log('  Device Name Characteristic OK');
                   logProperties(characteristic);
               })
             .then(() => {
-                return bleService.getCharacteristic(advertisingParametersUUID);
+                return bleConfigurationService.getCharacteristic(advertisingParametersUUID);
              })
              .then(characteristic => {
                  advertisingParametersCharacteristic = characteristic;
@@ -173,7 +197,7 @@
                  logProperties(characteristic);
              })
              .then(() => {
-                  return bleService.getCharacteristic(appearanceUUID);
+                  return bleConfigurationService.getCharacteristic(appearanceUUID);
               })
               .then(characteristic => {
                   appearanceCharacteristic = characteristic;
@@ -181,7 +205,7 @@
                   logProperties(characteristic);
               })
              .then(() => {
-                  return bleService.getCharacteristic(connectionParametersUUID);
+                  return bleConfigurationService.getCharacteristic(connectionParametersUUID);
               })
               .then(characteristic => {
                   connectionParametersCharacteristic = characteristic;
@@ -189,7 +213,7 @@
                   logProperties(characteristic);                 
               })
              .then(() => {
-                  return bleService.getCharacteristic(eddystoneUrlUUID);
+                  return bleConfigurationService.getCharacteristic(eddystoneUrlUUID);
               })
               .then(characteristic => {
                   eddystoneUrlCharacteristic = characteristic;
@@ -197,7 +221,7 @@
                   logProperties(characteristic);                 
               })
              .then(() => {
-                  return bleService.getCharacteristic(cloudTokenUUID);
+                  return bleConfigurationService.getCharacteristic(cloudTokenUUID);
               })
               .then(characteristic => {
                   cloudTokenCharacteristic = characteristic;
@@ -205,7 +229,7 @@
                   logProperties(characteristic);                 
               })
              .then(() => {
-                  return bleService.getCharacteristic(temperatureUUID);
+                  return bleWeatherStationService.getCharacteristic(temperatureUUID);
               })
               .then(characteristic => {
                   temperatureCharacteristic = characteristic;
@@ -213,7 +237,7 @@
                   logProperties(characteristic);                 
               })
              .then(() => {
-                  return bleService.getCharacteristic(pressureUUID);
+                  return bleWeatherStationService.getCharacteristic(pressureUUID);
               })
               .then(characteristic => {
                   pressureCharacteristic = characteristic;
@@ -221,7 +245,7 @@
                   logProperties(characteristic);                 
               })
              .then(() => {
-                  return bleService.getCharacteristic(humidityUUID);
+                  return bleWeatherStationService.getCharacteristic(humidityUUID);
               })
               .then(characteristic => {
                   humidityCharacteristic = characteristic;
@@ -229,7 +253,7 @@
                   logProperties(characteristic);                 
               })     
              .then(() => {
-                  return bleService.getCharacteristic(gasUUID);
+                  return bleWeatherStationService.getCharacteristic(gasUUID);
               })
               .then(characteristic => {
                   gasCharacteristic = characteristic;
@@ -237,7 +261,7 @@
                   logProperties(characteristic);                 
               }) 
              .then(() => {
-                  return bleService.getCharacteristic(colorUUID);
+                  return bleWeatherStationService.getCharacteristic(colorUUID);
               })
               .then(characteristic => {
                   colorCharacteristic = characteristic;
@@ -245,7 +269,7 @@
                   logProperties(characteristic);                 
               }) 
              .then(() => {
-                  return bleService.getCharacteristic(weatherConfigurationUUID);
+                  return bleWeatherStationService.getCharacteristic(weatherConfigurationUUID);
               })
               .then(characteristic => {
                   weatherConfigurationCharacteristic = characteristic;
@@ -253,7 +277,7 @@
                   logProperties(characteristic);                 
               }) 
              .then(() => {
-                  return bleService.getCharacteristic(ledUUID);
+                  return bleUserInterfaceService.getCharacteristic(ledUUID);
               })
               .then(characteristic => {
                   ledCharacteristic = characteristic;
@@ -261,7 +285,7 @@
                   logProperties(characteristic);                 
               }) 
              .then(() => {
-                  return bleService.getCharacteristic(buttonUUID);
+                  return bleUserInterfaceService.getCharacteristic(buttonUUID);
               })
               .then(characteristic => {
                   buttonCharacteristic = characteristic;
@@ -269,7 +293,7 @@
                   logProperties(characteristic);                 
               }) 
              .then(() => {
-                  return bleService.getCharacteristic(motionConfigurationUUID);
+                  return bleMotionService.getCharacteristic(motionConfigurationUUID);
               })
               .then(characteristic => {
                   motionConfigurationCharacteristic = characteristic;
@@ -277,7 +301,7 @@
                   logProperties(characteristic);                 
               }) 
              .then(() => {
-                  return bleService.getCharacteristic(tapUUID);
+                  return bleMotionService.getCharacteristic(tapUUID);
               })
               .then(characteristic => {
                   tapCharacteristic = characteristic;
@@ -285,7 +309,7 @@
                   logProperties(characteristic);                 
               }) 
              .then(() => {
-                  return bleService.getCharacteristic(orientationUUID);
+                  return bleMotionService.getCharacteristic(orientationUUID);
               })
               .then(characteristic => {
                   orientationCharacteristic = characteristic;
@@ -293,7 +317,7 @@
                   logProperties(characteristic);                 
               })    
              .then(() => {
-                  return bleService.getCharacteristic(quaternionUUID);
+                  return bleMotionService.getCharacteristic(quaternionUUID);
               })
               .then(characteristic => {
                   quaternionCharacteristic = characteristic;
@@ -301,7 +325,7 @@
                   logProperties(characteristic);                 
               })   
              .then(() => {
-                  return bleService.getCharacteristic(pedometerUUID);
+                  return bleMotionService.getCharacteristic(pedometerUUID);
               })
               .then(characteristic => {
                   pedometerCharacteristic = characteristic;
@@ -309,7 +333,7 @@
                   logProperties(characteristic);                 
               })   
              .then(() => {
-                  return bleService.getCharacteristic(rawDataUUID);
+                  return bleMotionService.getCharacteristic(rawDataUUID);
               })
               .then(characteristic => {
                   rawDataCharacteristic = characteristic;
@@ -317,7 +341,7 @@
                   logProperties(characteristic);                 
               })   
              .then(() => {
-                  return bleService.getCharacteristic(eulerUUID);
+                  return bleMotionService.getCharacteristic(eulerUUID);
               })
               .then(characteristic => {
                   eulerCharacteristic = characteristic;
@@ -325,7 +349,7 @@
                   logProperties(characteristic);                 
               })   
              .then(() => {
-                  return bleService.getCharacteristic(rotationMatrixUUID);
+                  return bleMotionService.getCharacteristic(rotationMatrixUUID);
               })
               .then(characteristic => {
                   rotationMatrixCharacteristic = characteristic;
@@ -333,7 +357,7 @@
                   logProperties(characteristic);                 
               })   
              .then(() => {
-                  return bleService.getCharacteristic(headingUUID);
+                  return bleMotionService.getCharacteristic(headingUUID);
               })
               .then(characteristic => {
                   headingCharacteristic = characteristic;
@@ -341,7 +365,7 @@
                   logProperties(characteristic);                 
               })   
              .then(() => {
-                  return bleService.getCharacteristic(gravityVectorUUID);
+                  return bleMotionService.getCharacteristic(gravityVectorUUID);
               })
               .then(characteristic => {
                   gravityVectorCharacteristic = characteristic;
