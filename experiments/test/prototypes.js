@@ -33,6 +33,7 @@ function logRawHexValues(event){
       for (let i = 0; i < value.byteLength; i++) {
         a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
       }
+      log('> ' + event.target.tagName);
       log('> ' + a.join(' '));
 }
 
