@@ -33,6 +33,7 @@ function logRawHexValues(event){
       for (let i = 0; i < value.byteLength; i++) {
         a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
       }
+      log('> ' + event);
       log('> ' + event.target.tagName);
       log('> ' + a.join(' '));
 }
@@ -50,7 +51,7 @@ function notificationTest(characteristic){
     
     // 3. log data as raw hex values
     //    this is performed in the event handler
-    
+    log('> ' + characteristic);
     // 4. let some time pass...
     
     // 5. stop notifications for given characteristic
