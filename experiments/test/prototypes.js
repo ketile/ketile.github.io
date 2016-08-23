@@ -63,7 +63,7 @@ function notificationTest(characteristic){
 
 function stopAllNotifications(allCharacteristics){
     // run over an array containing all characteristics
-    allCharacteristics.forEach(function(item){
+    allCharacteristics.forEach(function(item, index, array){
         // check if characteristic supports notifications
         if(item.properties.notify){
             item.stopNotifications();
