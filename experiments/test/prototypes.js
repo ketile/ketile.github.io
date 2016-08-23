@@ -33,7 +33,7 @@ function logRawHexValues(event){
       for (let i = 0; i < value.byteLength; i++) {
         a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
       }
-      log('> ' + a.join(' '));
+      log('> ' + a.join(' ') + '(Bytewise reversed)');
 }
 
 function notificationTest(characteristic){
@@ -47,12 +47,11 @@ function notificationTest(characteristic){
     // 2. start notifications for given characteristic
     startNotification(characteristic);
     
-    // 3. log data as raw hex values
+    // 3a. log data as raw hex values
     //    this is performed in the event handler
-    log('> ' + characteristic.constructor.name); // > BluetoothRemoteGATTCharacteristic
-    log('> ' + characteristic.name); // undefined
-    log('> ' + characteristic); // 
-    log('> ' + characteristic.uuid); // 
+    
+    // 3b. log metadata about the characteristic itself
+    log('> Testing Characteristic UUID: ' + characteristic.uuid);  
 
     // 4. let some time pass...
     
@@ -60,4 +59,15 @@ function notificationTest(characteristic){
     stopNotification(characteristic);
     
     // event handler is destroyed when function is exited
+}
+
+function stopAllNotifications(allCharacteristics){
+    // run over an array containing all characteristics
+    allCharacteristics.forEach(function(item){
+        // check if characteristic supports notifications
+        if(item.properties.notify){
+            item.stopNotifications();
+            log("> Stopping notifications for UUID: " + item.uuid);
+        }  
+    })
 }
