@@ -8,7 +8,7 @@ function stopNotification(characteristic){
     characteristic.stopNotifications();
 }
 
-function handleNotificationData(characteristic, dataFormat[]){
+function handleNotificationData(characteristic, dataFormat){
     // generic callback for handling notification data from a characteristic
     // the array input contains information on how many bytes and how they should be read
 }
