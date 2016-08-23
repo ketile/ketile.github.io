@@ -388,10 +388,8 @@
                 // The following code uses the characteristicvaluechanged event listener
                 // https://googlechrome.github.io/samples/web-bluetooth/read-characteristic-value-changed.html
                 
-                headingCharacteristic.addEventListener('characteristicvaluechanged', handleHeadingCharacteristicChanged)
-                log(' Added headingCharacteristic event listener');
-                log(' Attempting to read data...');
-                headingCharacteristic.readValue();  
+                headingCharacteristic.addEventListener('characteristicvaluechanged', handleHeadingCharacteristicChanged);
+                log(' Added headingCharacteristic event listener'); 
                 log('Starting Notifications');
                 headingCharacteristic.startNotifications();
             }
