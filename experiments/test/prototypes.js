@@ -71,3 +71,32 @@ function stopAllNotifications(allCharacteristics){
         }  
     })
 }
+
+function addAllCharacteristics(){
+    allCharacteristics = [
+                deviceNameCharacteristic,
+                advertisingParametersCharacteristic,
+                appearanceCharacteristic,
+                connectionParametersCharacteristic,
+                eddystoneUrlCharacteristic,
+                cloudTokenCharacteristic,
+                temperatureCharacteristic,
+                pressureCharacteristic,
+                humidityCharacteristic,
+                gasCharacteristic,
+                colorCharacteristic,
+                weatherConfigurationCharacteristic,
+                ledCharacteristic,
+                buttonCharacteristic,
+                motionConfigurationCharacteristic,
+                tapCharacteristic,
+                orientationCharacteristic,
+                quaternionCharacteristic,
+                pedometerCharacteristic,
+                rawDataCharacteristic,
+                eulerCharacteristic,
+                rotationMatrixCharacteristic,
+                headingCharacteristic,
+                gravityVectorCharacteristic
+                ];
+};
