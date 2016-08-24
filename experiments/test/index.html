@@ -9,9 +9,11 @@
         <button id="start-characteristic-test" type="button">2. Start Characteristic Tests</button>
         <button id="start-notification-test" type="button">3. Start Notification Test</button>
         <button id="stop-notification-test" type="button">4. Stop Notifications</button>
-        <button id="discconnect" type="button">5. Disconnect</button>
+        <button id="disconnect" type="button">5. Disconnect</button>
         
         <div id="logs"><br><b>LOG</b></div>
+        
+        <script src="prototypes.js"></script>
         
         <script>
             // Configuration
@@ -152,7 +154,9 @@
                   log('> Name:             ' + bleDevice.name);
                   log('> ID:               ' + bleDevice.id);
                   log('> Allowed Services: ' + bleDevice.uuids.join('\n' + ' '.repeat(20)));
-                  log('> Connected:        ' + bleDevice.gatt.connected);                  
+                  log('> Connected:        ' + bleDevice.gatt.connected); 
+                  // add event listener in case of device disconnect
+                  bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
                   return device.gatt.connect();
               })
               .then(server => {
@@ -422,10 +426,15 @@
                   }
                   log('> ' + a.join(' ') + '  (Bytewise reversed)');
             }
+            
+            function onDisconnected(event) {
+                // Object event.target is Bluetooth Device getting disconnected.
+                log('> Bluetooth Device disconnected');
+            }
 
             
         </script>
-        <script src="prototypes.js"></script>
+        
     </body>
 </html>
 
