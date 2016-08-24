@@ -83,6 +83,17 @@ function startAllNotifications(allCharacteristics){
     })
 }
 
+function startAllNotificationsWithHandlers(allCharacteristics){
+    // run over an array containing all characteristics
+    allCharacteristics.forEach(function(item, index, array){
+        // check if characteristic supports notifications
+        if(item.properties.notify){
+            notificationTest(item);
+            log("> Starting notifications for UUID: " + item.uuid);
+        }  
+    })
+}
+
 function addAllCharacteristics(){
     allCharacteristics = [
                 deviceNameCharacteristic,
