@@ -33,7 +33,9 @@ function logRawHexValues(event){
       for (let i = 0; i < value.byteLength; i++) {
         a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
       }
-      log('> ' + a.join(' ') + '(Bytewise reversed)');
+      log('> ' + a.join(' ') + ' (raw data)');
+      a.reverse();
+      log('> ' + a.join(' ') + ' (bytewise reversed)');
 }
 
 function notificationTest(characteristic){
