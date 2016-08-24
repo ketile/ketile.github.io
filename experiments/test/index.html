@@ -99,8 +99,7 @@
 
             connect.addEventListener("click", connectBLE);
             startCharacteristicTest.addEventListener("click", testCharacteristics);
-            startNotificationTest.addEventListener("click", startAllNotificationsWithHandlers(allCharacteristics));
-            stopNotificationTest.addEventListener("click", stopAllNotifications(allCharacteristics));
+            
             
             function log(message){
                 console.log(message);
@@ -391,6 +390,9 @@
              .then(() => {
                  // add all characteristic objects to array for easy use
                  addAllCharacteristics();
+                 // register event handlers for buttons
+                 startNotificationTest.addEventListener("click", startAllNotificationsWithHandlers(allCharacteristics));
+                 stopNotificationTest.addEventListener("click", stopAllNotifications(allCharacteristics));
              })
               .catch(error => {
                   log('> Error: ' + error);
