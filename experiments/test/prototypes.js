@@ -61,7 +61,7 @@ function notificationTest(characteristic){
     // event handler is destroyed when function is exited
 }
 
-function stopAllNotifications(allCharacteristics){
+function stopAllNotifications(){
     // run over an array containing all characteristics
     allCharacteristics.forEach(function(item, index, array){
         // check if characteristic supports notifications
@@ -83,7 +83,7 @@ function startAllNotifications(allCharacteristics){
     })
 }
 
-function startAllNotificationsWithHandlers(allCharacteristics){
+function startAllNotificationsWithHandlers(){
     // run over an array containing all characteristics
     allCharacteristics.forEach(function(item, index, array){
         // check if characteristic supports notifications
