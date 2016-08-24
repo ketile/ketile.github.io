@@ -7,8 +7,9 @@
         <h1>BLE TEST</h1>
         <button id="connect" type="button">1. Connect</button>
         <button id="start-characteristic-test" type="button">2. Start Characteristic Tests</button>
-        <button id="start-notification-test" type="button">3. Start Notification Tests</button>
-        <div id="logs">LOG</div>
+        <button id="start-notification-test" type="button">3. Start Notification Test</button>
+        <button id="stop-notification-test" type="button">4. Stop Notifications</button>
+        <div id="logs"><br><b>LOG</b></div>
         
         <script>
             // Configuration
@@ -89,11 +90,13 @@
             var connect = document.getElementById("connect");
             var startCharacteristicTest = document.getElementById("start-characteristic-test");
             var startNotificationTest = document.getElementById("start-notification-test");
+            var stopNotificationTest = document.getElementById("stop-notification-test");
             var logs = document.getElementById("logs");
 
             connect.addEventListener("click", connectBLE);
             startCharacteristicTest.addEventListener("click", testCharacteristics);
-            startNotificationTest.addEventListener("click", testNotifications);
+            startNotificationTest.addEventListener("click", startAllNotificationsWithHandlers(allCharacteristics));
+            stopNotificationTest.addEventListener("click", stopAllNotifications(allCharacteristics));
             
             function log(message){
                 console.log(message);
@@ -378,7 +381,11 @@
                   gravityVectorCharacteristic = characteristic;
                   log('  Gravity Vector Characteristic OK');
                   logProperties(characteristic);                 
-              })               
+              })
+             .then(() => {
+                 // add all characteristic objects to array for easy use
+                 addAllCharacteristics();
+             }
               .catch(error => {
                   log('> Error: ' + error);
               });

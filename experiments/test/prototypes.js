@@ -122,3 +122,8 @@ function addAllCharacteristics(){
                 gravityVectorCharacteristic
                 ];
 };
+
+
+
+
+
