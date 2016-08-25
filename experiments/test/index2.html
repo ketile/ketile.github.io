@@ -112,6 +112,11 @@
                 });
             }                
 
+            function onDisconnected(event) {
+                // Object event.target is Bluetooth Device getting disconnected.
+                log('> Bluetooth Device disconnected');
+                document.querySelector('#status').innerHTML = "Disconnected";
+            }
             
             function bleDisconnect(){
                 if (!bluetoothDevice) {
