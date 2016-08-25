@@ -316,6 +316,10 @@
                  // add all characteristic objects to array for easy use
                  addAllCharacteristics();
              })
+             .then(() => {
+                 // add event listeners for characteristics with notification enabled
+                 addEventListeners();
+             })
               .catch(error => {
                   log('> Error: ' + error);
               });
@@ -371,7 +375,12 @@
                             headingCharacteristic,
                             gravityVectorCharacteristic
                             ];
-            }            
+            }    
+            
+            function addEventListeners(){
+                temperatureCharacteristic.addEventListener('characteristicvaluechanged', temperatureNotificationEvent);
+                log(' Added temperatureCharacteristic event listener');
+            }
             
             function bleReconnect(){
                 
