@@ -13,7 +13,7 @@
           <br><br>  
             <select id="characteristics">
                 <option selected disabled>Characteristics</option>
-                <option value="temperatureNotificationEvent()">temperature</option>
+                <option value="temperatureNotificationEvent">temperature</option>
                 <option value="pressure">pressure</option>
                 <option value="humidity">humidity</option>
                 <option value="gas-air-quality">gas-air-quality</option>
@@ -142,9 +142,11 @@
             }
             
             function bleTest(){
+                // TODO: add stopNotifications of any already running notifications
                 var fn = document.querySelector("#characteristics").value;
                 log('> You chose: ' + fn);
-                fn;
+                // run the selected function
+                window[fn]();
             }
             
             function temperatureNotificationEvent(){
