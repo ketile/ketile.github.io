@@ -30,22 +30,111 @@
             </select>
             <button id="btn-test">Test Notification</button>
         
+        <script src="utils.js"></script>
+        <script src="ble.js"></script>
         
         <script>
-            document.querySelector('btn-connect').addEventListener('click', bleConnect);
-            document.querySelector('btn-disconnect').addEventListener('click', bleDisconnect);
-            document.querySelector('btn-reconnect').addEventListener('click', bleReconnect);
-            document.querySelector('btn-test').addEventListener('click', bleTest);
+            document.querySelector('#btn-connect').addEventListener('click', bleConnect);
+            document.querySelector('#btn-disconnect').addEventListener('click', bleDisconnect);
+            document.querySelector('#btn-reconnect').addEventListener('click', bleReconnect);
+            document.querySelector('#btn-test').addEventListener('click', bleTest);
             
             function bleConnect(){
+                if (!navigator.bluetooth) 
+                {
+                  alert('> Web Bluetooth API is not available.\n' +
+                      '  Please make sure the Web Bluetooth\n' +
+                      '  flag is enabled.');
+                  return;
+                }
+
+                log('> Requesting Bluetooth Device...');
+
+                navigator.bluetooth.requestDevice({
+                    filters: [
+                        {services: [configurationServiceUUID] }
+                    ],
+                        optionalServices: [weatherStationServiceUUID, userInterfaceServiceUUID, motionServiceUUID]                                             
+                }) 
                 
-            }
+                .then(device => {
+                    bleDevice = device;
+                    log('  BLE Device OK');
+                    log('> Name:             ' + bleDevice.name);
+                    log('> ID:               ' + bleDevice.id);
+                    log('> Allowed Services: ' + bleDevice.uuids.join('\n' + ' '.repeat(20)));
+                    log('> Connected:        ' + bleDevice.gatt.connected); 
+                    // add event listener in case of device disconnect
+                    bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+                    return device.gatt.connect();
+                })
+                
+                .then(server => {
+                  bleServer = server;
+                  log('  BLE Server OK');
+                  return bleServer.getPrimaryService(configurationServiceUUID);
+                })
+                
+                .then(service => {
+                  log('  BLE Configuration Service OK');
+                  bleConfigurationService = service;
+                })
+                
+                .then(() => {
+                  return bleServer.getPrimaryService(weatherStationServiceUUID);
+                })
+                
+                .then(service => {
+                  log('  BLE Weather Station Service OK');
+                  bleWeatherStationService = service;
+                })
+                
+                .then(() => {
+                  return bleServer.getPrimaryService(userInterfaceServiceUUID);
+                })
+                
+                .then(service => {
+                  log('  BLE User Interface Service OK');
+                  bleUserInterfaceService = service;
+                }) 
+                
+                .then(() => {
+                  return bleServer.getPrimaryService(motionServiceUUID);
+                })
+                
+                .then(service => {
+                  log('  BLE Weather Station Service OK');
+                  bleMotionService = service;
+                })  
+                
+                .catch(error => {
+                  log('> Error: ' + error);
+                });
+            }                
+
             
             function bleDisconnect(){
-                
+                if (!bluetoothDevice) {
+                    return;
+                }
+                log('> Disconnecting from Bluetooth Device...');
+                document.querySelector('#status').innerHTML = "Disconnecting";
+                if (bluetoothDevice.gatt.connected) 
+                {
+                    bluetoothDevice.gatt.disconnect();
+                }  
+                else 
+                {
+                    document.querySelector('#status').innerHTML = "Disconnected";
+                    log('> Bluetooth Device is already disconnected');
+                }
             }
             
             function bleReconnect(){
+                
+            }
+            
+            function bleTest(){
                 
             }
             
