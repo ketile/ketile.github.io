@@ -13,7 +13,7 @@
           <br><br>  
             <select id="characteristics">
                 <option selected disabled>Characteristics</option>
-                <option value="temperature">temperature</option>
+                <option value="temperatureNotificationEvent()">temperature</option>
                 <option value="pressure">pressure</option>
                 <option value="humidity">humidity</option>
                 <option value="gas-air-quality">gas-air-quality</option>
@@ -48,7 +48,7 @@
                       '  flag is enabled.');
                   return;
                 }
-
+                document.querySelector('#status').innerHTML = "Connecting";
                 log('> Requesting Bluetooth Device...');
 
                 navigator.bluetooth.requestDevice({
@@ -142,7 +142,13 @@
             }
             
             function bleTest(){
-                
+                var fn = document.querySelector("#characteristics").value;
+                log('> You chose: ' + fn);
+                fn();
+            }
+            
+            function temperatureNotificationEvent(){
+                alert("It works :)");
             }
             
             
