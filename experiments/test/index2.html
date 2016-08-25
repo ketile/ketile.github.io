@@ -379,11 +379,12 @@
             
             function bleTestCharacteristicNotification(){
                 // TODO: add stopNotifications of any already running notifications
-                var fn = document.querySelector("#characteristics").value;
-                fn += ".startNotifications"
-                log('> You selected: ' + fn);
+                var fnString = document.querySelector("#characteristics").value;
+                var fn = window[fnString];
+                log('> You selected: ' + fnString);
                 // run the selected function
-                window[fn]();
+                fn.startNotifications();
+
             }
             
             function temperatureNotificationEvent(){
