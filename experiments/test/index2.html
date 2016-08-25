@@ -66,6 +66,7 @@
                     log('> Connected:        ' + bleDevice.gatt.connected); 
                     // add event listener in case of device disconnect
                     bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+                    document.querySelector('#status').innerHTML = "Connected";
                     return device.gatt.connect();
                 })
                 
@@ -124,9 +125,9 @@
                 }
                 log('> Disconnecting from Bluetooth Device...');
                 document.querySelector('#status').innerHTML = "Disconnecting";
-                if (bluetoothDevice.gatt.connected) 
+                if (bleDevice.gatt.connected) 
                 {
-                    bluetoothDevice.gatt.disconnect();
+                    bleDevice.gatt.disconnect();
                 }  
                 else 
                 {
