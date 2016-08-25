@@ -4,7 +4,8 @@
     </head>
     
     <body>
-        <div id="status"><h4>Disconnected</h4></div>
+        <div id="status">Disconnected</div>
+        <br>
         
           <button id="btn-connect">Connect</button>
           <button id="btn-disconnect">Disconnect</button>
@@ -120,7 +121,7 @@
             }
             
             function bleDisconnect(){
-                if (!bluetoothDevice) {
+                if (!bleDevice) {
                     return;
                 }
                 log('> Disconnecting from Bluetooth Device...');
