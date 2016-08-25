@@ -382,7 +382,7 @@
                 var fn = document.querySelector("#characteristics").value;
                 log('> You selected: ' + fn);
                 // run the selected function
-                window[fn][startNotifications()]();
+                window[fn + ".startNotifications"]();
             }
             
             function temperatureNotificationEvent(){
