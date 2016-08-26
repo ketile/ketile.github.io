@@ -22,14 +22,21 @@
                 <option value="tapCharacteristic">tap</option>
                 <option value="orientationCharacteristic">orientation</option>
                 <option value="quaternionCharacteristic">quaternion</option>
-                <option value="pedometeCharacteristicr">pedometer</option>
+                <option value="pedometerCharacteristicr">pedometer</option>
                 <option value="rawDataCharacteristic">raw-motion-data</option>
                 <option value="eulerCharacteristic">euler</option>
                 <option value="rotationMatrixCharacteristic">rotation-matrix</option>
                 <option value="headingCharacteristic">heading</option>
-                <option value="gravity-vectorCharacteristic">gravity-vector</option>            
+                <option value="gravityvectorCharacteristic">gravity-vector</option>            
             </select>
             <button id="btn-test">Test Notification</button>
+            <p>
+                DUT: <span id="display-name"></span><br>
+                Raw Hex: <span id="display-raw-data"></span><br>
+                Reversed: <span id="display-reversed-data"></span><br>
+                Formatted value(s): <br>
+                <span id="display-formatted-data"></span>
+            </p>
         
         <script src="utils.js"></script>
         <script src="ble.js"></script>
