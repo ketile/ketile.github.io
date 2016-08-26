@@ -379,9 +379,23 @@
             
             function addEventListeners(){
                 
-                addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler)
+                addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler);
                 
-                addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler);    
+                addEventListener('pressure', pressureCharacteristic, pressureNotificationEventHandler);
+                addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler);
+                addEventListener('gas', gasCharacteristic, gasNotificationEventHandler);
+                addEventListener('color', colorCharacteristic, colorNotificationEventHandler);
+                addEventListener('button', buttonCharacteristic, buttonNotificationEventHandler);
+                addEventListener('motion', motionCharacteristic, motionNotificationEventHandler);
+                addEventListener('tap', tapCharacteristic,tapNotificationEventHandler);
+                addEventListener('orientation', orientationCharacteristic, orientationNotificationEventHandler);
+                addEventListener('quaternion', quaternionCharacteristic, quaternionNotificationEventHandler);
+                addEventListener('pedometer', pedometerCharacteristic, pedometerNotificationEventHandler);
+                addEventListener('raw data', rawDatayCharacteristic, rawDataNotificationEventHandler);
+                addEventListener('euler', eulerCharacteristic, eulerNotificationEventHandler);
+                addEventListener('rotation matrix', rotationMatrixCharacteristic, rotationMatrixNotificationEventHandler);
+                addEventListener('heading', headingCharacteristic, headingNotificationEventHandler);
+                addEventListener('gravity vector', gravityVectorCharacteristic, gravityVectorNotificationEventHandler);
             }
             
             function addEventListener(name, characteristic, handler){
@@ -404,12 +418,40 @@
             }
             
             function temperatureNotificationEventHandler(event){
-                log("It works :)");
+                logRawHexValues(event);
+            }
+            
+            function pressureNotificationEventHandler(event){
+                logRawHexValues(event);
             }
             
             function humidityNotificationEventHandler(event){
-                log("It works :)");
-            }            
+                logRawHexValues(event);
+            } 
+            
+            function gasNotificationEventHandler(event){
+                logRawHexValues(event);
+            }
+            
+            function colorNotificationEventHandler(event){
+                logRawHexValues(event);
+            }   
+            
+            function buttonNotificationEventHandler(event){
+                logRawHexValues(event);
+            }   
+            
+            function motionNotificationEventHandler(event){
+                logRawHexValues(event);
+            }   
+            
+            function tapNotificationEventHandler(event){
+                logRawHexValues(event);
+            }   
+            
+            function orientationNotificationEventHandler(event){
+                logRawHexValues(event);
+            }               
             
             
         </script>
