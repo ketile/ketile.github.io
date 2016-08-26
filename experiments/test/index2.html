@@ -378,8 +378,21 @@
             }    
             
             function addEventListeners(){
-                temperatureCharacteristic.addEventListener('characteristicvaluechanged', temperatureNotificationEvent);
-                log(' Added temperatureCharacteristic event listener');
+                
+                addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler)
+                
+                .then(() => {
+                    addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler)    
+                })
+                
+                .catch(error =>{
+                    log('> Error: ' + error);
+                });
+            }
+            
+            function addEventListener(name, characteristic, handler){
+               characteristic.addEventListener('characteristicvaluechanged', handler);                
+               log(' Added ' + name + ' event listener');
             }
             
             function bleReconnect(){
@@ -396,11 +409,11 @@
 
             }
             
-            function temperatureNotificationEvent(){
+            function temperatureNotificationEventHandler(event){
                 log("It works :)");
             }
             
-            function humidityNotificationEvent(){
+            function humidityNotificationEventHandler(event){
                 log("It works :)");
             }            
             
