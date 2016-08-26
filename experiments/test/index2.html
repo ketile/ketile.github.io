@@ -381,13 +381,7 @@
                 
                 addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler)
                 
-                .then(() => {
-                    addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler);    
-                })
-                
-                .catch(error =>{
-                    log('> Error: ' + error);
-                });
+                addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler);    
             }
             
             function addEventListener(name, characteristic, handler){
