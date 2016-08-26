@@ -428,8 +428,9 @@
             
             function temperatureNotificationEventHandler(event){
                 logRawHexValues(event);
-                var temp = event.target.value.getUint8(0);
-                document.getElementById("display-formatted-data").innerHTML = temp;
+                var temperature_integer = event.target.value.getUint8(0);
+                var temperature_decimal = event.target.value.getUint8(1);
+                document.getElementById("display-formatted-data").innerHTML = temperature_integer + '.' + temperature_decimal + 'C';
             }
             
             function pressureNotificationEventHandler(event){
