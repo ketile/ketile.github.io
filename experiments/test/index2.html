@@ -379,10 +379,10 @@
             
             function addEventListeners(){
                 
-                addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler)
+                addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler);
                 
                 .then(() => {
-                    addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler)    
+                    addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler);    
                 })
                 
                 .catch(error =>{
