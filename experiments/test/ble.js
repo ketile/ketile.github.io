@@ -72,3 +72,4 @@ var headingCharacteristic;
 var gravityVectorCharacteristic;
 
 var allCharacteristics;
+var lastNotification;

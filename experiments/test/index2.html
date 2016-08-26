@@ -386,7 +386,6 @@
                 addEventListener('gas', gasCharacteristic, gasNotificationEventHandler);
                 addEventListener('color', colorCharacteristic, colorNotificationEventHandler);
                 addEventListener('button', buttonCharacteristic, buttonNotificationEventHandler);
-                addEventListener('motion', motionCharacteristic, motionNotificationEventHandler);
                 addEventListener('tap', tapCharacteristic,tapNotificationEventHandler);
                 addEventListener('orientation', orientationCharacteristic, orientationNotificationEventHandler);
                 addEventListener('quaternion', quaternionCharacteristic, quaternionNotificationEventHandler);
@@ -408,13 +407,16 @@
             }
             
             function bleTestCharacteristicNotification(){
-                // TODO: add stopNotifications of any already running notifications
+                // Stop last notification
+                if(lastNotification){
+                    lastNotification.stopNotifications();
+                }               
                 var fnString = document.querySelector("#characteristics").value;
                 var fn = window[fnString];
                 log('> You selected: ' + fnString);
                 // run the selected function
                 fn.startNotifications();
-
+                lastNotification = fn;
             }
             
             function temperatureNotificationEventHandler(event){
@@ -441,17 +443,41 @@
                 logRawHexValues(event);
             }   
             
-            function motionNotificationEventHandler(event){
-                logRawHexValues(event);
-            }   
-            
             function tapNotificationEventHandler(event){
                 logRawHexValues(event);
-            }   
+            }  
             
             function orientationNotificationEventHandler(event){
                 logRawHexValues(event);
-            }               
+            }                
+            
+            function quaternionNotificationEventHandler(event){
+                logRawHexValues(event);
+            }   
+            
+            function pedometerNotificationEventHandler(event){
+                logRawHexValues(event);
+            }     
+            
+            function rawDataNotificationEventHandler(event){
+                logRawHexValues(event);
+            }    
+            
+            function eulerNotificationEventHandler(event){
+                logRawHexValues(event);
+            }    
+            
+            function rotationMatrixNotificationEventHandler(event){
+                logRawHexValues(event);
+            }  
+            
+            function headingNotificationEventHandler(event){
+                logRawHexValues(event);
+            }    
+            
+            function gravityVectorNotificationEventHandler(event){
+                logRawHexValues(event);
+            }                
             
             
         </script>
