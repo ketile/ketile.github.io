@@ -442,7 +442,7 @@
             
             function humidityNotificationEventHandler(event){
                 logRawHexValues(event);
-                var temperature_integer = event.target.value.getUint8(0);
+                var humidity_integer = event.target.value.getUint8(0);
                 document.getElementById("display-formatted-data").innerHTML = humidity_integer + ' %';
             } 
             
