@@ -430,19 +430,27 @@
                 logRawHexValues(event);
                 var temperature_integer = event.target.value.getUint8(0);
                 var temperature_decimal = event.target.value.getUint8(1);
-                document.getElementById("display-formatted-data").innerHTML = temperature_integer + '.' + temperature_decimal + 'C';
+                document.getElementById("display-formatted-data").innerHTML = temperature_integer + '.' + temperature_decimal + ' C';
             }
             
             function pressureNotificationEventHandler(event){
                 logRawHexValues(event);
+                var pressure_integer = event.target.value.getInt32(0);
+                var pressure_decimal = event.target.value.getUint8(4);
+                document.getElementById("display-formatted-data").innerHTML = pressure_integer + '.' + pressure_decimal + ' Pa';
             }
             
             function humidityNotificationEventHandler(event){
                 logRawHexValues(event);
+                var temperature_integer = event.target.value.getUint8(0);
+                document.getElementById("display-formatted-data").innerHTML = humidity_integer + ' %';
             } 
             
             function gasNotificationEventHandler(event){
                 logRawHexValues(event);
+                var gas_eco2 = event.target.value.getUint16(0);
+                var gas_tvoc = event.target.value.getUint16(2);
+                document.getElementById("display-formatted-data").innerHTML = gas_eco2 + ' eCO2 or ' + gas_tvoc + ' TVOC';                
             }
             
             function colorNotificationEventHandler(event){
