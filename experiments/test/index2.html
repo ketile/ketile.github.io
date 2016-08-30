@@ -496,9 +496,32 @@
                 logRawHexValues(event);
                 let tapDirection = event.target.value.getUint8(0);
                 let tapCount = event.target.value.getUint8(1);
-                
                 let tapDirectionString;
-                document.getElementById("display-formatted-data").innerHTML = 'Direction: ' + tapDirection + ',  Count: ' + tapCount;
+                
+                switch(tapDirection){
+                    case 0:
+                        tapDirectionString = 'X UP';
+                        break;
+                    case 1:
+                        tapDirectionString = 'X DOWN';
+                        break;      
+                    case 2:
+                        tapDirectionString = 'Y UP';
+                        break;
+                    case 3:
+                        tapDirectionString = 'Y DOWN';
+                        break;
+                    case 4:
+                        tapDirectionString = 'Z UP';
+                        break;
+                    case 5:
+                        tapDirectionString = 'Z DOWN';
+                        break;
+                    default:
+                        tapDirectionString = 'No/unvalid data';      
+                }
+                
+                document.getElementById("display-formatted-data").innerHTML = 'Direction: ' + tapDirectionString;
             }  
             
             function orientationNotificationEventHandler(event){
@@ -520,29 +543,63 @@
                         orientationString = 'Reverse landscape';
                         break;                        
                     default:
-                        orientationString = 'No data';
+                        orientationString = 'No/unvalid data';
                 }
                 document.getElementById("display-formatted-data").innerHTML = 'Orientation: ' + orientationString;                        
             }                
             
             function quaternionNotificationEventHandler(event){
                 logRawHexValues(event);
+                let w = event.target.value.getInt32(0, true);
+                let x = event.target.value.getInt32(4, true);
+                let y = event.target.value.getInt32(8, true);
+                let z = event.target.value.getInt32(12, true);
+                
+                document.getElementById("display-formatted-data").innerHTML = 'W:' + w + ' X:' + x + ' Y:' + y +' Z:' + z;  
             }   
             
             function pedometerNotificationEventHandler(event){
                 logRawHexValues(event);
+                let stepCount = event.target.value.getUint32(0, true);
+                let timeMs = event.target.value.getUint32(4, true);
+                document.getElementById("display-formatted-data").innerHTML = stepCount + ' steps after ' + timeMS + ' ms';
             }     
             
             function rawDataNotificationEventHandler(event){
                 logRawHexValues(event);
+                let accX = event.target.value.getInt16(0, true);
+                let accY = event.target.value.getInt16(2, true);
+                let accZ = event.target.value.getInt16(4, true);
+                let gyrX = event.target.value.getInt16(6, true);
+                let gyrY = event.target.value.getInt16(8, true);
+                let gyrZ = event.target.value.getInt16(10, true);
+                let magX = event.target.value.getInt16(12, true);
+                let magZ = event.target.value.getInt16(14, true);
+                let magY = event.target.value.getInt16(16, true);
+                
+                document.getElementById("display-formatted-data").innerHTML = 'accX:' + accX + '  accY:' + accY + '  accZ:' + accZ + '  gyrX:' + gyrX + '  gyrY:' + gyrY + '  gyrZ:' + gyrZ + '  magX:' + magX + '  magY:' + magY + '  magZ:' + magZ;
             }    
             
             function eulerNotificationEventHandler(event){
                 logRawHexValues(event);
+                let eulerPitch = event.target.value.getInt32(0, true);
+                let eulerRoll = event.target.value.getInt32(4, true);
+                let eulerYaw = event.target.value.getInt32(8, true);
+                document.getElementById("display-formatted-data").innerHTML = 'Pitch: ' + eulerPitch + '   Roll: ' + eulerRoll + '   Yaw: ' + eulerYaw;
             }    
             
             function rotationMatrixNotificationEventHandler(event){
                 logRawHexValues(event);
+                let a = event.target.value.getInt16(0, true);
+                let b = event.target.value.getInt16(2, true);
+                let c = event.target.value.getInt16(4, true);
+                let d = event.target.value.getInt16(6, true);
+                let e = event.target.value.getInt16(8, true);
+                let f = event.target.value.getInt16(10, true);
+                let g = event.target.value.getInt16(12, true);
+                let h = event.target.value.getInt16(14, true);
+                let i = event.target.value.getInt16(16, true);
+                document.getElementById("display-formatted-data").innerHTML = a + ' ' + b + ' ' + c + '<br>' + d + ' ' + e + ' ' + f + '<br>' + g + ' ' + h + ' ' + i;             
             }  
             
             function headingNotificationEventHandler(event){
@@ -557,3 +614,19 @@
         </script>
     </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
