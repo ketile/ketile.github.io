@@ -435,7 +435,7 @@
             
             function pressureNotificationEventHandler(event){
                 logRawHexValues(event);
-                var pressure_integer = event.target.value.getInt32(0);
+                var pressure_integer = event.target.value.getInt32(0, true); // byteoffset, littleEndian
                 var pressure_decimal = event.target.value.getUint8(4);
                 document.getElementById("display-formatted-data").innerHTML = pressure_integer + '.' + pressure_decimal + ' Pa';
             }
@@ -455,6 +455,11 @@
             
             function colorNotificationEventHandler(event){
                 logRawHexValues(event);
+                var color_red = event.target.value.getInt16(0, true);
+                var color_green = event.target.value.getInt16(2, true);
+                var color_blue = event.target.value.getInt16(4, true);
+                var color_clear = event.target.value.getInt16(6, true);
+                document.getElementById("display-formatted-value").innerHTML = 'R:' + color_red + ' G:' + color_green + ' B:' + color_blue + ' C:' + color_clear;
             }   
             
             function buttonNotificationEventHandler(event){
