@@ -496,13 +496,33 @@
                 logRawHexValues(event);
                 let tapDirection = event.target.value.getUint8(0);
                 let tapCount = event.target.value.getUint8(1);
+                
+                let tapDirectionString;
                 document.getElementById("display-formatted-data").innerHTML = 'Direction: ' + tapDirection + ',  Count: ' + tapCount;
             }  
             
             function orientationNotificationEventHandler(event){
                 logRawHexValues(event);
                 let orientation = event.target.value.getUint8(0);
-                document.getElementById("display-formatted-data").innerHTML = 'Orientation: ' + orientation;
+                let orientationString;
+                
+                switch(orientation) {
+                    case 0:
+                        orientationString = 'Portrait';
+                        break;
+                    case 1:
+                        orientationString = 'Landscape';
+                        break;
+                    case 2:
+                        orientationString = 'Reverse portrait';
+                        break;
+                    case 3:
+                        orientationString = 'Reverse landscape';
+                        break;                        
+                    default:
+                        orientationString = 'No data';
+                }
+                document.getElementById("display-formatted-data").innerHTML = 'Orientation: ' + orientationString;                        
             }                
             
             function quaternionNotificationEventHandler(event){
