@@ -455,11 +455,34 @@
             
             function colorNotificationEventHandler(event){
                 logRawHexValues(event);
-                var color_red = event.target.value.getInt16(0, true);
-                var color_green = event.target.value.getInt16(2, true);
-                var color_blue = event.target.value.getInt16(4, true);
-                var color_clear = event.target.value.getInt16(6, true);
-                document.getElementById("display-formatted-data").innerHTML = 'R:' + color_red + ' G:' + color_green + ' B:' + color_blue + ' C:' + color_clear;
+                var r = event.target.value.getInt16(0, true);
+                var g = event.target.value.getInt16(2, true);
+                var b = event.target.value.getInt16(4, true);
+                var c = event.target.value.getInt16(6, true);
+                
+                let r_ratio = r / (r+g+b);
+                let g_ratio = g / (r+g+b);
+                let b_ratio = b / (r+g+b);
+
+                let r_8 = r_ratio * 255.0 * 3 * (c / 400);
+                if (r_8 > 255)
+                {
+                  r_8 = 255;
+                }
+                let g_8 = g_ratio * 255.0 * 3 * (c / 400);
+                if (g_8 > 255)
+                {
+                  g_8 = 255;
+                }
+                let b_8 = b_ratio * 255.0 * 3 * (c / 400);
+                if (b_8 > 255)
+                {
+                  b_8 = 255;
+                }
+                // use rgb_str to set style.color of html element
+                let rgb_str = "rgb("+r_8.toFixed(0)+","+g_8.toFixed(0)+","+b_8.toFixed(0)+")";       
+                
+                document.getElementById("display-formatted-data").innerHTML = 'R:' + r_8 + ' G:' + g_8 + ' B:' + b_8;
             }   
             
             function buttonNotificationEventHandler(event){
