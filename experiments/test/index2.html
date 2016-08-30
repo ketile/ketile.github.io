@@ -487,14 +487,22 @@
             
             function buttonNotificationEventHandler(event){
                 logRawHexValues(event);
+                let button1State = event.target.value.getUint8(0);
+                let button2State = event.target.value.getUint8(1);
+                document.getElementById("display-formatted-data").innerHTML = 'Button 1: ' + button1State + ',  Button 2: ' + button2State;
             }   
             
             function tapNotificationEventHandler(event){
                 logRawHexValues(event);
+                let tapDirection = event.target.value.getUint8(0);
+                let tapCount = event.target.value.getUint8(1);
+                document.getElementById("display-formatted-data").innerHTML = 'Direction: ' + tapDirection + ',  Count: ' + tapCount;
             }  
             
             function orientationNotificationEventHandler(event){
                 logRawHexValues(event);
+                let orientation = event.target.value.getUint8(0);
+                document.getElementById("display-formatted-data").innerHTML = 'Orientation: ' + orientation;
             }                
             
             function quaternionNotificationEventHandler(event){
