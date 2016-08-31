@@ -22,7 +22,7 @@
                 <option value="tapCharacteristic">tap</option>
                 <option value="orientationCharacteristic">orientation</option>
                 <option value="quaternionCharacteristic">quaternion</option>
-                <option value="pedometerCharacteristicr">pedometer</option>
+                <option value="pedometerCharacteristic">pedometer</option>
                 <option value="rawDataCharacteristic">raw-motion-data</option>
                 <option value="eulerCharacteristic">euler</option>
                 <option value="rotationMatrixCharacteristic">rotation-matrix</option>
@@ -585,6 +585,9 @@
                 let eulerPitch = event.target.value.getInt32(0, true);
                 let eulerRoll = event.target.value.getInt32(4, true);
                 let eulerYaw = event.target.value.getInt32(8, true);
+                eulerPitch /= 65336; 
+                eulerRoll /= 65336; 
+                eulerYaw /= 65336; 
                 document.getElementById("display-formatted-data").innerHTML = 'Pitch: ' + eulerPitch + '   Roll: ' + eulerRoll + '   Yaw: ' + eulerYaw;
             }    
             
