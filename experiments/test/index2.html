@@ -555,6 +555,11 @@
                 let y = event.target.value.getInt32(8, true);
                 let z = event.target.value.getInt32(12, true);
                 
+                w /= 65536;
+                x /= 65536;
+                y /= 65536;
+                z /= 65536;
+                
                 document.getElementById("display-formatted-data").innerHTML = 'W:' + w + ' X:' + x + ' Y:' + y +' Z:' + z;  
             }   
             
