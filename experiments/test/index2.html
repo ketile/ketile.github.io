@@ -588,7 +588,7 @@
                 eulerPitch /= 65536; 
                 eulerRoll /= 65536; 
                 eulerYaw /= 65536; 
-                document.getElementById("display-formatted-data").innerHTML = 'Pitch: ' + eulerPitch + '   Roll: ' + eulerRoll + '   Yaw: ' + eulerYaw;
+                document.getElementById("display-formatted-data").innerHTML = 'Pitch: ' + eulerPitch.toFixed(0) + '   Roll: ' + eulerRoll.toFixed(0) + '   Yaw: ' + eulerYaw.toFixed(0);
             }    
             
             function rotationMatrixNotificationEventHandler(event){
@@ -607,6 +607,8 @@
             
             function headingNotificationEventHandler(event){
                 logRawHexValues(event);
+                let heading = event.target.value.getInt32(0, true);
+                document.getElementById("display-formatted-data").innerHTML = 'Heading: ' + heading;
             }    
             
             function gravityVectorNotificationEventHandler(event){
