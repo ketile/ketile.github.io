@@ -619,9 +619,9 @@
             
             function gravityVectorNotificationEventHandler(event){
                 logRawHexValues(event);
-                let x = event.target.value.getFloat32(0);
-                let y = event.target.value.getFloat32(4);
-                let z = event.target.value.getFloat32(8);
+                let x = event.target.value.getFloat32(0, true);
+                let y = event.target.value.getFloat32(4, true);
+                let z = event.target.value.getFloat32(8, true);
                 document.getElementById("display-formatted-data").innerHTML = 'X: ' + x + '   Y: ' + y + '   Z: ' + z;
             }                
             
