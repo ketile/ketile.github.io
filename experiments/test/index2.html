@@ -560,7 +560,7 @@
                 y /= 65536;
                 z /= 65536;
                 
-                document.getElementById("display-formatted-data").innerHTML = 'W:' + w + ' X:' + x + ' Y:' + y +' Z:' + z;  
+                document.getElementById("display-formatted-data").innerHTML = 'W:' + w.toFixed(0) + ' X:' + x.toFixed(0) + ' Y:' + y.toFixed(0) +' Z:' + z.toFixed(0);  
             }   
             
             function pedometerNotificationEventHandler(event){
