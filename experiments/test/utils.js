@@ -33,9 +33,9 @@ function logRawHexValues(event){
       for (let i = 0; i < value.byteLength; i++) {
         a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
       }
-      log('> ' + a.join(' ') + ' (raw data)');
+      log('> ' + a.join(' ') + '    (raw data)');
       document.getElementById("display-raw-data").innerHTML = a.join(' ');
       a.reverse();
-      log('> ' + a.join(' ') + ' (bytewise reversed)');
-      document.getElementById("display-reversed-data").innerHTML = a.join(' ');
+      log('> ' + a.join(' ') + '    (little endian)');
+      document.getElementById("display-reversed-data").innerHTML = ' ' + a.join(' ');
 }
