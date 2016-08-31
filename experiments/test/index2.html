@@ -585,9 +585,9 @@
                 let eulerPitch = event.target.value.getInt32(0, true);
                 let eulerRoll = event.target.value.getInt32(4, true);
                 let eulerYaw = event.target.value.getInt32(8, true);
-                eulerPitch /= 65336; 
-                eulerRoll /= 65336; 
-                eulerYaw /= 65336; 
+                eulerPitch /= 65536; 
+                eulerRoll /= 65536; 
+                eulerYaw /= 65536; 
                 document.getElementById("display-formatted-data").innerHTML = 'Pitch: ' + eulerPitch + '   Roll: ' + eulerRoll + '   Yaw: ' + eulerYaw;
             }    
             
