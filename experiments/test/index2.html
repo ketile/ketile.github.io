@@ -7,6 +7,7 @@
             font-family: 'Source Code Pro', monospace;;
             font-size: 15px;
           }
+        </style>
         </head>
     
     <body>
@@ -628,7 +629,7 @@
                 let x = event.target.value.getFloat32(0, true);
                 let y = event.target.value.getFloat32(4, true);
                 let z = event.target.value.getFloat32(8, true);
-                document.getElementById("display-formatted-data").innerHTML = 'X: ' + x + '   Y: ' + y + '   Z: ' + z;
+                document.getElementById("display-formatted-data").innerHTML = 'X: ' + x.toFixed(2) + '   Y: ' + y.toFixed(2) + '   Z: ' + z.toFixed(2);
             }                
             
             
