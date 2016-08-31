@@ -614,14 +614,14 @@
                 logRawHexValues(event);
                 let heading = event.target.value.getInt32(0, true);
                 heading /= 65536;
-                document.getElementById("display-formatted-data").innerHTML = 'Heading: ' + heading;
+                document.getElementById("display-formatted-data").innerHTML = 'Heading: ' + heading.toFixed(0);
             }    
             
             function gravityVectorNotificationEventHandler(event){
                 logRawHexValues(event);
-                let x = event.target.value.getFloat(0);
-                let y = event.target.value.getFloat(4);
-                let z = event.target.value.getFloat(8);
+                let x = event.target.value.getFloat32(0);
+                let y = event.target.value.getFloat32(4);
+                let z = event.target.value.getFloat32(8);
                 document.getElementById("display-formatted-data").innerHTML = 'X: ' + x + '   Y: ' + y + '   Z: ' + z;
             }                
             
