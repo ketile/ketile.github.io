@@ -613,6 +613,7 @@
             function headingNotificationEventHandler(event){
                 logRawHexValues(event);
                 let heading = event.target.value.getInt32(0, true);
+                heading /= 65536;
                 document.getElementById("display-formatted-data").innerHTML = 'Heading: ' + heading;
             }    
             
