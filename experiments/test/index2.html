@@ -47,13 +47,16 @@
             
             <p>
                 <b>Configure</b> <br>
-                Name: <input type="text" id="input-device-name"><br>
-                Advertising parameters: <input type="text" id="input-device-name"><br>
-                Appearance: <input type="text" id="input-device-name"><br>
-                Connection parameters: <input type="text" id="input-device-name"><br>
-                Eddystone URL: <input type="text" id="input-device-name"><br>
-                Cloud token: <input type="text" id="input-device-name"><br>
+                Name: <br><input type="text" id="input-name"><br>
+                Advertising parameters: <br><input type="text" id="input-adv-parameters"><br>
+                Appearance: <br><input type="text" id="input-appearance"><br>
+                Connection parameters: <br><input type="text" id="input-con-parameters"><br>
+                Eddystone URL: <br><input type="text" id="input-eddystone-url"><br>
+                Cloud token: <br><input type="text" id="input-cloud-token"><br>
             </p>
+        
+            <button id="btn-read">Read</button>
+            <button id="btn-write">Write</button>
         
         <script src="utils.js"></script>
         <script src="ble.js"></script>
@@ -63,6 +66,8 @@
             document.querySelector('#btn-disconnect').addEventListener('click', bleDisconnect);
             document.querySelector('#btn-reconnect').addEventListener('click', bleReconnect);
             document.querySelector('#btn-test').addEventListener('click', bleTestCharacteristicNotification);
+            document.querySelector('#btn-read').addEventListener('click', bleRead);
+            document.querySelector('#btn-write').addEventListener('click', bleWrite);
             
             function bleConnect(){
                 if (!navigator.bluetooth) 
