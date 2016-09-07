@@ -408,8 +408,7 @@
             
             function addEventListeners(){
                 
-                addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler);
-                
+                addEventListener('temperature', temperatureCharacteristic, temperatureNotificationEventHandler);                
                 addEventListener('pressure', pressureCharacteristic, pressureNotificationEventHandler);
                 addEventListener('humidity', humidityCharacteristic, humidityNotificationEventHandler);
                 addEventListener('gas', gasCharacteristic, gasNotificationEventHandler);
@@ -647,6 +646,23 @@
                 document.getElementById("display-formatted-data").innerHTML = 'X: ' + x.toFixed(2) + '   Y: ' + y.toFixed(2) + '   Z: ' + z.toFixed(2);
             }                
             
+            function bleRead(){
+                let inputName = bleReadName();
+                document.getElementById('#input-name').innerHTML = inputName;
+            }
+            
+            function bleWrite(){
+                
+            }
+            
+            function bleReadName(){     
+                return deviceNameCharacteristic.readValue()
+                .then( value => {
+                    let name = value;
+                    log('Name: ', name);
+                    return name;
+                })
+            }
             
         </script>
     </body>
