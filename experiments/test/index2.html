@@ -657,8 +657,9 @@
             
             function bleReadName(){     
                 return deviceNameCharacteristic.readValue()
-                .then( value => {
-                    let name = value;
+                .then( value => {                    
+                    let decoder = new TextDecoder();
+                    let name = decoder.decode(value);
                     log('Name: ', name);
                     return name;
                 })
