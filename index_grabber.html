@@ -13,7 +13,7 @@
     <div id="button" style="display:flex; justify-content:center; align-items:center; margin-top:35">
         <input style="width:50%" type="image" id="connect" src="images/connect.png"/>
     </div>
-    
+
     <div id="arrows" style="display:none; margin-top:50">
           <div style="display:flex; justify-content:center; align-items:center">
             <table>
@@ -142,7 +142,7 @@
         function connect2(device, retryCount) {
             'use strict';
 
-            device.connectGATT()
+            device.gatt.connect()
             .then(server => {
                 log('Got server');
                 sServer = server;
