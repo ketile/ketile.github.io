@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+    <head>
+        <title>BLE TEST</title>
+    </head>
+    
+    <body>
+        <h1>BLE TEST</h1>
+        <button id="connect" type="button">1. Connect</button>
+        <button id="start-characteristic-test" type="button">2. Start Characteristic Tests</button>
+        <button id="start-notification-test" type="button">3. Start Notification Test</button>
+        <button id="stop-notification-test" type="button">4. Stop Notifications</button>
+        <button id="disconnect" type="button">5. Disconnect</button>
+        
+        <div id="logs"><br><b>LOG</b></div>
+        
+        <script src="prototypes.js"></script>
+        
+        <script>
+            // Configuration
+            const configurationServiceUUID    = 'ef680001-9b35-4933-9b10-52ffa9740042';
+            const deviceNameUUID              = 'ef680002-9b35-4933-9b10-52ffa9740042';
+            const advertisingParametersUUID   = 'ef680003-9b35-4933-9b10-52ffa9740042';
+            const appearanceUUID              = 'ef680004-9b35-4933-9b10-52ffa9740042';
+            const connectionParametersUUID    = 'ef680005-9b35-4933-9b10-52ffa9740042';
+            const eddystoneUrlUUID            = 'ef680006-9b35-4933-9b10-52ffa9740042';
+            const cloudTokenUUID              = 'ef680007-9b35-4933-9b10-52ffa9740042';
+
+            // Weather Station
+            const weatherStationServiceUUID     = '20080001-e36f-4648-91c6-9e86ead38764';
+            const temperatureUUID               = '20080002-e36f-4648-91c6-9e86ead38764';
+            const pressureUUID                  = '20080003-e36f-4648-91c6-9e86ead38764';
+            const humidityUUID                  = '20080004-e36f-4648-91c6-9e86ead38764';
+            const gasUUID                       = '20080005-e36f-4648-91c6-9e86ead38764';
+            const colorUUID                     = '20080006-e36f-4648-91c6-9e86ead38764';
+            const weatherConfigurationUUID      = '20080007-e36f-4648-91c6-9e86ead38764';
+
+            // User Interface
+            const userInterfaceServiceUUID      = 'c7ae0001-3266-4a5c-859f-0f4799146bb5';
+            const ledUUID                       = 'c7ae0002-3266-4a5c-859f-0f4799146bb5';
+            const buttonUUID                    = 'c7ae0003-3266-4a5c-859f-0f4799146bb5';
+
+            // Motion
+            const motionServiceUUID             = '35310001-4b14-43f1-932e-06a86910429a';
+            const motionConfigurationUUID       = '35310002-4b14-43f1-932e-06a86910429a';
+            const tapUUID                       = '35310003-4b14-43f1-932e-06a86910429a';
+            const orientationUUID               = '35310004-4b14-43f1-932e-06a86910429a';
+            const quaternionUUID                = '35310005-4b14-43f1-932e-06a86910429a';
+            const pedometerUUID                 = '35310006-4b14-43f1-932e-06a86910429a';
+            const rawDataUUID                   = '35310007-4b14-43f1-932e-06a86910429a';
+            const eulerUUID                     = '35310008-4b14-43f1-932e-06a86910429a';
+            const rotationMatrixUUID            = '35310009-4b14-43f1-932e-06a86910429a';
+            const headingUUID                   = '3531000a-4b14-43f1-932e-06a86910429a';
+            const gravityVectorUUID             = '3531000b-4b14-43f1-932e-06a86910429a';
+
+            // Common
+            var bleDevice;
+            var bleServer;
+            var bleConfigurationService;
+            var bleWeatherStationService;
+            var bleUserInterfaceService;
+            var bleMotionService;
+
+            // Characteristics
+            var deviceNameCharacteristic;
+            var advertisingParametersCharacteristic;
+            var appearanceCharacteristic;
+            var connectionParametersCharacteristic;
+            var eddystoneUrlCharacteristic;
+            var cloudTokenCharacteristic;
+
+            var temperatureCharacteristic;
+            var pressureCharacteristic;
+            var humidityCharacteristic;
+            var gasCharacteristic;
+            var colorCharacteristic;
+            var weatherConfigurationCharacteristic;
+
+            var ledCharacteristic;
+            var buttonCharacteristic; 
+
+            var motionConfigurationCharacteristic;
+            var tapCharacteristic;
+            var orientationCharacteristic;
+            var quaternionCharacteristic;
+            var pedometerCharacteristic;
+            var rawDataCharacteristic;
+            var eulerCharacteristic;
+            var rotationMatrixCharacteristic;
+            var headingCharacteristic;
+            var gravityVectorCharacteristic;
+            
+            var allCharacteristics;
+
+            var connect = document.getElementById("connect");
+            var startCharacteristicTest = document.getElementById("start-characteristic-test");
+            var startNotificationTest = document.getElementById("start-notification-test");
+            var stopNotificationTest = document.getElementById("stop-notification-test");
+            var logs = document.getElementById("logs");
+
+            connect.addEventListener("click", connectBLE);
+            startCharacteristicTest.addEventListener("click", testCharacteristics);
+            startNotificationTest.addEventListener("click", startAllNotificationsWithHandlers);
+            stopNotificationTest.addEventListener("click", stopAllNotifications);
+            
+            
+            function log(message){
+                console.log(message);
+                var linebreak = document.createElement('br');
+                logs.appendChild(linebreak);
+                var content = document.createTextNode(message);
+                logs.appendChild(content);
+            }
+            
+            function logProperties(characteristic){
+                log('> UUID:                 ' + characteristic.uuid);
+                log('> Broadcast:            ' + characteristic.properties.broadcast);
+                log('> Read:                 ' + characteristic.properties.read);
+                log('> Write w/o response:   ' +
+                  characteristic.properties.writeWithoutResponse);
+                log('> Write:                ' + characteristic.properties.write);
+                log('> Notify:               ' + characteristic.properties.notify);
+                log('> Indicate:             ' + characteristic.properties.indicate);
+                log('> Signed Write:         ' +
+                  characteristic.properties.authenticatedSignedWrites);
+                log('> Queued Write:         ' + characteristic.properties.reliableWrite);
+                log('> Writable Auxiliaries: ' +
+                  characteristic.properties.writableAuxiliaries);
+                log('> Value (cached):       ' + characteristic.value);
+                log(' ');
+            }
+            
+
+            // Connect to BLE device, server and services
+            function connectBLE(){
+
+              if (!navigator.bluetooth) {
+                  alert('> Web Bluetooth API is not available.\n' +
+                      '  Please make sure the Web Bluetooth\n' +
+                      '  flag is enabled.');
+                  return;
+              }
+
+              log('> Requesting Bluetooth Device...');
+                
+              navigator.bluetooth.requestDevice({
+                  filters: [
+                      {services: [configurationServiceUUID] }
+                  ],
+                      optionalServices: [weatherStationServiceUUID, userInterfaceServiceUUID, motionServiceUUID]                                             
+                  
+              })              
+              .then(device => {
+                  bleDevice = device;
+                  log('  BLE Device OK');
+                  log('> Name:             ' + bleDevice.name);
+                  log('> ID:               ' + bleDevice.id);
+                  log('> Allowed Services: ' + bleDevice.uuids.join('\n' + ' '.repeat(20)));
+                  log('> Connected:        ' + bleDevice.gatt.connected); 
+                  // add event listener in case of device disconnect
+                  bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+                  return device.gatt.connect();
+              })
+              .then(server => {
+                  bleServer = server;
+                  log('  BLE Server OK');
+                  return bleServer.getPrimaryService(configurationServiceUUID);
+              })
+              .then(service => {
+                  log('  BLE Configuration Service OK');
+                  bleConfigurationService = service;
+              })
+              .then(() => {
+                  return bleServer.getPrimaryService(weatherStationServiceUUID);
+              })
+              .then(service => {
+                  log('  BLE Weather Station Service OK');
+                  bleWeatherStationService = service;
+              })  
+              .then(() => {
+                  return bleServer.getPrimaryService(userInterfaceServiceUUID);
+              })
+              .then(service => {
+                  log('  BLE User Interface Service OK');
+                  bleUserInterfaceService = service;
+              }) 
+              .then(() => {
+                  return bleServer.getPrimaryService(motionServiceUUID);
+              })
+              .then(service => {
+                  log('  BLE Weather Station Service OK');
+                  bleMotionService = service;
+              })               
+                .catch(error => {
+                  log('> Error: ' + error);
+              });
+            }
+
+            // Test characteristics
+            function testCharacteristics(){
+
+             bleConfigurationService.getCharacteristic(deviceNameUUID)
+              .then(characteristic => {
+                  deviceNameCharacteristic = characteristic;
+                 log(' ');
+                  log('  Device Name Characteristic OK');
+                  logProperties(characteristic);
+              })
+            .then(() => {
+                return bleConfigurationService.getCharacteristic(advertisingParametersUUID);
+             })
+             .then(characteristic => {
+                 advertisingParametersCharacteristic = characteristic;
+                 log('  Advertising Parameters Characteristic OK');
+                 logProperties(characteristic);
+             })
+             .then(() => {
+                  return bleConfigurationService.getCharacteristic(appearanceUUID);
+              })
+              .then(characteristic => {
+                  appearanceCharacteristic = characteristic;
+                  log('  Appearance Characteristic OK');
+                  logProperties(characteristic);
+              })
+             .then(() => {
+                  return bleConfigurationService.getCharacteristic(connectionParametersUUID);
+              })
+              .then(characteristic => {
+                  connectionParametersCharacteristic = characteristic;
+                  log('  Connection Parameters Characteristic OK');
+                  logProperties(characteristic);                 
+              })
+             .then(() => {
+                  return bleConfigurationService.getCharacteristic(eddystoneUrlUUID);
+              })
+              .then(characteristic => {
+                  eddystoneUrlCharacteristic = characteristic;
+                  log('  Eddystone URL Characteristic OK');
+                  logProperties(characteristic);                 
+              })
+             .then(() => {
+                  return bleConfigurationService.getCharacteristic(cloudTokenUUID);
+              })
+              .then(characteristic => {
+                  cloudTokenCharacteristic = characteristic;
+                  log('  Cloud Token Characteristic OK');
+                  logProperties(characteristic);                 
+              })
+             .then(() => {
+                  return bleWeatherStationService.getCharacteristic(temperatureUUID);
+              })
+              .then(characteristic => {
+                  temperatureCharacteristic = characteristic;
+                  log('  Temperature Characteristic OK');
+                  logProperties(characteristic);                 
+              })
+             .then(() => {
+                  return bleWeatherStationService.getCharacteristic(pressureUUID);
+              })
+              .then(characteristic => {
+                  pressureCharacteristic = characteristic;
+                  log('  Pressure Characteristic OK');
+                  logProperties(characteristic);                 
+              })
+             .then(() => {
+                  return bleWeatherStationService.getCharacteristic(humidityUUID);
+              })
+              .then(characteristic => {
+                  humidityCharacteristic = characteristic;
+                  log('  Humidity Characteristic OK');
+                  logProperties(characteristic);                 
+              })     
+             .then(() => {
+                  return bleWeatherStationService.getCharacteristic(gasUUID);
+              })
+              .then(characteristic => {
+                  gasCharacteristic = characteristic;
+                  log('  Gas Characteristic OK');
+                  logProperties(characteristic);                 
+              }) 
+             .then(() => {
+                  return bleWeatherStationService.getCharacteristic(colorUUID);
+              })
+              .then(characteristic => {
+                  colorCharacteristic = characteristic;
+                  log('  Color Characteristic OK');
+                  logProperties(characteristic);                 
+              }) 
+             .then(() => {
+                  return bleWeatherStationService.getCharacteristic(weatherConfigurationUUID);
+              })
+              .then(characteristic => {
+                  weatherConfigurationCharacteristic = characteristic;
+                  log('  Weather Configuration Characteristic OK');
+                  logProperties(characteristic);                 
+              }) 
+             .then(() => {
+                  return bleUserInterfaceService.getCharacteristic(ledUUID);
+              })
+              .then(characteristic => {
+                  ledCharacteristic = characteristic;
+                  log('  LED Characteristic OK');
+                  logProperties(characteristic);                 
+              }) 
+             .then(() => {
+                  return bleUserInterfaceService.getCharacteristic(buttonUUID);
+              })
+              .then(characteristic => {
+                  buttonCharacteristic = characteristic;
+                  log('  Button Characteristic OK');
+                  logProperties(characteristic);                 
+              }) 
+             .then(() => {
+                  return bleMotionService.getCharacteristic(motionConfigurationUUID);
+              })
+              .then(characteristic => {
+                  motionConfigurationCharacteristic = characteristic;
+                  log('  Motion Configuration Characteristic OK');
+                  logProperties(characteristic);                 
+              }) 
+             .then(() => {
+                  return bleMotionService.getCharacteristic(tapUUID);
+              })
+              .then(characteristic => {
+                  tapCharacteristic = characteristic;
+                  log('  Tap Characteristic OK');
+                  logProperties(characteristic);                 
+              }) 
+             .then(() => {
+                  return bleMotionService.getCharacteristic(orientationUUID);
+              })
+              .then(characteristic => {
+                  orientationCharacteristic = characteristic;
+                  log('  Orientation Characteristic OK');
+                  logProperties(characteristic);                 
+              })    
+             .then(() => {
+                  return bleMotionService.getCharacteristic(quaternionUUID);
+              })
+              .then(characteristic => {
+                  quaternionCharacteristic = characteristic;
+                  log('  Quaternion Characteristic OK');
+                  logProperties(characteristic);                 
+              })   
+             .then(() => {
+                  return bleMotionService.getCharacteristic(pedometerUUID);
+              })
+              .then(characteristic => {
+                  pedometerCharacteristic = characteristic;
+                  log('  Pedometer Characteristic OK');
+                  logProperties(characteristic);                 
+              })   
+             .then(() => {
+                  return bleMotionService.getCharacteristic(rawDataUUID);
+              })
+              .then(characteristic => {
+                  rawDataCharacteristic = characteristic;
+                  log('  Raw Motion Data Characteristic OK');
+                  logProperties(characteristic);                 
+              })   
+             .then(() => {
+                  return bleMotionService.getCharacteristic(eulerUUID);
+              })
+              .then(characteristic => {
+                  eulerCharacteristic = characteristic;
+                  log('  Euler Characteristic OK');
+                  logProperties(characteristic);                 
+              })   
+             .then(() => {
+                  return bleMotionService.getCharacteristic(rotationMatrixUUID);
+              })
+              .then(characteristic => {
+                  rotationMatrixCharacteristic = characteristic;
+                  log('  Rotation Matrix Characteristic OK');
+                  logProperties(characteristic);                 
+              })   
+             .then(() => {
+                  return bleMotionService.getCharacteristic(headingUUID);
+              })
+              .then(characteristic => {
+                  headingCharacteristic = characteristic;
+                  log('  Heading Characteristic OK');
+                  logProperties(characteristic);                 
+              })   
+             .then(() => {
+                  return bleMotionService.getCharacteristic(gravityVectorUUID);
+              })
+              .then(characteristic => {
+                  gravityVectorCharacteristic = characteristic;
+                  log('  Gravity Vector Characteristic OK');
+                  logProperties(characteristic);                 
+              })
+             .then(() => {
+                 // add all characteristic objects to array for easy use
+                 addAllCharacteristics();
+             })
+              .catch(error => {
+                  log('> Error: ' + error);
+              });
+            }
+            
+            // Starting notifications, reading and verifying data. Stopping notifications.
+            function testNotifications(){
+                
+                // The following code uses the characteristicvaluechanged event listener
+                // https://googlechrome.github.io/samples/web-bluetooth/read-characteristic-value-changed.html
+                
+                headingCharacteristic.addEventListener('characteristicvaluechanged', handleHeadingCharacteristicChanged);
+                log(' Added headingCharacteristic event listener'); 
+                log('Starting Notifications');
+                headingCharacteristic.startNotifications();
+            }
+            
+            function handleHeadingCharacteristicChanged(event){
+                let headingValue = event.target.value.getInt32(0);
+                log(' Data read successful. headingCharacteristic = ' + headingValue);
+                printHexValues(event);
+            }
+            
+            function printHexValues(event){
+                  let value = event.target.value;
+                  let a = [];
+                  // Convert raw data bytes to hex values just for the sake of showing something.
+                  // In the "real" world, you'd use data.getUint8, data.getUint16 or even
+                  // TextDecoder to process raw data bytes.
+                  for (let i = 0; i < value.byteLength; i++) {
+                    a.push('0x' + ('00' + value.getUint8(i).toString(16)).slice(-2));
+                  }
+                  log('> ' + a.join(' ') + '  (Bytewise reversed)');
+            }
+            
+            function onDisconnected(event) {
+                // Object event.target is Bluetooth Device getting disconnected.
+                log('> Bluetooth Device disconnected');
+            }
+
+            
+        </script>
+        
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
