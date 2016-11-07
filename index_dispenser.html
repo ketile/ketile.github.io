@@ -13,7 +13,7 @@
     <div id="button" style="display:flex; justify-content:center; align-items:center; margin-top:50">
         <input style="width:50%" type="image" id="connect" src="images/connect.png"/>
     </div>
-    
+
     <div id="arrows" style="display:none; margin-top:50">
         <div style="display:flex; justify-content:center; align-items:center">
             <input style="width:50%" type="image" id="forward" src="images/givemecandy.png"/>
@@ -25,9 +25,9 @@
           <input style="width:50%" type="image" id="connect" src="images/disconnect.png"/>
         </div>
     </div>
-    
 
-    
+
+
     <pre id="log"></pre>
 
     <script>
@@ -116,7 +116,7 @@
         function connect2(device, retryCount) {
             'use strict';
 
-            device.connectGATT()
+            device.gatt.connect()
             .then(server => {
                 log('Got server');
                 sServer = server;
@@ -182,7 +182,7 @@
                 log(error);
             }
         }
-        
+
         function disconnectDevice(){
           document.querySelector('#button').style.display = "flex";
           document.querySelector('#arrows').style.display = "none";
