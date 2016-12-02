@@ -166,14 +166,6 @@
                  logProperties(characteristic);
              })
              .then(() => {
-                  return bleConfigurationService.getCharacteristic(appearanceUUID);
-              })
-              .then(characteristic => {
-                  appearanceCharacteristic = characteristic;
-                  log('  Appearance Characteristic OK');
-                  logProperties(characteristic);
-              })
-             .then(() => {
                   return bleConfigurationService.getCharacteristic(connectionParametersUUID);
               })
               .then(characteristic => {
