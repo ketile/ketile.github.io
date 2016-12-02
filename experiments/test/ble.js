@@ -32,7 +32,7 @@
       const eulerUUID                     = 'ef680407-9b35-4933-9b10-52ffa9740042';
       const rotationMatrixUUID            = 'ef680408-9b35-4933-9b10-52ffa9740042';
       const headingUUID                   = 'ef680409-9b35-4933-9b10-52ffa9740042';
-      const gravityVectorUUID             = 'ef68040A-9b35-4933-9b10-52ffa9740042';  
+      const gravityVectorUUID             = 'ef68040a-9b35-4933-9b10-52ffa9740042';  
       
       // Sound 
       const soundServiceUUID              = 'ef680500-9b35-4933-9b10-52ffa9740042';
