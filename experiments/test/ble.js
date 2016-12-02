@@ -1,38 +1,44 @@
-// Configuration
-const configurationServiceUUID    = 'ef680001-9b35-4933-9b10-52ffa9740042';
-const deviceNameUUID              = 'ef680002-9b35-4933-9b10-52ffa9740042';
-const advertisingParametersUUID   = 'ef680003-9b35-4933-9b10-52ffa9740042';
-const appearanceUUID              = 'ef680004-9b35-4933-9b10-52ffa9740042';
-const connectionParametersUUID    = 'ef680005-9b35-4933-9b10-52ffa9740042';
-const eddystoneUrlUUID            = 'ef680006-9b35-4933-9b10-52ffa9740042';
-const cloudTokenUUID              = 'ef680007-9b35-4933-9b10-52ffa9740042';
+      // Configuration
+      const configurationServiceUUID    = 'ef680100-9b35-4933-9b10-52ffa9740042';
+      const deviceNameUUID              = 'ef680101-9b35-4933-9b10-52ffa9740042';
+      const advertisingParametersUUID   = 'ef680102-9b35-4933-9b10-52ffa9740042';
+      const connectionParametersUUID    = 'ef680104-9b35-4933-9b10-52ffa9740042';
+      const eddystoneUrlUUID            = 'ef680105-9b35-4933-9b10-52ffa9740042';
+      const cloudTokenUUID              = 'ef680106-9b35-4933-9b10-52ffa9740042';
+      const firmwareVersionUUID         = 'ef680107-9b35-4933-9b10-52ffa9740042';
 
-// Weather Station
-const weatherStationServiceUUID     = '20080001-e36f-4648-91c6-9e86ead38764';
-const temperatureUUID               = '20080002-e36f-4648-91c6-9e86ead38764';
-const pressureUUID                  = '20080003-e36f-4648-91c6-9e86ead38764';
-const humidityUUID                  = '20080004-e36f-4648-91c6-9e86ead38764';
-const gasUUID                       = '20080005-e36f-4648-91c6-9e86ead38764';
-const colorUUID                     = '20080006-e36f-4648-91c6-9e86ead38764';
-const weatherConfigurationUUID      = '20080007-e36f-4648-91c6-9e86ead38764';
+      // Environment
+      const weatherStationServiceUUID     = 'ef680200-9b35-4933-9b10-52ffa9740042';
+      const temperatureUUID               = 'ef680201-9b35-4933-9b10-52ffa9740042';
+      const pressureUUID                  = 'ef680202-9b35-4933-9b10-52ffa9740042';
+      const humidityUUID                  = 'ef680203-9b35-4933-9b10-52ffa9740042';
+      const gasUUID                       = 'ef680204-9b35-4933-9b10-52ffa9740042';
+      const colorUUID                     = 'ef680205-9b35-4933-9b10-52ffa9740042';
+      const weatherConfigurationUUID      = 'ef680206-9b35-4933-9b10-52ffa9740042';
 
-// User Interface
-const userInterfaceServiceUUID      = 'c7ae0001-3266-4a5c-859f-0f4799146bb5';
-const ledUUID                       = 'c7ae0002-3266-4a5c-859f-0f4799146bb5';
-const buttonUUID                    = 'c7ae0003-3266-4a5c-859f-0f4799146bb5';
+      // User Interface
+      const userInterfaceServiceUUID      = 'ef680300-9b35-4933-9b10-52ffa9740042';
+      const ledUUID                       = 'ef680301-9b35-4933-9b10-52ffa9740042';
+      const buttonUUID                    = 'ef680302-9b35-4933-9b10-52ffa9740042';
 
-// Motion
-const motionServiceUUID             = '35310001-4b14-43f1-932e-06a86910429a';
-const motionConfigurationUUID       = '35310002-4b14-43f1-932e-06a86910429a';
-const tapUUID                       = '35310003-4b14-43f1-932e-06a86910429a';
-const orientationUUID               = '35310004-4b14-43f1-932e-06a86910429a';
-const quaternionUUID                = '35310005-4b14-43f1-932e-06a86910429a';
-const pedometerUUID                 = '35310006-4b14-43f1-932e-06a86910429a';
-const rawDataUUID                   = '35310007-4b14-43f1-932e-06a86910429a';
-const eulerUUID                     = '35310008-4b14-43f1-932e-06a86910429a';
-const rotationMatrixUUID            = '35310009-4b14-43f1-932e-06a86910429a';
-const headingUUID                   = '3531000a-4b14-43f1-932e-06a86910429a';
-const gravityVectorUUID             = '3531000b-4b14-43f1-932e-06a86910429a';
+      // Motion
+      const motionServiceUUID             = 'ef680400-9b35-4933-9b10-52ffa9740042';
+      const motionConfigurationUUID       = 'ef680401-9b35-4933-9b10-52ffa9740042';
+      const tapUUID                       = 'ef680402-9b35-4933-9b10-52ffa9740042';
+      const orientationUUID               = 'ef680403-9b35-4933-9b10-52ffa9740042';
+      const quaternionUUID                = 'ef680404-9b35-4933-9b10-52ffa9740042';
+      const pedometerUUID                 = 'ef680405-9b35-4933-9b10-52ffa9740042';
+      const rawDataUUID                   = 'ef680406-9b35-4933-9b10-52ffa9740042';
+      const eulerUUID                     = 'ef680407-9b35-4933-9b10-52ffa9740042';
+      const rotationMatrixUUID            = 'ef680408-9b35-4933-9b10-52ffa9740042';
+      const headingUUID                   = 'ef680409-9b35-4933-9b10-52ffa9740042';
+      const gravityVectorUUID             = 'ef68040A-9b35-4933-9b10-52ffa9740042';  
+      
+      // Sound 
+      const soundServiceUUID              = 'ef680500-9b35-4933-9b10-52ffa9740042';
+      const soundConfigurationUUID        = 'ef680501-9b35-4933-9b10-52ffa9740042';
+      const speakerUUID                   = 'ef680502-9b35-4933-9b10-52ffa9740042';
+      const microphoneUUID                = 'ef680503-9b35-4933-9b10-52ffa9740042';
 
 // Common
 var bleDevice;
