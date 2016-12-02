@@ -92,7 +92,7 @@
                     log('  BLE Device OK');
                     log('> Name:             ' + bleDevice.name);
                     log('> ID:               ' + bleDevice.id);
-                    log('> Allowed Services: ' + bleDevice.uuids.join('\n' + ' '.repeat(20)));
+                    // log('> Allowed Services: ' + bleDevice.uuids.join('\n' + ' '.repeat(20)));
                     log('> Connected:        ' + bleDevice.gatt.connected); 
                     // add event listener in case of device disconnect
                     bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
